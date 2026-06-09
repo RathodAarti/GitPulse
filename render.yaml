@@ -1,0 +1,37 @@
+services:
+  # Backend API — Node.js Express
+  - type: web
+    name: gitpulse-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false          # Set manually in Render dashboard
+      - key: JWT_SECRET
+        sync: false          # Set manually in Render dashboard
+      - key: GROQ_API_KEY
+        sync: false          # Set manually in Render dashboard
+      - key: GITHUB_DEFAULT_PAT
+        sync: false          # Set manually in Render dashboard
+      - key: FRONTEND_URL
+        sync: false          # Set after frontend deploys
+
+  # Frontend — Static Site (Vite)
+  - type: static
+    name: gitpulse-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false          # Set to your backend URL after backend deploys
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
