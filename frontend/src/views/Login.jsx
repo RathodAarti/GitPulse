@@ -98,7 +98,23 @@ export default function Login() {
 
   return (
     <div className="login-page animate-fade">
+      {/* Mobile-friendly tab switcher at top */}
       <div className="login-slider-container stagger-container is-visible">
+        <div className="login-tabs">
+          <button
+            className={`login-tab ${!isRegister ? 'active' : ''}`}
+            onClick={() => switchMode(false)}
+          >
+            Sign In
+          </button>
+          <button
+            className={`login-tab ${isRegister ? 'active' : ''}`}
+            onClick={() => switchMode(true)}
+          >
+            Sign Up
+          </button>
+        </div>
+
         <div className={`login-slider-track ${isRegister ? 'is-register' : ''}`}>
           
           {/* Sign In Form */}
@@ -189,7 +205,7 @@ export default function Login() {
               </div>
 
               <div className="login-footer">
-                Don't have an account? <button onClick={() => switchMode(true)}>Create one</button>
+                Don't have an account? <button onClick={() => switchMode(true)} className="login-switch-link">Create one</button>
               </div>
             </div>
           </div>
@@ -259,7 +275,7 @@ export default function Login() {
               </form>
 
               <div className="login-footer">
-                Already have an account? <button onClick={() => switchMode(false)}>Sign In</button>
+                Already have an account? <button onClick={() => switchMode(false)} className="login-switch-link">Sign In</button>
               </div>
             </div>
           </div>

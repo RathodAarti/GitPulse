@@ -33,7 +33,8 @@ app.use(
         'http://localhost:3000',
         process.env.FRONTEND_URL,
       ].filter(Boolean)
-      if (!origin || allowed.includes(origin)) {
+      // Also allow any onrender.com subdomain for flexibility
+      if (!origin || allowed.includes(origin) || (origin && origin.endsWith('.onrender.com'))) {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))

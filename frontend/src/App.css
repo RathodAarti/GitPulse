@@ -893,7 +893,7 @@ a, button, .card, .repo-card, .feature-card {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), 
               0 4px 12px rgba(139, 92, 246, 0.1);
-  transform: scale(1.015) translateY(-1px);
+  /* Removed transform scale — it causes eye icon to appear to shift */
 }
 
 .input-group-refined input {
@@ -948,6 +948,10 @@ a, button, .card, .repo-card, .feature-card {
   align-items: center;
   justify-content: center;
   transition: color 0.2s;
+  /* Prevent any layout shift or movement */
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
 }
 
 .password-toggle-refined:hover {
@@ -5821,5 +5825,548 @@ button:active,
   .help-contact-banner-right .btn {
     flex: 1;
     justify-content: center;
+  }
+}
+
+/* ===== Login.jsx Slider — Mobile-first two-slide layout ===== */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-page);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.login-slider-container {
+  width: 100%;
+  max-width: 460px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.login-slider-track {
+  display: flex;
+  width: 200%;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+}
+
+.login-slider-track.is-register {
+  transform: translateX(-50%);
+}
+
+.login-slide {
+  width: 50%;
+  flex-shrink: 0;
+}
+
+.login-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-lg);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.login-header p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-top: 8px;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.login-footer button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+}
+
+.login-footer button:hover {
+  text-decoration: underline;
+}
+
+/* Social buttons row */
+.social-logins {
+  margin-top: 20px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.social-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 28px 20px;
+  }
+
+  .login-slider-container {
+    max-width: 100%;
+  }
+}
+
+/* ===== Mobile Theme Toggle & Top-bar fixes ===== */
+@media (max-width: 768px) {
+  /* Make theme toggle pill more visible and accessible on mobile */
+  .theme-toggle-pill {
+    width: 56px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .pill-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pill-thumb.is-dark {
+    transform: translateX(28px);
+  }
+
+  /* Top-bar actions — keep theme toggle always visible */
+  .top-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Login page on small phones */
+  .login-page {
+    padding: 12px;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+}
+
+/* ===== Stop shake animation on auth errors ===== */
+/* Remove the card-level shake — errors show inline only */
+.auth-card-refined.animate-shake {
+  animation: none !important;
+}
+
+/* Keep form error message shake but subtle */
+.form-error-refined.animate-shake {
+  animation: subtleErrorPulse 0.3s ease;
+}
+
+@keyframes subtleErrorPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ===== Full-Screen Mobile Menu (Public Navbar) ===== */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1099;
+  animation: fadeInOverlay 0.2s ease;
+}
+
+.mobile-menu-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-page);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Hidden on desktop */
+  visibility: hidden;
+}
+
+.mobile-menu-panel.is-open {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+@media (min-width: 769px) {
+  .mobile-menu-panel {
+    display: none !important;
+  }
+  .mobile-menu-overlay {
+    display: none !important;
+  }
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-menu-close {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: background 0.2s;
+}
+
+.mobile-menu-close:hover {
+  background: var(--border);
+}
+
+.mobile-menu-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  overflow-y: auto;
+}
+
+.mobile-menu-link {
+  display: block;
+  padding: 20px 28px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: -0.3px;
+}
+
+.mobile-menu-link:hover,
+.mobile-menu-link:active {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.mobile-menu-link-accent {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.mobile-menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  border-top: 1px solid var(--border);
+}
+
+.mobile-menu-theme-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* ===== Authenticated Sidebar Theme Row ===== */
+.sidebar-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  margin-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-theme-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* On desktop, hide sidebar theme row (theme toggle is in top-bar) */
+@media (min-width: 1025px) {
+  .sidebar-theme-row {
+    display: none;
+  }
+}
+
+/* ===== Landing Page — Repo Search Panel ===== */
+.landing-search-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.landing-search-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.landing-search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.landing-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.landing-search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.landing-search-input {
+  width: 100%;
+  padding: 13px 14px 13px 42px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.landing-search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.landing-search-error {
+  font-size: 0.82rem;
+  color: var(--alert);
+  font-weight: 600;
+  padding: 8px 12px;
+  background: var(--alert-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
+/* Repo preview card */
+.landing-repo-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: swMsgIn 0.3s ease;
+}
+
+.landing-repo-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.landing-repo-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.landing-repo-lang {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  margin-left: auto;
+}
+
+.landing-repo-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.landing-repo-stats {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.landing-repo-stats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.landing-repo-cta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+/* Hint buttons */
+.landing-search-hints {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.landing-search-hint-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0 0 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.landing-search-hint-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: 'JetBrains Mono', monospace, monospace;
+}
+
+.landing-search-hint-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.landing-search-upgrade {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.landing-search-upgrade a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.landing-search-upgrade a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Login Page — Tabs ===== */
+.login-tabs {
+  display: flex;
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 20px;
+  gap: 4px;
+}
+
+.login-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: none;
+  color: var(--text-muted);
+  transition: all 0.2s var(--ease-premium);
+}
+
+.login-tab.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.login-tab:hover:not(.active) {
+  color: var(--text-primary);
+  background: var(--border);
+}
+
+.login-switch-link {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .landing-search-panel {
+    max-width: 100%;
+  }
+
+  .hero-container {
+    gap: 32px;
   }
 }

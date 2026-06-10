@@ -148,8 +148,8 @@ export default function AuthPortal() {
   if (isAuthenticated) return <Navigate to="/dashboard" replace />
 
   const triggerShake = () => {
-    setAnimateError(true)
-    setTimeout(() => setAnimateError(false), 500)
+    // Removed shake animation — just show error message, no vibration
+    setAnimateError(false)
   }
 
   const validateField = (name, value) => {
@@ -251,7 +251,7 @@ export default function AuthPortal() {
       <main className="auth-container">
         <div 
           ref={cardRef}
-          className={`auth-card-refined ${isRegister ? 'right-panel-active' : ''} ${isTransitioning ? 'is-transitioning' : ''} ${animateError ? 'animate-shake' : ''}`}
+          className={`auth-card-refined ${isRegister ? 'right-panel-active' : ''} ${isTransitioning ? 'is-transitioning' : ''}`}
         >
           
           {/* Animated gradient border */}
