@@ -195,19 +195,6 @@ function AppShell() {
               <LogoutIcon size={18} />
             </button>
           </div>
-          {/* Theme toggle inside sidebar for mobile visibility */}
-          <div className="sidebar-theme-row">
-            <span className="sidebar-theme-label">Theme</span>
-            <button
-              className="theme-toggle-pill"
-              onClick={toggleTheme}
-              title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-            >
-              <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
-                {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}
-              </div>
-            </button>
-          </div>
         </div>
       </aside>
 
@@ -231,7 +218,8 @@ function AppShell() {
             <button 
               className="theme-toggle-pill" 
               onClick={toggleTheme} 
-              title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
                 {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}

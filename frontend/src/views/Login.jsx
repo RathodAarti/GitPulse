@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { AlertIcon, EyeIcon, EyeOffIcon } from '../components/Icons'
 import { GoogleIcon, GithubIcon, LinkedinIcon } from '../components/Icons'
@@ -9,8 +9,11 @@ import SocialLoginModal from '../components/SocialLoginModal'
 export default function Login() {
   const { login, register: authRegister } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const [isRegister, setIsRegister] = useState(false)
+  const [isRegister, setIsRegister] = useState(() => {
+    return new URLSearchParams(location.search).get('tab') === 'signup'
+  })
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [errors, setErrors] = useState({})
@@ -98,23 +101,7 @@ export default function Login() {
 
   return (
     <div className="login-page animate-fade">
-      {/* Mobile-friendly tab switcher at top */}
       <div className="login-slider-container stagger-container is-visible">
-        <div className="login-tabs">
-          <button
-            className={`login-tab ${!isRegister ? 'active' : ''}`}
-            onClick={() => switchMode(false)}
-          >
-            Sign In
-          </button>
-          <button
-            className={`login-tab ${isRegister ? 'active' : ''}`}
-            onClick={() => switchMode(true)}
-          >
-            Sign Up
-          </button>
-        </div>
-
         <div className={`login-slider-track ${isRegister ? 'is-register' : ''}`}>
           
           {/* Sign In Form */}
@@ -165,7 +152,7 @@ export default function Login() {
                 {errors.form && <div className="form-error"><AlertIcon size={16} /> {errors.form}</div>}
 
                 <button type="submit" className="btn btn-primary login-btn" disabled={submitting}>
-                  {submitting ? 'Authenticating...' : 'Sign In'}
+                  {submitting ? 'Logging in...' : 'Log In'}
                 </button>
               </form>
 
@@ -205,7 +192,7 @@ export default function Login() {
               </div>
 
               <div className="login-footer">
-                Don't have an account? <button onClick={() => switchMode(true)} className="login-switch-link">Create one</button>
+                Don't have an account? <button onClick={() => switchMode(true)}>Sign Up</button>
               </div>
             </div>
           </div>
@@ -275,7 +262,7 @@ export default function Login() {
               </form>
 
               <div className="login-footer">
-                Already have an account? <button onClick={() => switchMode(false)} className="login-switch-link">Sign In</button>
+                Already have an account? <button onClick={() => switchMode(false)}>Log In</button>
               </div>
             </div>
           </div>

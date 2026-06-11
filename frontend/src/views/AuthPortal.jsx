@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { Navigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon, GoogleIcon, LinkedinIcon } from '../components/Icons'
 import Logo from '../components/Logo'
@@ -130,7 +130,11 @@ function FloatingOrbs() {
 /* ─── Main AuthPortal ───────────────────────────────────────────────── */
 export default function AuthPortal() {
   const { login, register: authRegister, isAuthenticated } = useAuth()
-  const [isRegister, setIsRegister] = useState(false)
+  const location = useLocation()
+  const [isRegister, setIsRegister] = useState(() => {
+    // Start on signup tab if ?tab=signup is in URL
+    return new URLSearchParams(location.search).get('tab') === 'signup'
+  })
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [errors, setErrors] = useState({})
@@ -269,8 +273,8 @@ export default function AuthPortal() {
           <div className="form-container sign-up-container">
             <form onSubmit={handleSubmit} noValidate className="auth-form-refined">
               <Logo size={50} className="auth-logo pulse-logo stagger-item" />
-              <h2 className="auth-heading stagger-item">Establish Presence</h2>
-              <p className="auth-subtext stagger-item">Initialize your engineering telemetry profile</p>
+              <h2 className="auth-heading stagger-item">Create Account</h2>
+              <p className="auth-subtext stagger-item">Sign up to start tracking your repositories</p>
               
               <div className="input-group-refined stagger-item">
                 <input
@@ -337,7 +341,7 @@ export default function AuthPortal() {
                 disabled={submitting || showSuccess}
               >
                 <span className="btn-auth-text">
-                  {submitting ? 'Creating...' : showSuccess ? 'Success' : 'Register Now'}
+                  {submitting ? 'Creating Account...' : showSuccess ? 'Done!' : 'Sign Up'}
                 </span>
               </button>
 
@@ -353,8 +357,8 @@ export default function AuthPortal() {
           <div className="form-container sign-in-container">
             <form onSubmit={handleSubmit} noValidate className="auth-form-refined">
               <Logo size={50} className="auth-logo pulse-logo stagger-item" />
-              <h2 className="auth-heading stagger-item">Resume Access</h2>
-              <p className="auth-subtext stagger-item">Re-authenticate to synchronize your dashboard</p>
+              <h2 className="auth-heading stagger-item">Welcome Back</h2>
+              <p className="auth-subtext stagger-item">Log in to your GitPulse account</p>
 
               <div className="input-group-refined stagger-item">
                 <input
@@ -416,7 +420,7 @@ export default function AuthPortal() {
                 disabled={submitting || showSuccess}
               >
                 <span className="btn-auth-text">
-                  {submitting ? 'Verifying...' : showSuccess ? 'Welcome' : 'Sign In'}
+                  {submitting ? 'Logging in...' : showSuccess ? 'Welcome!' : 'Log In'}
                 </span>
               </button>
 
@@ -440,25 +444,25 @@ export default function AuthPortal() {
 
               <div className="overlay-panel overlay-left">
                 <div className="overlay-content-wrapper">
-                  <h1>Returning?</h1>
-                  <p>Maintain your engineering momentum by logging into your account</p>
+                  <h1>Already have an account?</h1>
+                  <p>Log in to continue tracking your repositories and analytics.</p>
                   <button 
                     className="btn-ghost-refined" 
                     onClick={() => switchPanel(false)}
                   >
-                    Authorize Session
+                    Log In
                   </button>
                 </div>
               </div>
               <div className="overlay-panel overlay-right">
                 <div className="overlay-content-wrapper">
-                  <h1>New Observer?</h1>
-                  <p>Initialize your profile to begin tracking high-fidelity repository signals</p>
+                  <h1>New to GitPulse?</h1>
+                  <p>Create a free account to start tracking your GitHub repositories.</p>
                   <button 
                     className="btn-ghost-refined" 
                     onClick={() => switchPanel(true)}
                   >
-                    Join the Pulse
+                    Sign Up
                   </button>
                 </div>
               </div>

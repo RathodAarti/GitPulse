@@ -105,12 +105,11 @@ router.post(
     body('email')
       .trim()
       .isEmail()
-      .withMessage('Please provide a valid email address.'),
+      .withMessage('Please provide a valid email address.')
+      .normalizeEmail(),
     body('password')
-      .isLength({ min: 8 })
-      .withMessage('Password must be at least 8 characters.')
-      .matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
-      .withMessage('Password must include uppercase, lowercase, and a number.'),
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters.'),
     validate,
   ],
   register
@@ -127,7 +126,8 @@ router.post(
     body('email')
       .trim()
       .isEmail()
-      .withMessage('Please provide a valid email address.'),
+      .withMessage('Please provide a valid email address.')
+      .normalizeEmail(),
     body('password').notEmpty().withMessage('Password is required.'),
     validate,
   ],
