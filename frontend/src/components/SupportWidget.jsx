@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
+import api from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import { XIcon, CheckIcon, AlertIcon } from './Icons'
 
@@ -123,7 +123,7 @@ export default function SupportWidget() {
 
       // Silent AI enhancement
       setAiLoading(true)
-      axios.post('/api/ai/support-reply', { subject: topic.label, message: topic.answer })
+      api.post('/api/ai/support-reply', { subject: topic.label, message: topic.answer })
         .then(res => {
           if (res.data?.success && res.data.reply && res.data.reply !== topic.answer) {
             addMsg(MSG.BOT, res.data.reply)
@@ -169,8 +169,8 @@ export default function SupportWidget() {
     setSubmitting(true)
     setSubmitAlert(null)
     try {
-      const endpoint = isAuthenticated ? '/api/support' : '/api/support/public'
-      const res = await axios.post(endpoint, {
+      const endpoint = isAuthenticated ? '/support' : '/support/public'
+      const res = await api.post(endpoint, {
         name: name.trim(),
         email: email.toLowerCase().trim(),
         subject: subject.trim(),

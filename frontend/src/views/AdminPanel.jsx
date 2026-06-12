@@ -1,5 +1,5 @@
-﻿import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState, useEffect } from 'react'
+import api from '../services/api'
 import { PeopleIcon, HelpIcon, AlertIcon, CheckIcon, TrashIcon, SyncIcon, RepoIcon } from '../components/Icons'
 
 export default function AdminPanel() {
@@ -21,7 +21,7 @@ export default function AdminPanel() {
   const fetchUsers = async () => {
     setLoadingUsers(true)
     try {
-      const res = await axios.get('/api/admin/users')
+      const res = await api.get('/admin/users')
       if (res.data?.success) setUsers(res.data.users)
     } catch (err) {
       setAlert({ type: 'error', text: err.response?.data?.message || 'Failed to retrieve user directory.' })
@@ -33,7 +33,7 @@ export default function AdminPanel() {
   const fetchQueries = async () => {
     setLoadingQueries(true)
     try {
-      const res = await axios.get('/api/admin/queries')
+      const res = await api.get('/admin/queries')
       if (res.data?.success) setQueries(res.data.queries)
     } catch (err) {
       setAlert({ type: 'error', text: err.response?.data?.message || 'Failed to retrieve support queries.' })
@@ -67,7 +67,7 @@ export default function AdminPanel() {
     if (!editEmail.trim() || !editName.trim()) return
     setSubmittingId(editingUser._id); setAlert(null)
     try {
-      const res = await axios.put(`/api/admin/users/${editingUser._id}`, {
+      const res = await api.put(`/admin/users/${editingUser._id}`, {
         name: editName.trim(), email: editEmail.toLowerCase().trim(),
       })
       if (res.data?.success) {
@@ -83,7 +83,7 @@ export default function AdminPanel() {
     if (!window.confirm('WARNING: This will permanently delete this user and all their repositories. Continue?')) return
     setSubmittingId(userId); setAlert(null)
     try {
-      const res = await axios.delete(`/api/admin/users/${userId}`)
+      const res = await api.delete(`/admin/users/${userId}`)
       if (res.data?.success) { setAlert({ type: 'success', text: res.data.message }); fetchUsers() }
     } catch (err) {
       setAlert({ type: 'error', text: err.response?.data?.message || 'Failed to delete user.' })
@@ -94,7 +94,7 @@ export default function AdminPanel() {
     const nextStatus = currentStatus === 'open' ? 'resolved' : 'open'
     setSubmittingId(queryId); setAlert(null)
     try {
-      const res = await axios.put(`/api/admin/queries/${queryId}`, { status: nextStatus })
+      const res = await api.put(`/admin/queries/${queryId}`, { status: nextStatus })
       if (res.data?.success) {
         setQueries(prev => prev.map(q => q._id === queryId ? { ...q, status: nextStatus } : q))
       }
@@ -107,7 +107,7 @@ export default function AdminPanel() {
     if (!window.confirm('Remove this support ticket from the logs?')) return
     setSubmittingId(queryId); setAlert(null)
     try {
-      const res = await axios.delete(`/api/admin/queries/${queryId}`)
+      const res = await api.delete(`/admin/queries/${queryId}`)
       if (res.data?.success) setQueries(prev => prev.filter(q => q._id !== queryId))
     } catch (err) {
       setAlert({ type: 'error', text: err.response?.data?.message || 'Failed to remove ticket.' })

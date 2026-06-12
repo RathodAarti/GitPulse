@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
+import api from '../services/api'
 
 /* ── Simple markdown-like renderer for the AI response ── */
 function renderInsights(text) {
@@ -42,7 +42,7 @@ export default function AIInsightsPanel({ repoId }) {
     setLoading(true)
     setError(null)
     try {
-      const res = await axios.get(`/api/ai/repo-insights/${repoId}`)
+      const res = await api.get(`/ai/repo-insights/${repoId}`)
       if (res.data?.success) {
         setData(res.data)
         setExpanded(true)

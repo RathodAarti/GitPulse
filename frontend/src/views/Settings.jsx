@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import { UserIcon, PlugIcon, CheckIcon, AlertIcon, LinkIcon, BoltIcon, LockIcon } from '../components/Icons'
 import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
@@ -31,7 +31,7 @@ export default function Settings() {
     setTestingConnection(true)
     setTokenMessage(null)
     try {
-      const res = await axios.get('/api/auth/github-status')
+      const res = await api.get('/auth/github-status')
       setConnectionStatus(res.data)
       if (res.data.connected) {
         setTokenMessage({ type: 'success', text: `GitHub connection is active as @${res.data.username}.` })

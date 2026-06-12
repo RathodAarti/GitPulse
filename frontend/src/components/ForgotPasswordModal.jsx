@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
+import api from '../services/api'
 import { XIcon, EyeIcon, EyeOffIcon, CheckIcon, AlertIcon } from './Icons'
 
 const SECURITY_QUESTIONS = [
@@ -31,7 +31,7 @@ export default function ForgotPasswordModal({ onClose }) {
     setError('')
     setLoading(true)
     try {
-      const res = await axios.post('/api/auth/forgot-password/verify', { email })
+      const res = await api.post('/auth/forgot-password/verify', { email })
       setQuestion(res.data.question)
       setStep(STEPS.ANSWER)
     } catch (err) {
@@ -49,7 +49,7 @@ export default function ForgotPasswordModal({ onClose }) {
     }
     setLoading(true)
     try {
-      await axios.post('/api/auth/forgot-password/reset', { email, answer, newPassword })
+      await api.post('/auth/forgot-password/reset', { email, answer, newPassword })
       setStep(STEPS.DONE)
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong.')

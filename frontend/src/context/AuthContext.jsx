@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import axios from 'axios'
+import api, { setAuthHeader } from '../services/api.js'
 
 const AuthContext = createContext(null)
 
@@ -15,9 +15,9 @@ export function AuthProvider({ children }) {
     const initAuth = async () => {
       const storedToken = localStorage.getItem('gp_token')
       if (storedToken) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`
+        setAuthHeader(storedToken)
         try {
-          const res = await axios.get('/api/auth/profile')
+          const res = await api.get('/auth/profile')
           if (isMounted) {
             if (res.data?.success) {
               setUser(res.data.user)
@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
             setUser(null)
             setIsAuthenticated(false)
             localStorage.removeItem('gp_token')
-            delete axios.defaults.headers.common['Authorization']
+            setAuthHeader(null)
           }
         }
       } else {
@@ -51,13 +51,13 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (email, password) => {
     try {
-      const res = await axios.post('/api/auth/login', { email, password })
+      const res = await api.post('/auth/login', { email, password })
       // res.data has { success: true, token: '...', user: { ... } }
       if (res.data?.success && res.data?.token) {
         const { token: newToken, user: userData } = res.data
         
         // Set headers immediately for subsequent calls
-        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+        setAuthHeader(newToken)
         localStorage.setItem('gp_token', newToken)
         
         setToken(newToken)
@@ -75,13 +75,13 @@ export function AuthProvider({ children }) {
 
   const register = useCallback(async (name, email, password) => {
     try {
-      const res = await axios.post('/api/auth/register', { name, email, password })
+      const res = await api.post('/auth/register', { name, email, password })
       // res.data has { success: true, token: '...', user: { ... } }
       if (res.data?.success && res.data?.token) {
         const { token: newToken, user: userData } = res.data
         
         // Set headers immediately for subsequent calls
-        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+        setAuthHeader(newToken)
         localStorage.setItem('gp_token', newToken)
         
         setToken(newToken)
@@ -99,7 +99,7 @@ export function AuthProvider({ children }) {
 
   const updateProfile = useCallback(async (data) => {
     try {
-      const res = await axios.put('/api/auth/profile', data)
+      const res = await api.put('/auth/profile', data)
       if (res.data?.success) {
         setUser(prev => ({ ...prev, ...res.data.user }))
       }
@@ -115,7 +115,7 @@ export function AuthProvider({ children }) {
     setUser(null)
     setIsAuthenticated(false)
     localStorage.removeItem('gp_token')
-    delete axios.defaults.headers.common['Authorization']
+    setAuthHeader(null)
   }, [])
 
   const value = { user, token, isAuthenticated, loading, login, register, logout, updateProfile }
