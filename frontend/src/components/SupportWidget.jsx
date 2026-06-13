@@ -123,7 +123,7 @@ export default function SupportWidget() {
 
       // Silent AI enhancement
       setAiLoading(true)
-      api.post('/api/ai/support-reply', { subject: topic.label, message: topic.answer })
+      api.post('/ai/support-reply', { subject: topic.label, message: topic.answer })
         .then(res => {
           if (res.data?.success && res.data.reply && res.data.reply !== topic.answer) {
             addMsg(MSG.BOT, res.data.reply)
