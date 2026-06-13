@@ -50,11 +50,8 @@ export function AuthProvider({ children }) {
   }, [])
 
   const login = useCallback(async (email, password) => {
-    console.log('🔍 [Auth] Login attempt with email:', email);
     try {
-      console.log('🔍 [Auth] Making POST to /auth/login via api instance');
       const res = await api.post('/auth/login', { email, password })
-      console.log('🔍 [Auth] Login response:', res.data);
       // res.data has { success: true, token: '...', user: { ... } }
       if (res.data?.success && res.data?.token) {
         const { token: newToken, user: userData } = res.data
@@ -71,19 +68,14 @@ export function AuthProvider({ children }) {
         return { success: false, message: res.data?.message || 'Login failed.' }
       }
     } catch (err) {
-      console.error('❌ [Auth] Login error:', err);
-      console.error('❌ [Auth] Error response:', err.response);
       const message = err.response?.data?.message || 'Login failed. Please try again.'
       return { success: false, message }
     }
   }, [])
 
   const register = useCallback(async (name, email, password) => {
-    console.log('🔍 [Auth] Register attempt with name:', name, 'email:', email);
     try {
-      console.log('🔍 [Auth] Making POST to /auth/register via api instance');
       const res = await api.post('/auth/register', { name, email, password })
-      console.log('🔍 [Auth] Register response:', res.data);
       // res.data has { success: true, token: '...', user: { ... } }
       if (res.data?.success && res.data?.token) {
         const { token: newToken, user: userData } = res.data
@@ -100,8 +92,6 @@ export function AuthProvider({ children }) {
         return { success: false, message: res.data?.message || 'Registration failed.' }
       }
     } catch (err) {
-      console.error('❌ [Auth] Register error:', err);
-      console.error('❌ [Auth] Error response:', err.response);
       const message = err.response?.data?.message || 'Registration failed. Please try again.'
       return { success: false, message }
     }

@@ -1,14 +1,10 @@
 import axios from 'axios';
 
-// Force rebuild to pick up VITE_API_URL
-
 // In production, API calls go to the backend URL set via VITE_API_URL env var.
 // In development, Vite proxy handles /api → localhost:5000
-console.log('🔍 [API] import.meta.env.VITE_API_URL:', import.meta.env.VITE_API_URL);
 const baseURL = import.meta.env.VITE_API_URL
   ? `${import.meta.env.VITE_API_URL}/api`
   : '/api';
-console.log('🔍 [API] Final baseURL:', baseURL);
 
 const api = axios.create({
   baseURL,
