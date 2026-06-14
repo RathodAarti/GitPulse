@@ -19,7 +19,7 @@ const signToken = (userId) => {
  */
 export const register = async (req, res) => {
   try {
-    const { name, email, password, securityQuestion, securityAnswer } = req.body
+    const { name, email, password } = req.body
 
     // Basic validation
     if (!name || !email || !password) {
@@ -36,14 +36,6 @@ export const register = async (req, res) => {
       })
     }
 
-    // Validate security question if provided
-    if (securityQuestion && !securityAnswer?.trim()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide an answer to your security question.',
-      })
-    }
-
     // Check for existing user with same email
     const existingUser = await User.findOne({ email: email.toLowerCase().trim() })
     if (existingUser) {
@@ -53,20 +45,12 @@ export const register = async (req, res) => {
       })
     }
 
-    // Create user (password and security answer are auto-hashed via pre-save hook)
-    const userData = {
+    // Create user (password is auto-hashed via pre-save hook)
+    const user = await User.create({
       name,
       email: email.toLowerCase(),
       password,
-    }
-    
-    // Add security question/answer if provided
-    if (securityQuestion && securityAnswer?.trim()) {
-      userData.securityQuestion = securityQuestion
-      userData.securityAnswer = securityAnswer.trim()
-    }
-
-    const user = await User.create(userData)
+    })
 
     // Sign token and respond
     const token = signToken(user._id)
@@ -79,7 +63,6 @@ export const register = async (req, res) => {
         name: user.name,
         email: user.email,
         githubToken: null,
-        securityQuestion: user.securityQuestion || null,
       },
     })
   } catch (error) {

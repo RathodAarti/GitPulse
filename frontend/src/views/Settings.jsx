@@ -360,8 +360,8 @@ export default function Settings() {
             </div>
           )}
           <form onSubmit={handleSaveSecurity}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: 0 }}>
-              <div className="form-group" style={{ marginBottom: 0 }}>
+            <div className="settings-grid" style={{ marginBottom: 0 }}>
+              <div className="form-group">
                 <label>Security Question</label>
                 <select
                   value={securityQuestion}
@@ -376,7 +376,7 @@ export default function Settings() {
                   <span className="form-help-text">Current: <em>{securityQuestion}</em></span>
                 )}
               </div>
-              <div className="form-group" style={{ marginBottom: 0 }}>
+              <div className="form-group">
                 <label>Your Answer</label>
                 <input
                   type="text"
@@ -388,7 +388,7 @@ export default function Settings() {
                 <span className="form-help-text">Answers are stored encrypted and are case-insensitive.</span>
               </div>
             </div>
-            <button type="submit" className="btn btn-primary" disabled={submittingSecurity} style={{ marginTop: 24 }}>
+            <button type="submit" className="btn btn-primary" disabled={submittingSecurity} style={{ marginTop: 16 }}>
               {submittingSecurity ? 'Saving...' : hasSecurityQuestion ? 'Update Security Question' : 'Set Security Question'}
             </button>
           </form>

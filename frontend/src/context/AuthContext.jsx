@@ -73,9 +73,9 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  const register = useCallback(async (registerData) => {
+  const register = useCallback(async (name, email, password) => {
     try {
-      const res = await api.post('/auth/register', registerData)
+      const res = await api.post('/auth/register', { name, email, password })
       // res.data has { success: true, token: '...', user: { ... } }
       if (res.data?.success && res.data?.token) {
         const { token: newToken, user: userData } = res.data

@@ -115,32 +115,21 @@ export default function ForgotPasswordModal({ onClose }) {
           {/* Step 2 — Security Answer */}
           {step === STEPS.ANSWER && (
             <form onSubmit={e => { e.preventDefault(); if (!answer.trim()) { setError('Please enter your answer.'); return } setError(''); setStep(STEPS.RESET) }}>
-              <div style={{ background: 'var(--bg-input)', borderRadius: 'var(--radius-md)', padding: '12px 14px', marginBottom: 16, border: '1px solid var(--border)', transition: 'border-color 0.2s ease' }}>
+              <div style={{ background: 'var(--bg-input)', borderRadius: 'var(--radius-md)', padding: '12px 14px', marginBottom: 16, border: '1px solid var(--border)' }}>
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 4 }}>Security Question</div>
                 <div style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 600 }}>{question}</div>
               </div>
               <div className="support-widget-field">
                 <label>Your Answer</label>
-                <div style={{ position: 'relative' }}>
-                  <input
-                    type="text"
-                    value={answer}
-                    onChange={e => setAnswer(e.target.value)}
-                    placeholder="Enter your answer..."
-                    required
-                    disabled={loading}
-                    autoFocus
-                    style={{ 
-                      background: 'var(--bg-input)', 
-                      border: '1px solid var(--border)',
-                      borderRadius: 'var(--radius-md)',
-                      padding: '12px 15px',
-                      width: '100%',
-                      color: 'var(--text-primary)',
-                      outline: 'none'
-                    }}
-                  />
-                </div>
+                <input
+                  type="text"
+                  value={answer}
+                  onChange={e => setAnswer(e.target.value)}
+                  placeholder="Enter your answer..."
+                  required
+                  disabled={loading}
+                  autoFocus
+                />
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button type="button" className="support-widget-submit" style={{ background: 'var(--bg-input)', color: 'var(--text-primary)', border: '1px solid var(--border)' }} onClick={() => { setStep(STEPS.EMAIL); setError('') }}>

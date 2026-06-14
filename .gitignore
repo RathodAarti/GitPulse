@@ -35,3 +35,6 @@ coverage/
 # Empty directories
 frontend/src/styles/
 frontend/src/types/
+
+# Temporary files
+tmp-auth.txt

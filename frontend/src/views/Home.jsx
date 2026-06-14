@@ -1,10 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import { repoService } from '../services/api'
-import { useAuth } from '../context/AuthContext'
 import RepositoryCard from '../components/RepositoryCard'
 import MetricSummaryWidget from '../components/MetricSummaryWidget'
-import { RepoIcon, CommitIcon, PrIcon, IssueIcon, AlertIcon, SearchIcon, PeopleIcon, ShieldIcon } from '../components/Icons'
+import { RepoIcon, CommitIcon, PrIcon, IssueIcon, AlertIcon, SearchIcon, PeopleIcon } from '../components/Icons'
 
 // Demo data for fallback
 const DEMO_REPOS = [
@@ -35,7 +33,6 @@ const DEMO_REPOS = [
 ]
 
 export default function Home() {
-  const { user } = useAuth()
   const [repos, setRepos] = useState([])
   const [repoUrl, setRepoUrl] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
@@ -132,19 +129,6 @@ export default function Home() {
 
   return (
     <div className="workspace-pulse-container animate-slide-up">
-      {/* Security Question Prompt */}
-      {!user?.securityQuestion && (
-        <div className="security-prompt-banner animate-fade">
-          <div className="prompt-content">
-            <ShieldIcon size={20} />
-            <span>Protect your account: Set a security question to enable password recovery.</span>
-          </div>
-          <Link to="/settings" className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
-            Set Security Question
-          </Link>
-        </div>
-      )}
-      
       {alert && alert.type === 'error' && alert.message.includes('Rate Limit') && (
         <div className="rate-limit-marquee animate-fade">
           <div className="marquee-content">

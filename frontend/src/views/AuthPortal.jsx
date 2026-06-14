@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Navigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon } from '../components/Icons'
-import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
+import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon, GoogleIcon, LinkedinIcon } from '../components/Icons'
 import Logo from '../components/Logo'
 import PublicNavbar from '../components/PublicNavbar'
+import SocialLoginModal from '../components/SocialLoginModal'
 import ForgotPasswordModal from '../components/ForgotPasswordModal'
 
 /* ─── Particle Burst Canvas ─────────────────────────────────────────── */
@@ -136,14 +136,15 @@ export default function AuthPortal() {
     return new URLSearchParams(location.search).get('tab') === 'signup'
   })
   const [showPassword, setShowPassword] = useState(false)
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', securityQuestion: '', securityAnswer: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [animateError, setAnimateError] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [particleTrigger, setParticleTrigger] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [showForgotPw, setShowForgotPw] = useState(false)
+  const [socialModal, setSocialModal] = useState(null)
+  const [showForgotPw, setShowForgotPw] = useState(false) // 'google' | 'github' | 'linkedin' | null
 
   const cardRef = useRef(null)
   const overlayRef = useRef(null)
@@ -184,17 +185,10 @@ export default function AuthPortal() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const newErrors = {}
-    
-    // Validate name, email, password
-    ['name', 'email', 'password'].forEach(key => {
+    Object.keys(formData).forEach(key => {
       const err = validateField(key, formData[key])
       if (err) newErrors[key] = err
     })
-    
-    // Validate security question if provided (optional during registration)
-    if (isRegister && formData.securityQuestion && !formData.securityAnswer.trim()) {
-      newErrors.securityAnswer = 'Please provide an answer to your security question.'
-    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -204,25 +198,9 @@ export default function AuthPortal() {
 
     setSubmitting(true)
     try {
-      let result
-      if (isRegister) {
-        // Prepare registration data
-        const registerData = {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password
-        }
-        
-        // Add security question if provided
-        if (formData.securityQuestion && formData.securityAnswer.trim()) {
-          registerData.securityQuestion = formData.securityQuestion
-          registerData.securityAnswer = formData.securityAnswer.trim()
-        }
-        
-        result = await authRegister(registerData)
-      } else {
-        result = await login(formData.email, formData.password)
-      }
+      const result = isRegister
+        ? await authRegister(formData.name, formData.email, formData.password)
+        : await login(formData.email, formData.password)
 
       if (!result.success) {
         setErrors({ form: result.message })
@@ -247,6 +225,26 @@ export default function AuthPortal() {
     setParticleTrigger(prev => prev + 1)
     setIsTransitioning(true)
     setTimeout(() => setIsTransitioning(false), 600)
+  }
+
+  const handleSocialLogin = async (account) => {
+    setSocialModal(null)
+    setSubmitting(true)
+    // Use the account's email as the identifier; attempt login first, then register
+    const result = await login(account.email, 'SocialAuth2026!')
+    if (result.success) {
+      setShowSuccess(true)
+    } else {
+      // Auto-register with the social account details
+      const regResult = await authRegister(account.name, account.email, 'SocialAuth2026!')
+      if (regResult.success) {
+        setShowSuccess(true)
+      } else {
+        setErrors({ form: `Could not sign in with ${account.name}. Try email & password instead.` })
+        triggerShake()
+      }
+    }
+    setSubmitting(false)
   }
 
   return (
@@ -322,43 +320,6 @@ export default function AuthPortal() {
                 </button>
               </div>
               {errors.password && <span className="error-text-refined">{errors.password}</span>}
-              
-              {/* Security Question Section (optional) */}
-              <div className="input-group-refined stagger-item">
-                <select
-                  name="securityQuestion"
-                  value={formData.securityQuestion}
-                  onChange={handleChange}
-                  style={{ 
-                    width: '100%', 
-                    padding: '12px 15px', 
-                    background: 'var(--bg-input)', 
-                    border: '1px solid var(--border)', 
-                    borderRadius: 'var(--radius-md)',
-                    color: 'var(--text-primary)',
-                    outline: 'none'
-                  }}
-                >
-                  <option value="">— Optional: Select Security Question —</option>
-                  {SECURITY_QUESTIONS.map(q => <option key={q} value={q}>{q}</option>)}
-                </select>
-              </div>
-              
-              {formData.securityQuestion && (
-                <>
-                  <div className="input-group-refined stagger-item">
-                    <input
-                      name="securityAnswer"
-                      type="text"
-                      placeholder="Your security answer"
-                      value={formData.securityAnswer}
-                      onChange={handleChange}
-                      className={errors.securityAnswer ? 'has-error' : ''}
-                    />
-                  </div>
-                  {errors.securityAnswer && <span className="error-text-refined">{errors.securityAnswer}</span>}
-                </>
-              )}
 
               {errors.form && isRegister && (
                 <div className="form-error-refined animate-shake">
@@ -384,7 +345,11 @@ export default function AuthPortal() {
                 </span>
               </button>
 
-
+              <div className="social-container-refined stagger-item">
+                <button type="button" className="social-btn-refined" aria-label="Register with Google" onClick={() => setSocialModal('google')}><GoogleIcon size={20} /></button>
+                <button type="button" className="social-btn-refined" aria-label="Register with Github" onClick={() => setSocialModal('github')}><GithubIcon size={20} /></button>
+                <button type="button" className="social-btn-refined" aria-label="Register with Linkedin" onClick={() => setSocialModal('linkedin')}><LinkedinIcon size={20} /></button>
+              </div>
             </form>
           </div>
 
@@ -459,13 +424,10 @@ export default function AuthPortal() {
                 </span>
               </button>
 
-
-
-              {/* Mobile Toggle Button */}
-              <div className="mobile-panel-switch">
-                <button type="button" onClick={() => switchPanel(true)} style={{ background: 'transparent', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontWeight: '600' }}>
-                  Don't have an account? Sign Up
-                </button>
+              <div className="social-container-refined stagger-item">
+                <button type="button" className="social-btn-refined" aria-label="Sign in with Google" onClick={() => setSocialModal('google')}><GoogleIcon size={20} /></button>
+                <button type="button" className="social-btn-refined" aria-label="Sign in with Github" onClick={() => setSocialModal('github')}><GithubIcon size={20} /></button>
+                <button type="button" className="social-btn-refined" aria-label="Sign in with Linkedin" onClick={() => setSocialModal('linkedin')}><LinkedinIcon size={20} /></button>
               </div>
             </form>
           </div>
@@ -508,6 +470,15 @@ export default function AuthPortal() {
           </div>
         </div>
       </main>
+
+      {socialModal && (
+        <SocialLoginModal
+          provider={socialModal}
+          isRegister={isRegister}
+          onClose={() => setSocialModal(null)}
+          onLogin={handleSocialLogin}
+        />
+      )}
 
       {showForgotPw && (
         <ForgotPasswordModal onClose={() => setShowForgotPw(false)} />

@@ -886,19 +886,20 @@ a, button, .card, .repo-card, .feature-card {
   display: flex;
   align-items: center;
   position: relative;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .input-group-refined:focus-within {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), 
               0 4px 12px rgba(139, 92, 246, 0.1);
+  /* Removed transform scale — it causes eye icon to appear to shift */
 }
 
 .input-group-refined input {
   background: transparent;
   border: none;
-  padding: 12px 45px 12px 15px;
+  padding: 12px 15px;
   width: 100%;
   color: var(--text-primary);
   outline: none;
@@ -925,10 +926,11 @@ a, button, .card, .repo-card, .feature-card {
   pointer-events: none;
   display: flex;
   align-items: center;
-  transition: color 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
 }
 
 .input-group-refined:focus-within .input-icon-right {
+  transform: translateY(-50%) scale(1.15) rotate(-3deg);
   color: var(--primary);
 }
 
@@ -946,6 +948,7 @@ a, button, .card, .repo-card, .feature-card {
   align-items: center;
   justify-content: center;
   transition: color 0.2s;
+  /* Prevent any layout shift or movement */
   flex-shrink: 0;
   width: 28px;
   height: 28px;
@@ -1335,22 +1338,11 @@ a, button, .card, .repo-card, .feature-card {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .auth-portal-page {
-    padding: 20px 10px;
-  }
-
-  .auth-container {
-    padding: 80px 10px 20px;
-  }
-
   .auth-card-refined {
     flex-direction: column;
     width: 100%;
     min-height: auto;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
   }
-
   .overlay-container-refined {
     display: none;
   }
@@ -1367,14 +1359,6 @@ a, button, .card, .repo-card, .feature-card {
     pointer-events: all !important;
   }
 
-  .auth-form-refined {
-    padding: 30px 20px;
-  }
-
-  .auth-form-refined h2 {
-    font-size: 1.75rem;
-  }
-
   .sign-up-container {
     display: none;
   }
@@ -1389,17 +1373,6 @@ a, button, .card, .repo-card, .feature-card {
 
   .mobile-panel-switch {
     display: block;
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .btn-auth-refined {
-    width: 100%;
-  }
-
-  .social-container-refined {
-    width: 100%;
-    justify-content: center;
   }
 }
 
@@ -4497,44 +4470,11 @@ button:active,
     flex-direction: column;
     gap: 10px;
   }
-}
 
-/* Security Question Prompt Banner */
-.security-prompt-banner {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.15));
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  border-radius: var(--radius-lg);
-  padding: 16px 24px;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  backdrop-filter: blur(10px);
-}
-
-.security-prompt-banner .prompt-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--text-primary);
-  font-size: 0.95rem;
-}
-
-@media (max-width: 768px) {
-  .security-prompt-banner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .security-prompt-banner .btn {
-    width: 100%;
-  }
-  
   .search-box {
     max-width: 100%;
   }
-  
+
   .sort-controls select {
     width: 100%;
   }
