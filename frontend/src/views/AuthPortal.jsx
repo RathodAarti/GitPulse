@@ -384,9 +384,7 @@ export default function AuthPortal() {
                 </span>
               </button>
 
-              <div className="social-container-refined stagger-item">
-                <button type="button" className="social-btn-refined" aria-label="Register with Github" onClick={() => {}}><GithubIcon size={20} /></button>
-              </div>
+
             </form>
           </div>
 
@@ -461,9 +459,7 @@ export default function AuthPortal() {
                 </span>
               </button>
 
-              <div className="social-container-refined stagger-item">
-                <button type="button" className="social-btn-refined" aria-label="Sign in with Github" onClick={() => {}}><GithubIcon size={20} /></button>
-              </div>
+
 
               {/* Mobile Toggle Button */}
               <div className="mobile-panel-switch">
