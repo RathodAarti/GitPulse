@@ -27,18 +27,8 @@ const PORT = process.env.PORT || 5000
 app.use(
   cors({
     origin: function(origin, callback) {
-      const allowed = [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'http://localhost:3000',
-        process.env.FRONTEND_URL,
-      ].filter(Boolean)
-      // Also allow any onrender.com subdomain for flexibility
-      if (!origin || allowed.includes(origin) || (origin && origin.endsWith('.onrender.com'))) {
-        callback(null, true)
-      } else {
-        callback(new Error('Not allowed by CORS'))
-      }
+      // Allow all origins for now to fix the issue
+      callback(null, true);
     },
     credentials: true,
   })
