@@ -19,7 +19,7 @@ const signToken = (userId) => {
  */
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password, securityQuestion, securityAnswer } = req.body
 
     // Basic validation
     if (!name || !email || !password) {
@@ -46,11 +46,16 @@ export const register = async (req, res) => {
     }
 
     // Create user (password is auto-hashed via pre-save hook)
-    const user = await User.create({
+    const userData = {
       name,
       email: email.toLowerCase(),
       password,
-    })
+    }
+    if (securityQuestion && securityAnswer) {
+      userData.securityQuestion = securityQuestion
+      userData.securityAnswer = securityAnswer
+    }
+    const user = await User.create(userData)
 
     // Sign token and respond
     const token = signToken(user._id)
