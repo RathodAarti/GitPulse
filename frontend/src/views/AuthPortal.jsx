@@ -367,11 +367,7 @@ export default function AuthPortal() {
                 </span>
               </button>
 
-              <div className="social-container-refined stagger-item">
-                <button type="button" className="social-btn-refined" aria-label="Register with Google" onClick={() => setSocialModal('google')}><GoogleIcon size={20} /></button>
-                <button type="button" className="social-btn-refined" aria-label="Register with Github" onClick={() => setSocialModal('github')}><GithubIcon size={20} /></button>
-                <button type="button" className="social-btn-refined" aria-label="Register with Linkedin" onClick={() => setSocialModal('linkedin')}><LinkedinIcon size={20} /></button>
-              </div>
+
             </form>
           </div>
 
@@ -446,11 +442,7 @@ export default function AuthPortal() {
                 </span>
               </button>
 
-              <div className="social-container-refined stagger-item">
-                <button type="button" className="social-btn-refined" aria-label="Sign in with Google" onClick={() => setSocialModal('google')}><GoogleIcon size={20} /></button>
-                <button type="button" className="social-btn-refined" aria-label="Sign in with Github" onClick={() => setSocialModal('github')}><GithubIcon size={20} /></button>
-                <button type="button" className="social-btn-refined" aria-label="Sign in with Linkedin" onClick={() => setSocialModal('linkedin')}><LinkedinIcon size={20} /></button>
-              </div>
+
             </form>
           </div>
 
