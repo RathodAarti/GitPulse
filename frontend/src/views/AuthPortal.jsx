@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Navigate, Link, useLocation } from 'react-router-dom'
+import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon } from '../components/Icons'
 import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
@@ -131,6 +131,7 @@ function FloatingOrbs() {
 export default function AuthPortal() {
   const { login, register: authRegister, isAuthenticated } = useAuth()
   const location = useLocation()
+  const navigate = useNavigate()
   const [isRegister, setIsRegister] = useState(() => {
     // Start on signup tab if ?tab=signup is in URL
     return new URLSearchParams(location.search).get('tab') === 'signup'
@@ -229,6 +230,10 @@ export default function AuthPortal() {
         triggerShake()
       } else {
         setShowSuccess(true)
+        // Navigate to dashboard after short delay to show success message
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 1500)
       }
     } catch {
       setErrors({ form: 'An unexpected error occurred. Please try again.' })
