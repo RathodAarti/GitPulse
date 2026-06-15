@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon } from '../components/Icons'
 import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
@@ -7,7 +7,7 @@ import Logo from '../components/Logo'
 import PublicNavbar from '../components/PublicNavbar'
 import ForgotPasswordModal from '../components/ForgotPasswordModal'
 
-/* --- Particle Burst Canvas --- */
+/* ΓöÇΓöÇΓöÇ Particle Burst Canvas ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 function ParticleBurst({ trigger, isRegister, cardRef, overlayRef }) {
   const canvasRef = useRef(null)
   const particlesRef = useRef([])
@@ -103,7 +103,7 @@ function ParticleBurst({ trigger, isRegister, cardRef, overlayRef }) {
     frameRef.current = requestAnimationFrame(animate)
     return () => {
       clearTimeout(timer)
-      if (frameRef.current) cancelAnimationFrame(frameRef)
+      if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
   }, [trigger, isRegister, cardRef, overlayRef])
 
@@ -116,7 +116,7 @@ function ParticleBurst({ trigger, isRegister, cardRef, overlayRef }) {
   )
 }
 
-/* --- Floating Orbs Background --- */
+/* ΓöÇΓöÇΓöÇ Floating Orbs Background ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 function FloatingOrbs() {
   return (
     <div className="auth-orbs" aria-hidden="true">
@@ -127,11 +127,10 @@ function FloatingOrbs() {
   )
 }
 
-/* --- Main AuthPortal --- */
+/* ΓöÇΓöÇΓöÇ Main AuthPortal ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 export default function AuthPortal() {
   const { login, register: authRegister, isAuthenticated } = useAuth()
   const location = useLocation()
-  const navigate = useNavigate()
   const [isRegister, setIsRegister] = useState(() => {
     // Start on signup tab if ?tab=signup is in URL
     return new URLSearchParams(location.search).get('tab') === 'signup'
@@ -152,7 +151,7 @@ export default function AuthPortal() {
   if (isAuthenticated) return <Navigate to="/dashboard" replace />
 
   const triggerShake = () => {
-    // Removed shake animation — just show error message, no vibration
+    // Removed shake animation ΓÇö just show error message, no vibration
     setAnimateError(false)
   }
 
@@ -185,13 +184,13 @@ export default function AuthPortal() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const newErrors = {}
-
+    
     // Validate name, email, password
     ['name', 'email', 'password'].forEach(key => {
       const err = validateField(key, formData[key])
       if (err) newErrors[key] = err
     })
-
+    
     // Validate security question if provided (optional during registration)
     if (isRegister && formData.securityQuestion && !formData.securityAnswer.trim()) {
       newErrors.securityAnswer = 'Please provide an answer to your security question.'
@@ -213,13 +212,13 @@ export default function AuthPortal() {
           email: formData.email,
           password: formData.password
         }
-
+        
         // Add security question if provided
         if (formData.securityQuestion && formData.securityAnswer.trim()) {
           registerData.securityQuestion = formData.securityQuestion
           registerData.securityAnswer = formData.securityAnswer.trim()
         }
-
+        
         result = await authRegister(registerData)
       } else {
         result = await login(formData.email, formData.password)
@@ -230,10 +229,6 @@ export default function AuthPortal() {
         triggerShake()
       } else {
         setShowSuccess(true)
-        // Navigate to dashboard after short delay to show success message
-        setTimeout(() => {
-          navigate('/dashboard')
-        }, 1500)
       }
     } catch {
       setErrors({ form: 'An unexpected error occurred. Please try again.' })
@@ -249,7 +244,6 @@ export default function AuthPortal() {
     setFormData({ name: '', email: '', password: '', securityQuestion: '', securityAnswer: '' })
     setErrors({})
     setShowPassword(false)
-    setShowSuccess(false)
     setParticleTrigger(prev => prev + 1)
     setIsTransitioning(true)
     setTimeout(() => setIsTransitioning(false), 600)
@@ -261,17 +255,17 @@ export default function AuthPortal() {
       <FloatingOrbs />
 
       <main className="auth-container">
-        <div
+        <div 
           ref={cardRef}
           className={`auth-card-refined ${isRegister ? 'right-panel-active' : ''} ${isTransitioning ? 'is-transitioning' : ''}`}
         >
-
+          
           {/* Animated gradient border */}
           <div className="auth-card-glow" aria-hidden="true" />
-
+          
           {/* Particle burst layer */}
-          <ParticleBurst
-            trigger={particleTrigger}
+          <ParticleBurst 
+            trigger={particleTrigger} 
             isRegister={isRegister}
             cardRef={cardRef}
             overlayRef={overlayRef}
@@ -283,7 +277,7 @@ export default function AuthPortal() {
               <Logo size={50} className="auth-logo pulse-logo stagger-item" />
               <h2 className="auth-heading stagger-item">Create Account</h2>
               <p className="auth-subtext stagger-item">Sign up to start tracking your repositories</p>
-
+              
               <div className="input-group-refined stagger-item">
                 <input
                   name="name"
@@ -319,8 +313,8 @@ export default function AuthPortal() {
                   onChange={handleChange}
                   className={errors.password ? 'has-error' : ''}
                 />
-                <button
-                  type="button"
+                <button 
+                  type="button" 
                   className="password-toggle-refined"
                   onClick={() => setShowPassword(!showPassword)}
                 >
@@ -328,28 +322,28 @@ export default function AuthPortal() {
                 </button>
               </div>
               {errors.password && <span className="error-text-refined">{errors.password}</span>}
-
+              
               {/* Security Question Section (optional) */}
               <div className="input-group-refined stagger-item">
                 <select
                   name="securityQuestion"
                   value={formData.securityQuestion}
                   onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: '12px 15px',
-                    background: 'var(--bg-input)',
-                    border: '1px solid var(--border)',
+                  style={{ 
+                    width: '100%', 
+                    padding: '12px 15px', 
+                    background: 'var(--bg-input)', 
+                    border: '1px solid var(--border)', 
                     borderRadius: 'var(--radius-md)',
                     color: 'var(--text-primary)',
                     outline: 'none'
                   }}
                 >
-                  <option value="">— Optional: Select Security Question —</option>
+                  <option value="">ΓÇö Optional: Select Security Question ΓÇö</option>
                   {SECURITY_QUESTIONS.map(q => <option key={q} value={q}>{q}</option>)}
                 </select>
               </div>
-
+              
               {formData.securityQuestion && (
                 <>
                   <div className="input-group-refined stagger-item">
@@ -380,8 +374,8 @@ export default function AuthPortal() {
                 </div>
               )}
 
-              <button
-                type="submit"
+              <button 
+                type="submit" 
                 className={`btn-auth-refined stagger-item ${submitting ? 'loading' : ''} ${showSuccess ? 'success' : ''}`}
                 disabled={submitting || showSuccess}
               >
@@ -425,8 +419,8 @@ export default function AuthPortal() {
                   onChange={handleChange}
                   className={errors.password ? 'has-error' : ''}
                 />
-                <button
-                  type="button"
+                <button 
+                  type="button" 
                   className="password-toggle-refined"
                   onClick={() => setShowPassword(!showPassword)}
                 >
@@ -457,8 +451,8 @@ export default function AuthPortal() {
                 </div>
               )}
 
-              <button
-                type="submit"
+              <button 
+                type="submit" 
                 className={`btn-auth-refined stagger-item ${submitting ? 'loading' : ''} ${showSuccess ? 'success' : ''}`}
                 disabled={submitting || showSuccess}
               >
@@ -494,8 +488,8 @@ export default function AuthPortal() {
                 <div className="overlay-content-wrapper">
                   <h1>Already have an account?</h1>
                   <p>Log in to continue tracking your repositories and analytics.</p>
-                  <button
-                    className="btn-ghost-refined"
+                  <button 
+                    className="btn-ghost-refined" 
                     onClick={() => switchPanel(false)}
                   >
                     Log In
@@ -506,8 +500,8 @@ export default function AuthPortal() {
                 <div className="overlay-content-wrapper">
                   <h1>New to GitPulse?</h1>
                   <p>Create a free account to start tracking your GitHub repositories.</p>
-                  <button
-                    className="btn-ghost-refined"
+                  <button 
+                    className="btn-ghost-refined" 
                     onClick={() => switchPanel(true)}
                   >
                     Sign Up

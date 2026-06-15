@@ -108,8 +108,12 @@ router.post(
       .withMessage('Please provide a valid email address.')
       .normalizeEmail(),
     body('password')
-      .isLength({ min: 6 })
-      .withMessage('Password must be at least 6 characters.'),
+      .isLength({ min: 8 })
+      .withMessage('Password must be at least 8 characters.')
+      .matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+      .withMessage('Password must include uppercase, lowercase, and number.'),
+    body('securityQuestion').optional().trim(),
+    body('securityAnswer').optional().trim(),
     validate,
   ],
   register

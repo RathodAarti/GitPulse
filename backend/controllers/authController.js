@@ -51,10 +51,12 @@ export const register = async (req, res) => {
       email: email.toLowerCase(),
       password,
     }
-    if (securityQuestion && securityAnswer) {
+
+    if (securityQuestion && securityAnswer && securityAnswer.trim()) {
       userData.securityQuestion = securityQuestion
-      userData.securityAnswer = securityAnswer
+      userData.securityAnswer = securityAnswer.trim()
     }
+
     const user = await User.create(userData)
 
     // Sign token and respond

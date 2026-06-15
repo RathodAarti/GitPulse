@@ -11,8 +11,7 @@ frontend/dist-ssr/
 backend/.env
 .env
 *.env
-!.env.example
-!.env.*.example
+.env.*
 
 # Logs
 *.log
@@ -35,6 +34,3 @@ coverage/
 # Empty directories
 frontend/src/styles/
 frontend/src/types/
-
-# Temporary files
-tmp-auth.txt

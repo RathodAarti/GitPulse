@@ -23,12 +23,25 @@ const PORT = process.env.PORT || 5000
 
 // ── Global Middleware ────────────────────────────────────────────
 
-// Enable CORS for the React client (Vite dev server on 5173)
+// Enable CORS for the React client (Vite dev server on 5173+)
 app.use(
   cors({
     origin: function(origin, callback) {
-      // Allow all origins for now to fix the issue
-      callback(null, true);
+      const allowed = [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://localhost:5175',
+        'http://localhost:5176',
+        'http://localhost:5177',
+        'http://localhost:3000',
+        process.env.FRONTEND_URL,
+      ].filter(Boolean)
+      // Also allow any onrender.com subdomain for flexibility
+      if (!origin || allowed.includes(origin) || (origin && origin.endsWith('.onrender.com'))) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
     },
     credentials: true,
   })
