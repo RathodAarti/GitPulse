@@ -1396,7 +1396,8 @@ a, button, .card, .repo-card, .feature-card {
 .mobile-only-switch {
   display: none; /* hidden on desktop */
   text-align: center;
-  margin: 8px 0 16px 0;
+  margin-top: auto; /* push to bottom */
+  padding-top: 20px;
   font-size: 0.95rem;
   color: var(--text-secondary);
 }
@@ -1417,6 +1418,15 @@ a, button, .card, .repo-card, .feature-card {
   color: var(--primary-hover);
 }
 
+.auth-form-refined {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* equal spacing between elements */
+  padding: 28px;
+  height: 100%;
+  justify-content: flex-start;
+}
+
 @media (max-width: 768px) {
   .mobile-only-switch {
     display: block; /* show only on mobile */
@@ -1426,7 +1436,27 @@ a, button, .card, .repo-card, .feature-card {
     flex-direction: column;
     width: 100%;
     min-height: auto;
+    margin: 16px;
   }
+  
+  .auth-container {
+    padding: 16px;
+  }
+
+  .auth-form-refined {
+    padding: 24px 20px;
+    height: auto;
+    gap: 14px;
+  }
+
+  .auth-logo {
+    margin-bottom: 8px;
+  }
+
+  .auth-heading {
+    margin-bottom: 4px;
+  }
+
   .overlay-container-refined {
     display: none;
   }

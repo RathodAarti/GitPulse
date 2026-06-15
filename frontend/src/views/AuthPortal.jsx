@@ -297,13 +297,6 @@ export default function AuthPortal() {
               <Logo size={50} className="auth-logo pulse-logo stagger-item" />
               <h2 className="auth-heading stagger-item">Create Account</h2>
               <p className="auth-subtext stagger-item">Sign up to start tracking your repositories</p>
-              {/* Mobile-only switch to login */}
-              <div className="mobile-only-switch">
-                <span>Already have an account? </span>
-                <button type="button" onClick={() => switchPanel(false)} className="mobile-only-link">
-                  Log In
-                </button>
-              </div>
               
               <div className="input-group-refined stagger-item">
                 <input
@@ -374,6 +367,13 @@ export default function AuthPortal() {
                 </span>
               </button>
 
+              {/* Mobile-only switch to login */}
+              <div className="mobile-only-switch">
+                <span>Already have an account? </span>
+                <button type="button" onClick={() => switchPanel(false)} className="mobile-only-link">
+                  Log In
+                </button>
+              </div>
 
             </form>
           </div>
@@ -384,13 +384,6 @@ export default function AuthPortal() {
               <Logo size={50} className="auth-logo pulse-logo stagger-item" />
               <h2 className="auth-heading stagger-item">Welcome Back</h2>
               <p className="auth-subtext stagger-item">Log in to your GitPulse account</p>
-              {/* Mobile-only prompt */}
-              <div className="mobile-only-switch">
-                <span>If you don't have an account, </span>
-                <button type="button" onClick={() => switchPanel(true)} className="mobile-only-link">
-                  register here
-                </button>
-              </div>
 
               <div className="input-group-refined stagger-item">
                 <input
@@ -456,6 +449,13 @@ export default function AuthPortal() {
                 </span>
               </button>
 
+              {/* Mobile-only prompt */}
+              <div className="mobile-only-switch">
+                <span>If you don't have an account, </span>
+                <button type="button" onClick={() => switchPanel(true)} className="mobile-only-link">
+                  register here
+                </button>
+              </div>
 
             </form>
           </div>
