@@ -6,6 +6,7 @@ import { DashboardIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, MenuIcon, XIc
 import Logo from './components/Logo'
 import SplashScreen from './GitPulse/SplashScreen'
 import SupportWidget from './components/SupportWidget'
+import VersionCheck from './components/VersionCheck'
 
 import LandingHome from './views/LandingHome'
 import AuthPortal from './views/AuthPortal'
@@ -279,24 +280,26 @@ export default function App() {
   }, [])
 
   return (
-    <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          {isBooting && <SplashScreen isExiting={isExiting} />}
-          <div className={`app-main-orchestrator ${isExiting ? 'is-ready' : ''}`}>
-            <Suspense fallback={<ViewLoader />}>
-              <Routes>
-                <Route path="/" element={<LandingHome />} />
-                <Route path="/login" element={<AuthPage />} />
-                <Route path="/dashboard/*" element={<AppShell />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </div>
-          {/* Global floating support widget — visible on every page */}
-          <SupportWidget />
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+    <VersionCheck>
+      <BrowserRouter>
+        <ThemeProvider>
+          <AuthProvider>
+            {isBooting && <SplashScreen isExiting={isExiting} />}
+            <div className={`app-main-orchestrator ${isExiting ? 'is-ready' : ''}`}>
+              <Suspense fallback={<ViewLoader />}>
+                <Routes>
+                  <Route path="/" element={<LandingHome />} />
+                  <Route path="/login" element={<AuthPage />} />
+                  <Route path="/dashboard/*" element={<AppShell />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </div>
+            {/* Global floating support widget — visible on every page */}
+            <SupportWidget />
+          </AuthProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </VersionCheck>
   )
 }
