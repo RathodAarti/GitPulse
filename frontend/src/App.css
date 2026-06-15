@@ -167,9 +167,20 @@ a, button, .card, .repo-card, .feature-card {
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--gutter);
   margin-top: 3rem;
+}
+
+@media (max-width: 480px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .feature-card {
+    padding: 24px;
+  }
 }
 
 .feature-card {
@@ -702,6 +713,32 @@ a, button, .card, .repo-card, .feature-card {
   padding: 8px;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-actions {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-radius: 0 0 0 var(--radius-lg);
+    padding: 20px;
+    flex-direction: column;
+    gap: 16px;
+    transform: translateX(100%);
+    transition: transform 0.3s var(--ease-premium);
+    z-index: 999;
+  }
+
+  .nav-actions.nav-actions-open {
+    transform: translateX(0);
+  }
 }
 
 .theme-toggle-btn {
@@ -1629,6 +1666,23 @@ a, button, .card, .repo-card, .feature-card {
   grid-template-columns: 1.1fr 0.9fr;
   gap: 80px;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-cta-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .hero-text-content .hero-title {
