@@ -25,8 +25,7 @@ export default function PublicNavbar() {
         </button>
 
         <div className={`nav-actions ${isMenuOpen ? 'nav-actions-open' : ''}`}>
-          <Link to="/login" className="btn btn-secondary btn-sm" onClick={() => setIsMenuOpen(false)}>Log In</Link>
-          <Link to="/login?tab=signup" className="btn btn-primary btn-sm" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
+          <Link to="/login" className="btn btn-primary btn-sm" onClick={() => setIsMenuOpen(false)}>Get Started</Link>
           <button 
             className="theme-toggle-pill" 
             onClick={toggleTheme} 
