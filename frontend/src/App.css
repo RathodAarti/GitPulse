@@ -1374,7 +1374,35 @@ a, button, .card, .repo-card, .feature-card {
 .auth-card-refined .stagger-item:nth-child(9) { animation-delay: 0.44s; }
 
 /* Responsive */
+.mobile-only-switch {
+  display: none; /* hidden on desktop */
+  text-align: center;
+  margin: 8px 0 16px 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.mobile-only-link {
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.mobile-only-link:hover {
+  color: var(--primary-hover);
+}
+
 @media (max-width: 768px) {
+  .mobile-only-switch {
+    display: block; /* show only on mobile */
+  }
+  
   .auth-card-refined {
     flex-direction: column;
     width: 100%;
