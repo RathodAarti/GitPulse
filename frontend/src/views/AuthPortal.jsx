@@ -249,6 +249,28 @@ export default function AuthPortal() {
 
   return (
     <div className="auth-portal-page">
+      {/* Back to Home button */}
+      <div style={{ position: 'fixed', top: '20px', left: '20px', zIndex: '1000' }}>
+        <Link 
+          to="/" 
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            borderRadius: '8px',
+            background: 'var(--bg-surface)',
+            color: 'var(--text-primary)',
+            textDecoration: 'none',
+            fontWeight: '600',
+            border: '1px solid var(--border)',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          ← Back to Home
+        </Link>
+      </div>
+
       <PublicNavbar />
       <FloatingOrbs />
 
