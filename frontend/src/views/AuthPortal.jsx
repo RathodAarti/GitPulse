@@ -246,9 +246,10 @@ export default function AuthPortal() {
   const switchPanel = (toRegister) => {
     if (toRegister === isRegister) return
     setIsRegister(toRegister)
-    setFormData({ name: '', email: '', password: '' })
+    setFormData({ name: '', email: '', password: '', securityQuestion: '', securityAnswer: '' })
     setErrors({})
     setShowPassword(false)
+    setShowSuccess(false)
     setParticleTrigger(prev => prev + 1)
     setIsTransitioning(true)
     setTimeout(() => setIsTransitioning(false), 600)
