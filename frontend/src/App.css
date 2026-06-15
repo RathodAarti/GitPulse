@@ -703,6 +703,22 @@ a, button, .card, .repo-card, .feature-card {
   display: none;
 }
 
+/* ===== Overlay ===== */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  top: 80px;
+  background: rgba(0,0,0,0.5);
+  z-index: 998;
+  backdrop-filter: blur(2px);
+  animation: fadeInOverlay 0.3s ease forwards;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* ===== PublicNavbar Hamburger Button ===== */
 .nav-hamburger {
   display: none;
@@ -721,19 +737,22 @@ a, button, .card, .repo-card, .feature-card {
   }
 
   .nav-actions {
-    position: absolute;
+    position: fixed;
     top: 80px;
     right: 0;
     background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
     border-left: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     border-radius: 0 0 0 var(--radius-lg);
-    padding: 20px;
+    padding: 24px;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
+    width: 82%; /* 80-85% width as requested */
+    height: calc(100vh - 80px);
     transform: translateX(100%);
     transition: transform 0.3s var(--ease-premium);
     z-index: 999;
+    overflow-y: auto;
   }
 
   .nav-actions.nav-actions-open {
