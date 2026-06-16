@@ -181,39 +181,14 @@ function AppShell() {
               : 'GitPulse'
 
   return (
-    <div 
-      className="app-shell"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      {/* Mobile Sidebar Dark Overlay */}
-      {sidebarOpen && (
-        <div 
-          className="sidebar-overlay" 
-          onClick={() => setSidebarOpen(false)}
-          aria-hidden="true"
-        />
-      )}
-
+    <div className="app-shell">
       {/* Sidebar */}
       <aside 
-        ref={sidebarRef}
-        className={`sidebar ${sidebarOpen ? 'open' : ''}`} 
+        className="sidebar" 
         id="sidebar"
-        role="dialog"
-        aria-modal="true"
+        role="navigation"
         aria-label="Main navigation"
       >
-        {/* Mobile Sidebar Close Button */}
-        <button 
-          className="sidebar-close-btn" 
-          onClick={() => setSidebarOpen(false)}
-          aria-label="Close menu"
-        >
-          <XIcon size={20} />
-        </button>
-
         <div className="sidebar-brand stagger-item delay-1">
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'inherit' }}>
             <Logo size={42} showText={true} isIntro={!hasPlayedIntro} />
@@ -300,17 +275,6 @@ function AppShell() {
           </Suspense>
         </div>
       </main>
-
-      {/* Fixed Hamburger Button */}
-      <button
-        className="hamburger-btn"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        aria-label={sidebarOpen ? "Close navigation menu" : "Open navigation menu"}
-        aria-expanded={sidebarOpen}
-        aria-controls="sidebar"
-      >
-        <MenuIcon size={22} />
-      </button>
     </div>
   )
 }
