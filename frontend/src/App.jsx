@@ -93,6 +93,13 @@ function AppShell() {
     }
   }, [hasPlayedIntro])
 
+  // Automatically open sidebar when authenticated (for better mobile UX)
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      setSidebarOpen(true)
+    }
+  }, [isAuthenticated, loading])
+
   // Automatically close sidebar when navigation occurs
   useEffect(() => {
     setSidebarOpen(false)
