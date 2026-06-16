@@ -107,7 +107,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
           <div 
             ref={menuRef}
             id="mobile-side-menu"
-            className={`nav-actions ${isMenuOpen ? 'nav-actions-open' : ''}`}
+            className={`nav-actions mobile-nav-actions ${isMenuOpen ? 'nav-actions-open' : ''}`}
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
@@ -150,7 +150,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
                 marginTop: '16px'
               }}
             >
-              {isSignup ? 'Log In' : 'Get Started'}
+              {isSignup ? 'Log In' : 'Log In'}
             </Link>
 
             <button 
@@ -165,9 +165,9 @@ export default function PublicNavbar({ showBackToHome = false }) {
           </div>
 
           {/* Desktop actions - single button */}
-          <div className="nav-actions desktop-nav-actions" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <div className="nav-actions desktop-nav-actions">
             <Link 
-              to="/login?tab=signup" 
+              to="/login" 
               className="btn btn-primary btn-large"
               style={{
                 padding: '10px 28px',
@@ -179,7 +179,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              Get Started
+              Log In
             </Link>
             <button 
               className="theme-toggle-pill" 

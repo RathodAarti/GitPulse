@@ -762,6 +762,14 @@ a, button, .card, .repo-card, .feature-card {
   align-items: center;
 }
 
+.mobile-nav-actions {
+  display: none;
+}
+
+.desktop-nav-actions {
+  display: flex;
+}
+
 .top-bar-left {
   display: flex;
   align-items: center;
@@ -777,7 +785,8 @@ a, button, .card, .repo-card, .feature-card {
     display: flex;
   }
 
-  .nav-actions {
+  .mobile-nav-actions {
+    display: flex;
     position: fixed;
     top: 80px;
     right: 0;
@@ -797,8 +806,12 @@ a, button, .card, .repo-card, .feature-card {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 
-  .nav-actions.nav-actions-open {
+  .mobile-nav-actions.nav-actions-open {
     transform: translateX(0);
+  }
+  
+  .desktop-nav-actions {
+    display: none;
   }
 }
 
