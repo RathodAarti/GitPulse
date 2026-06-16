@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Navigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon, GoogleIcon, LinkedinIcon } from '../components/Icons'
+import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon, GoogleIcon, LinkedinIcon, ArrowLeftIcon } from '../components/Icons'
 import Logo from '../components/Logo'
 import PublicNavbar from '../components/PublicNavbar'
 import SocialLoginModal from '../components/SocialLoginModal'
@@ -250,24 +250,13 @@ export default function AuthPortal() {
   return (
     <div className="auth-portal-page">
       {/* Back to Home button */}
-      <div style={{ position: 'fixed', top: '20px', left: '20px', zIndex: '1000' }}>
+      <div className="back-to-home-container">
         <Link 
           to="/" 
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '8px 16px',
-            borderRadius: '8px',
-            background: 'var(--bg-surface)',
-            color: 'var(--text-primary)',
-            textDecoration: 'none',
-            fontWeight: '600',
-            border: '1px solid var(--border)',
-            transition: 'all 0.2s ease',
-          }}
+          className="back-to-home-btn"
         >
-          ← Back to Home
+          <ArrowLeftIcon size={20} />
+          Back to Home
         </Link>
       </div>
 
