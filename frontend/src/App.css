@@ -690,9 +690,9 @@ a, button, .card, .repo-card, .feature-card {
   transition: all 0.2s var(--ease-premium);
   box-shadow: 0 4px 12px var(--primary-light);
   position: fixed;
-  top: 16px;
+  top: 20px;
   left: 16px;
-  z-index: 998;
+  z-index: 1001; /* Above sidebar */
 }
 
 .hamburger-btn:hover {
@@ -712,7 +712,7 @@ a, button, .card, .repo-card, .feature-card {
 
 @media (max-width: 768px) {
   .top-bar-left {
-    padding-left: 72px; /* Make room for fixed hamburger button */
+    padding-left: 80px; /* Make room for fixed hamburger button */
   }
 }
 
