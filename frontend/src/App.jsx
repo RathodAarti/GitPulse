@@ -268,15 +268,6 @@ function AppShell() {
       <main className="main-content">
         <header className="top-bar stagger-item delay-1" id="top-bar">
           <div className="top-bar-left">
-            <button
-              className="hamburger-btn"
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Open navigation menu"
-              aria-expanded={sidebarOpen}
-              aria-controls="sidebar"
-            >
-              <MenuIcon size={22} />
-            </button>
             <Logo size={32} className="top-bar-logo" />
             <div className="page-title">{pageTitle}</div>
           </div>
@@ -287,7 +278,7 @@ function AppShell() {
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
+              <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}">
                 {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}
               </div>
             </button>
@@ -309,6 +300,17 @@ function AppShell() {
           </Suspense>
         </div>
       </main>
+
+      {/* Fixed Hamburger Button */}
+      <button
+        className="hamburger-btn"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-label={sidebarOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={sidebarOpen}
+        aria-controls="sidebar"
+      >
+        <MenuIcon size={22} />
+      </button>
     </div>
   )
 }
