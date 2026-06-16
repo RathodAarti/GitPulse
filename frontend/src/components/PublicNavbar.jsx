@@ -106,6 +106,27 @@ export default function PublicNavbar() {
             aria-label="Mobile navigation menu"
             tabIndex={-1}
           >
+            {/* Close Button */}
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+              style={{
+                alignSelf: 'flex-end',
+                width: '40px',
+                height: '40px',
+                border: 'none',
+                background: 'transparent',
+                cursor: 'pointer',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--text-primary)'
+              }}
+            >
+              <XIcon size={24} />
+            </button>
+
             {/* Toggle Button */}
             <div 
               style={{
