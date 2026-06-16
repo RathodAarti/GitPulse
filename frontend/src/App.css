@@ -6315,6 +6315,31 @@ button:active,
   box-shadow: var(--shadow-lg);
 }
 
+.back-to-home {
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateX(-4px);
+}
+
 .login-header {
   text-align: center;
   margin-bottom: 28px;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { AlertIcon, EyeIcon, EyeOffIcon } from '../components/Icons'
+import { AlertIcon, EyeIcon, EyeOffIcon, ArrowLeftIcon } from '../components/Icons'
 import { GoogleIcon, GithubIcon, LinkedinIcon } from '../components/Icons'
 import Logo from '../components/Logo'
 import SocialLoginModal from '../components/SocialLoginModal'
@@ -107,6 +107,13 @@ export default function Login() {
           {/* Sign In Form */}
           <div className="login-slide stagger-item">
             <div className="login-card">
+              <div className="back-to-home">
+                <Link to="/" className="back-btn">
+                  <ArrowLeftIcon size={20} />
+                  Back to Home
+                </Link>
+              </div>
+              
               <div className="login-header">
                 <Logo size={80} showText={true} className="login-logo" />
                 <p>Sign in to continue your pulse analytics</p>
@@ -200,6 +207,13 @@ export default function Login() {
           {/* Register Form */}
           <div className="login-slide">
             <div className="login-card">
+              <div className="back-to-home">
+                <Link to="/" className="back-btn">
+                  <ArrowLeftIcon size={20} />
+                  Back to Home
+                </Link>
+              </div>
+              
               <div className="login-header">
                 <Logo size={80} showText={true} className="login-logo" />
                 <p>Create an account to start tracking</p>
