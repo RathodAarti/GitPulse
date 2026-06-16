@@ -2554,30 +2554,32 @@ a, button, .card, .repo-card, .feature-card {
   top: 50%;
   left: 280px;
   transform: translateY(-50%);
-  width: 48px;
-  height: 48px;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 0 12px 12px 0;
+  width: 40px;
+  height: 80px;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--sidebar-border);
+  border-left: none;
+  color: var(--sidebar-text);
+  border-radius: 0 16px 16px 0;
   cursor: pointer;
   z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px var(--primary-light);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
 }
 
 .sidebar-toggle-indicator:hover {
-  transform: translateY(-50%) scale(1.05);
-  box-shadow: 0 6px 16px var(--primary-light);
+  background: var(--primary);
+  color: white;
+  box-shadow: 4px 0 20px var(--primary-light);
 }
 
 .sidebar-toggle-indicator:active {
-  transform: translateY(-50%) scale(0.98);
+  transform: translateY(-50%) scale(0.95);
 }
 
 .sidebar.collapsed ~ .sidebar-toggle-indicator {
