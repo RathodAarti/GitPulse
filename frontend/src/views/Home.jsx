@@ -3,6 +3,7 @@ import { repoService } from '../services/api'
 import RepositoryCard from '../components/RepositoryCard'
 import MetricSummaryWidget from '../components/MetricSummaryWidget'
 import { RepoIcon, CommitIcon, PrIcon, IssueIcon, AlertIcon, SearchIcon, PeopleIcon } from '../components/Icons'
+import Logo from '../components/Logo'
 
 // Demo data for fallback
 const DEMO_REPOS = [
@@ -129,6 +130,17 @@ export default function Home() {
 
   return (
     <div className="workspace-pulse-container animate-slide-up">
+      {/* Prominent Dashboard Header */}
+      <div className="dashboard-header reveal-on-scroll">
+        <div className="dashboard-header-content">
+          <Logo size={64} showText={true} className="dashboard-header-logo" />
+          <div className="dashboard-header-text">
+            <h1 className="dashboard-header-title">Cross-Repository Pulse Analytics</h1>
+            <p className="dashboard-header-subtitle">Real-time insights into your GitHub repositories and development activity</p>
+          </div>
+        </div>
+      </div>
+
       {alert && alert.type === 'error' && alert.message.includes('Rate Limit') && (
         <div className="rate-limit-marquee animate-fade">
           <div className="marquee-content">

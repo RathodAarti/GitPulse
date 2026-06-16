@@ -163,14 +163,6 @@ function AppShell() {
           </div>
         </div>
 
-        {/* Sidebar Brand */}
-        <div className="sidebar-brand stagger-item delay-2">
-          <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'inherit' }}>
-            <Logo size={36} showText={!sidebarCollapsed} isIntro={!hasPlayedIntro} />
-          </Link>
-          {!sidebarCollapsed && <div className="tagline">Cross-Repository Pulse</div>}
-        </div>
-
         {/* Theme Toggle */}
         <div className="sidebar-actions">
           <button 

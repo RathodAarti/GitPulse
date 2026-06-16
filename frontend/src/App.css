@@ -2675,19 +2675,19 @@ a, button, .card, .repo-card, .feature-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.2s ease, box-shadow 0.2s ease, left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
 }
 
 .sidebar-toggle-indicator:hover {
-  background: var(--accent);
+  background: var(--primary-hover);
   box-shadow: 4px 0 24px var(--accent-glow);
 }
 
 .sidebar-toggle-indicator:active {
-  transform: translateY(-50%) scale(0.95);
+  background: var(--primary);
 }
 
 .sidebar.collapsed ~ .sidebar-toggle-indicator {

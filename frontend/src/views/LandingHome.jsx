@@ -34,13 +34,10 @@ export default function LandingHome() {
               and empower your lead contributors through data-driven recognition.
             </p>
             <div className="hero-cta-row stagger-item delay-2">
-              <Link to="/login?tab=signup" className="btn btn-primary btn-large" aria-label="Create free account">
-                Create Free Account <span className="arrow" aria-hidden="true">→</span>
-              </Link>
-              <Link to="/login" className="btn btn-secondary btn-large" aria-label="Log in">
-                Log In
-              </Link>
-            </div>
+          <Link to="/login?tab=signup" className="btn btn-primary btn-large" aria-label="Get Started">
+            Get Started <span className="arrow" aria-hidden="true">→</span>
+          </Link>
+        </div>
             <div className="hero-meta-text stagger-item delay-3">
               Standardized by elite engineering teams. No configuration required.
             </div>
@@ -131,8 +128,8 @@ export default function LandingHome() {
             <Logo size={40} showText={true} />
             <h2>Experience the Heartbeat.</h2>
             <Link to="/login?tab=signup" className="btn btn-primary btn-large">
-              Create Free Account →
-            </Link>
+            Get Started →
+          </Link>
           </div>
           
           <div className="footer-links">

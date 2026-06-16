@@ -134,50 +134,53 @@ export default function PublicNavbar({ showBackToHome = false }) {
               <XIcon size={24} />
             </button>
 
-            {/* Toggle Button */}
-            <div 
+            {/* Single button */}
+            <Link 
+              to={isSignup ? "/login" : "/login?tab=signup"} 
+              onClick={() => setIsMenuOpen(false)}
+              className="btn btn-primary btn-large"
               style={{
-                display: 'flex',
-                gap: '4px',
-                background: 'var(--bg-surface)',
-                padding: '4px',
+                padding: '14px 32px',
                 borderRadius: '999px',
-                border: '1px solid var(--border)',
-                cursor: 'pointer'
+                fontWeight: '700',
+                textDecoration: 'none',
+                background: 'var(--primary)',
+                color: 'white',
+                transition: 'all 0.2s ease',
+                marginTop: '16px'
               }}
             >
-              <Link 
-                to="/login" 
-                onClick={() => setIsMenuOpen(false)}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: '999px',
-                  fontWeight: '600',
-                  textDecoration: 'none',
-                  background: !isSignup ? 'var(--primary)' : 'transparent',
-                  color: !isSignup ? 'white' : 'var(--text-primary)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                Log In
-              </Link>
-              <Link 
-                to="/login?tab=signup" 
-                onClick={() => setIsMenuOpen(false)}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: '999px',
-                  fontWeight: '600',
-                  textDecoration: 'none',
-                  background: isSignup ? 'var(--primary)' : 'transparent',
-                  color: isSignup ? 'white' : 'var(--text-primary)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                Sign Up
-              </Link>
-            </div>
+              {isSignup ? 'Log In' : 'Get Started'}
+            </Link>
 
+            <button 
+              className="theme-toggle-pill" 
+              onClick={toggleTheme} 
+              title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            >
+              <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
+                {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}
+              </div>
+            </button>
+          </div>
+
+          {/* Desktop actions - single button */}
+          <div className="nav-actions desktop-nav-actions" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            <Link 
+              to="/login?tab=signup" 
+              className="btn btn-primary btn-large"
+              style={{
+                padding: '10px 28px',
+                borderRadius: '999px',
+                fontWeight: '700',
+                textDecoration: 'none',
+                background: 'var(--primary)',
+                color: 'white',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Get Started
+            </Link>
             <button 
               className="theme-toggle-pill" 
               onClick={toggleTheme} 
