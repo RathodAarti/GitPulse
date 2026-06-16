@@ -135,13 +135,28 @@ function AppShell() {
         role="navigation"
         aria-label="Main navigation"
       >
-        <div className="sidebar-brand stagger-item delay-1">
+        {/* User Profile Section */}
+        <div className="sidebar-profile stagger-item delay-1">
+          <div className="sidebar-user">
+            <div className="user-avatar">{initials}</div>
+            {!sidebarCollapsed && (
+              <div className="user-info">
+                <div className="name">{user?.name || user?.email || 'Admin'}</div>
+                <div className="role">{user?.email || 'Administrator'}</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Sidebar Brand */}
+        <div className="sidebar-brand stagger-item delay-2">
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'inherit' }}>
             <Logo size={36} showText={!sidebarCollapsed} isIntro={!hasPlayedIntro} />
           </Link>
           {!sidebarCollapsed && <div className="tagline">Cross-Repository Pulse</div>}
         </div>
 
+        {/* Theme Toggle */}
         <div className="sidebar-actions">
           <button 
             className="sidebar-theme-toggle" 
@@ -154,28 +169,29 @@ function AppShell() {
           </button>
         </div>
 
+        {/* Navigation */}
         <nav className="sidebar-nav">
-          <div className="stagger-item delay-2">
+          <div className="stagger-item delay-3">
             <NavLink to="/dashboard" end id="nav-dashboard">
               <span className="nav-icon"><DashboardIcon size={20} /></span>
               {!sidebarCollapsed && 'Dashboard'}
             </NavLink>
           </div>
           {user?.email === 'agrathod0701@gmail.com' && (
-            <div className="stagger-item delay-3">
+            <div className="stagger-item delay-4">
               <NavLink to="/dashboard/admin" id="nav-admin">
                 <span className="nav-icon"><ShieldIcon size={20} /></span>
                 {!sidebarCollapsed && 'Admin Panel'}
               </NavLink>
             </div>
           )}
-          <div className="stagger-item delay-4">
+          <div className="stagger-item delay-5">
             <NavLink to="/dashboard/settings" id="nav-settings">
               <span className="nav-icon"><SettingsIcon size={20} /></span>
               {!sidebarCollapsed && 'Settings'}
             </NavLink>
           </div>
-          <div className="stagger-item delay-5">
+          <div className="stagger-item delay-6">
             <NavLink to="/dashboard/help" id="nav-help">
               <span className="nav-icon"><HelpIcon size={20} /></span>
               {!sidebarCollapsed && 'Help Center'}
@@ -183,19 +199,12 @@ function AppShell() {
           </div>
         </nav>
 
-        <div className="sidebar-footer stagger-item delay-5">
-          <div className="sidebar-user">
-            <div className="user-avatar">{initials}</div>
-            {!sidebarCollapsed && (
-              <div className="user-info">
-                <div className="name">{user?.name || user?.email || 'Admin'}</div>
-                <div className="role">Administrator</div>
-              </div>
-            )}
-            <button className="logout-mini-btn" onClick={logout} title="Sign Out" aria-label="Sign Out">
-              <LogoutIcon size={18} />
-            </button>
-          </div>
+        {/* Logout Button */}
+        <div className="sidebar-footer stagger-item delay-7">
+          <button className="logout-mini-btn" onClick={logout} title="Sign Out" aria-label="Sign Out">
+            <LogoutIcon size={18} />
+            {!sidebarCollapsed && <span>Sign Out</span>}
+          </button>
         </div>
       </aside>
 
