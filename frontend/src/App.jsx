@@ -278,7 +278,7 @@ function AppShell() {
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}">
+              <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
                 {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}
               </div>
             </button>
