@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import Logo from './Logo'
-import { SunIcon, MoonIcon, MenuIcon, XIcon } from './Icons'
+import { SunIcon, MoonIcon, MenuIcon, XIcon, ArrowLeftIcon } from './Icons'
 
-export default function PublicNavbar() {
+export default function PublicNavbar({ showBackToHome = false }) {
   const { theme, toggleTheme } = useTheme()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
@@ -82,9 +82,16 @@ export default function PublicNavbar() {
         onTouchEnd={handleTouchEnd}
       >
         <div className="navbar-content">
-          <Link to="/" className="nav-logo">
-            <Logo size={42} showText={true} />
-          </Link>
+          {showBackToHome ? (
+            <Link to="/" className="nav-back-btn">
+              <ArrowLeftIcon size={20} />
+              <span className="nav-back-text">Back to Home</span>
+            </Link>
+          ) : (
+            <Link to="/" className="nav-logo">
+              <Logo size={42} showText={true} />
+            </Link>
+          )}
 
           <button
             ref={buttonRef}

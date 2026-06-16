@@ -249,18 +249,7 @@ export default function AuthPortal() {
 
   return (
     <div className="auth-portal-page">
-      {/* Back to Home button */}
-      <div className="back-to-home-container">
-        <Link 
-          to="/" 
-          className="back-to-home-btn"
-        >
-          <ArrowLeftIcon size={20} />
-          Back to Home
-        </Link>
-      </div>
-
-      <PublicNavbar />
+      <PublicNavbar showBackToHome={true} />
       <FloatingOrbs />
 
       <main className="auth-container">
