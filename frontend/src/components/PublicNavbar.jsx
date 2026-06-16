@@ -11,6 +11,11 @@ export default function PublicNavbar() {
   const menuRef = useRef(null)
   const buttonRef = useRef(null)
   
+  // Touch/swipe state for PublicNavbar
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+  const MIN_SWIPE_DISTANCE = 50
+  
   // Check if we're on signup tab
   const isSignup = new URLSearchParams(location.search).get('tab') === 'signup'
 
@@ -39,9 +44,43 @@ export default function PublicNavbar() {
     setIsMenuOpen(false)
   }, [location.pathname, location.search])
 
+  // Swipe gesture handlers for PublicNavbar
+  const handleTouchStart = (e) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    
+    if (Math.abs(distance) > MIN_SWIPE_DISTANCE) {
+      if (distance < 0) {
+        // Swipe right - if menu is closed and near right edge
+        if (!isMenuOpen && window.innerWidth - touchStart < 50) {
+          setIsMenuOpen(true)
+        }
+      } else {
+        // Swipe left - close menu
+        if (isMenuOpen) {
+          setIsMenuOpen(false)
+        }
+      }
+    }
+  }
+
   return (
     <>
-      <nav className="public-navbar public-navbar-refined">
+      <nav 
+        className="public-navbar public-navbar-refined"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="navbar-content">
           <Link to="/" className="nav-logo">
             <Logo size={42} showText={true} />

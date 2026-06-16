@@ -74,6 +74,7 @@ function AppShell() {
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
   useScrollReveal(location.pathname)
+  const sidebarRef = useRef(null)
 
   // Mobile Sidebar State
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -82,6 +83,11 @@ function AppShell() {
   const [hasPlayedIntro, setHasPlayedIntro] = useState(() => {
     return sessionStorage.getItem('gitpulse_intro_played') === 'true'
   })
+
+  // Touch/swipe state
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+  const MIN_SWIPE_DISTANCE = 50 // Minimum distance for swipe
 
   useEffect(() => {
     if (!hasPlayedIntro) {
@@ -104,6 +110,45 @@ function AppShell() {
   useEffect(() => {
     setSidebarOpen(false)
   }, [location.pathname])
+
+  // Handle escape key to close sidebar
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && sidebarOpen) {
+        setSidebarOpen(false)
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [sidebarOpen])
+
+  // Swipe gesture handlers
+  const handleTouchStart = (e) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    
+    // Check if swipe is significant
+    if (Math.abs(distance) > MIN_SWIPE_DISTANCE) {
+      if (distance > 0) {
+        // Swipe left - close sidebar
+        setSidebarOpen(false)
+      } else {
+        // Swipe right - open sidebar if near left edge
+        if (touchStart < 50) {
+          setSidebarOpen(true)
+        }
+      }
+    }
+  }
 
   if (loading) {
     return (
@@ -136,17 +181,30 @@ function AppShell() {
               : 'GitPulse'
 
   return (
-    <div className="app-shell">
+    <div 
+      className="app-shell"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Mobile Sidebar Dark Overlay */}
       {sidebarOpen && (
         <div 
           className="sidebar-overlay" 
-          onClick={() => setSidebarOpen(false)} 
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
         />
       )}
 
       {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`} id="sidebar">
+      <aside 
+        ref={sidebarRef}
+        className={`sidebar ${sidebarOpen ? 'open' : ''}`} 
+        id="sidebar"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Main navigation"
+      >
         {/* Mobile Sidebar Close Button */}
         <button 
           className="sidebar-close-btn" 
@@ -199,7 +257,7 @@ function AppShell() {
               <div className="name">{user?.name || user?.email || 'Admin'}</div>
               <div className="role">Administrator</div>
             </div>
-            <button className="logout-mini-btn" onClick={logout} title="Sign Out">
+            <button className="logout-mini-btn" onClick={logout} title="Sign Out" aria-label="Sign Out">
               <LogoutIcon size={18} />
             </button>
           </div>
