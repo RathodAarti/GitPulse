@@ -2530,6 +2530,11 @@ a, button, .card, .repo-card, .feature-card {
   bottom: 0;
   z-index: 1000;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.collapsed {
+  width: 80px;
 }
 
 .main-content {
@@ -2537,6 +2542,46 @@ a, button, .card, .repo-card, .feature-card {
   flex: 1;
   display: flex;
   flex-direction: column;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-content.collapsed {
+  margin-left: 80px;
+}
+
+.sidebar-toggle-indicator {
+  position: fixed;
+  top: 50%;
+  left: 280px;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  cursor: pointer;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px var(--primary-light);
+}
+
+.sidebar-toggle-indicator:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 6px 16px var(--primary-light);
+}
+
+.sidebar-toggle-indicator:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.sidebar.collapsed ~ .sidebar-toggle-indicator {
+  left: 80px;
 }
 
 .sidebar-brand {

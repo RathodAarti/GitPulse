@@ -76,18 +76,13 @@ function AppShell() {
   useScrollReveal(location.pathname)
   const sidebarRef = useRef(null)
 
-  // Mobile Sidebar State
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  // Sidebar Collapse State
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   
   // Track if cinematic intro has played in this session
   const [hasPlayedIntro, setHasPlayedIntro] = useState(() => {
     return sessionStorage.getItem('gitpulse_intro_played') === 'true'
   })
-
-  // Touch/swipe state
-  const [touchStart, setTouchStart] = useState(null)
-  const [touchEnd, setTouchEnd] = useState(null)
-  const MIN_SWIPE_DISTANCE = 50 // Minimum distance for swipe
 
   useEffect(() => {
     if (!hasPlayedIntro) {
@@ -99,56 +94,7 @@ function AppShell() {
     }
   }, [hasPlayedIntro])
 
-  // Automatically open sidebar when authenticated (for better mobile UX)
-  useEffect(() => {
-    if (isAuthenticated && !loading) {
-      setSidebarOpen(true)
-    }
-  }, [isAuthenticated, loading])
 
-  // Automatically close sidebar when navigation occurs
-  useEffect(() => {
-    setSidebarOpen(false)
-  }, [location.pathname])
-
-  // Handle escape key to close sidebar
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && sidebarOpen) {
-        setSidebarOpen(false)
-      }
-    }
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [sidebarOpen])
-
-  // Swipe gesture handlers
-  const handleTouchStart = (e) => {
-    setTouchEnd(null)
-    setTouchStart(e.targetTouches[0].clientX)
-  }
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX)
-  }
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
-    const distance = touchStart - touchEnd
-    
-    // Check if swipe is significant
-    if (Math.abs(distance) > MIN_SWIPE_DISTANCE) {
-      if (distance > 0) {
-        // Swipe left - close sidebar
-        setSidebarOpen(false)
-      } else {
-        // Swipe right - open sidebar if near left edge
-        if (touchStart < 50) {
-          setSidebarOpen(true)
-        }
-      }
-    }
-  }
 
   if (loading) {
     return (
@@ -184,43 +130,43 @@ function AppShell() {
     <div className="app-shell">
       {/* Sidebar */}
       <aside 
-        className="sidebar" 
+        className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`} 
         id="sidebar"
         role="navigation"
         aria-label="Main navigation"
       >
         <div className="sidebar-brand stagger-item delay-1">
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'inherit' }}>
-            <Logo size={42} showText={true} isIntro={!hasPlayedIntro} />
+            <Logo size={42} showText={!sidebarCollapsed} isIntro={!hasPlayedIntro} />
           </Link>
-          <div className="tagline">Cross-Repository Pulse</div>
+          {!sidebarCollapsed && <div className="tagline">Cross-Repository Pulse</div>}
         </div>
 
         <nav className="sidebar-nav">
           <div className="stagger-item delay-2">
             <NavLink to="/dashboard" end id="nav-dashboard">
               <span className="nav-icon"><DashboardIcon size={20} /></span>
-              Overview
+              {!sidebarCollapsed && 'Overview'}
             </NavLink>
           </div>
           {user?.email === 'agrathod0701@gmail.com' && (
             <div className="stagger-item delay-3">
               <NavLink to="/dashboard/admin" id="nav-admin">
                 <span className="nav-icon"><ShieldIcon size={20} /></span>
-                Admin Panel
+                {!sidebarCollapsed && 'Admin Panel'}
               </NavLink>
             </div>
           )}
           <div className="stagger-item delay-4">
             <NavLink to="/dashboard/settings" id="nav-settings">
               <span className="nav-icon"><SettingsIcon size={20} /></span>
-              Settings
+              {!sidebarCollapsed && 'Settings'}
             </NavLink>
           </div>
           <div className="stagger-item delay-5">
             <NavLink to="/dashboard/help" id="nav-help">
               <span className="nav-icon"><HelpIcon size={20} /></span>
-              Help Center
+              {!sidebarCollapsed && 'Help Center'}
             </NavLink>
           </div>
         </nav>
@@ -228,10 +174,12 @@ function AppShell() {
         <div className="sidebar-footer stagger-item delay-5">
           <div className="sidebar-user">
             <div className="user-avatar">{initials}</div>
-            <div className="user-info">
-              <div className="name">{user?.name || user?.email || 'Admin'}</div>
-              <div className="role">Administrator</div>
-            </div>
+            {!sidebarCollapsed && (
+              <div className="user-info">
+                <div className="name">{user?.name || user?.email || 'Admin'}</div>
+                <div className="role">Administrator</div>
+              </div>
+            )}
             <button className="logout-mini-btn" onClick={logout} title="Sign Out" aria-label="Sign Out">
               <LogoutIcon size={18} />
             </button>
@@ -239,8 +187,17 @@ function AppShell() {
         </div>
       </aside>
 
+      {/* Sidebar Toggle Indicator */}
+      <button
+        className="sidebar-toggle-indicator"
+        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+        aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        {sidebarCollapsed ? '→' : '←'}
+      </button>
+
       {/* Main Content */}
-      <main className="main-content">
+      <main className={`main-content ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <header className="top-bar stagger-item delay-1" id="top-bar">
           <div className="top-bar-left">
             <Logo size={32} className="top-bar-logo" />
