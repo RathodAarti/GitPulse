@@ -137,16 +137,28 @@ function AppShell() {
       >
         <div className="sidebar-brand stagger-item delay-1">
           <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'inherit' }}>
-            <Logo size={42} showText={!sidebarCollapsed} isIntro={!hasPlayedIntro} />
+            <Logo size={36} showText={!sidebarCollapsed} isIntro={!hasPlayedIntro} />
           </Link>
           {!sidebarCollapsed && <div className="tagline">Cross-Repository Pulse</div>}
+        </div>
+
+        <div className="sidebar-actions">
+          <button 
+            className="sidebar-theme-toggle" 
+            onClick={toggleTheme} 
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            <span className="theme-indicator-dot"></span>
+            {!sidebarCollapsed && <span className="theme-label">{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>}
+          </button>
         </div>
 
         <nav className="sidebar-nav">
           <div className="stagger-item delay-2">
             <NavLink to="/dashboard" end id="nav-dashboard">
               <span className="nav-icon"><DashboardIcon size={20} /></span>
-              {!sidebarCollapsed && 'Overview'}
+              {!sidebarCollapsed && 'Dashboard'}
             </NavLink>
           </div>
           {user?.email === 'agrathod0701@gmail.com' && (
@@ -204,16 +216,7 @@ function AppShell() {
             <div className="page-title">{pageTitle}</div>
           </div>
           <div className="top-bar-actions">
-            <button 
-              className="theme-toggle-pill" 
-              onClick={toggleTheme} 
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
-                {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}
-              </div>
-            </button>
+            {/* Theme toggle moved to sidebar */}
           </div>
         </header>
 
