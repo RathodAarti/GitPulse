@@ -78,6 +78,7 @@ function AppShell() {
 
   // Sidebar Collapse State
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [sidebarMobileOpen, setSidebarMobileOpen] = useState(false)
   
   // Track if cinematic intro has played in this session
   const [hasPlayedIntro, setHasPlayedIntro] = useState(() => {
@@ -93,6 +94,11 @@ function AppShell() {
       return () => clearTimeout(timer)
     }
   }, [hasPlayedIntro])
+
+  // Close sidebar on route change for mobile
+  useEffect(() => {
+    setSidebarMobileOpen(false)
+  }, [location.pathname])
 
 
 
@@ -128,12 +134,21 @@ function AppShell() {
 
   return (
     <div className="app-shell">
+      {/* Sidebar Overlay for Mobile */}
+      {sidebarMobileOpen && (
+        <div 
+          className="sidebar-overlay"
+          onClick={() => setSidebarMobileOpen(false)}
+        />
+      )}
+      
       {/* Sidebar */}
       <aside 
-        className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`} 
+        className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${sidebarMobileOpen ? 'mobile-open' : ''}`} 
         id="sidebar"
         role="navigation"
         aria-label="Main navigation"
+        ref={sidebarRef}
       >
         {/* User Profile Section */}
         <div className="sidebar-profile stagger-item delay-1">
@@ -221,6 +236,13 @@ function AppShell() {
       <main className={`main-content ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <header className="top-bar stagger-item delay-1" id="top-bar">
           <div className="top-bar-left">
+            <button 
+              className="mobile-hamburger-btn"
+              onClick={() => setSidebarMobileOpen(!sidebarMobileOpen)}
+              aria-label="Toggle mobile menu"
+            >
+              {sidebarMobileOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
+            </button>
             <Logo size={32} className="top-bar-logo" />
             <div className="page-title">{pageTitle}</div>
           </div>

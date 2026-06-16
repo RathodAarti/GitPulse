@@ -2694,6 +2694,82 @@ a, button, .card, .repo-card, .feature-card {
   left: 80px;
 }
 
+/* Mobile Sidebar Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+.mobile-hamburger-btn {
+  display: none;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .mobile-hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px !important;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  
+  .sidebar.collapsed {
+    transform: translateX(-80px);
+  }
+  
+  .sidebar.collapsed.mobile-open {
+    transform: translateX(0);
+  }
+  
+  .sidebar-toggle-indicator {
+    display: none;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+  
+  .sidebar-profile {
+    padding: 24px 20px 20px;
+  }
+  
+  .sidebar-user .user-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+  }
+  
+  .sidebar-user .name {
+    font-size: 1rem;
+  }
+  
+  .sidebar-user .role {
+    font-size: 0.85rem;
+  }
+}
+
 .sidebar-profile {
   padding: 32px 24px 24px;
   border-bottom: 1px solid rgba(255,255,255,0.1);
