@@ -739,15 +739,26 @@ a, button, .card, .repo-card, .feature-card {
 /* ===== PublicNavbar Hamburger Button ===== */
 .nav-hamburger {
   display: none;
-  background: none;
+  background: var(--primary);
   border: none;
   cursor: pointer;
-  color: var(--text-primary);
+  color: white;
   width: 48px;
   height: 48px;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
+  transition: all 0.2s var(--ease-premium);
+  box-shadow: 0 4px 12px var(--primary-light);
+}
+
+.nav-hamburger:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px var(--primary-light);
+}
+
+.nav-hamburger:active {
+  transform: scale(0.98);
 }
 
 @media (max-width: 768px) {
