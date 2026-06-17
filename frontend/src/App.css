@@ -5194,6 +5194,106 @@ button:active,
   }
 }
 
+/* Support Widget: Full Screen Mode */
+.sw-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  border-radius: 0 !important;
+  z-index: 9999 !important;
+}
+
+.sw-fullscreen .sw-chat-body {
+  height: calc(100vh - 120px);
+}
+
+/* Support Widget: Input Area */
+.sw-input-area {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.sw-input-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.sw-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.sw-input:focus {
+  border-color: var(--primary);
+}
+
+.sw-input::placeholder {
+  color: var(--text-muted);
+}
+
+.sw-send-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.sw-send-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.sw-send-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.sw-send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Support Widget: Header Actions */
+.sw-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sw-fullscreen-btn {
+  padding: 8px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.sw-fullscreen-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 /* ===== Social Login Modal ===== */
 .social-modal-overlay {
   position: fixed;

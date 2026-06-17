@@ -57,6 +57,28 @@ export function XIcon({ size = 18, color = 'currentColor' }) {
   )
 }
 
+export function MaximizeIcon({ size = 18, color = 'currentColor' }) {
+  return (
+    <svg style={s} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 3H3v5" />
+      <path d="M21 8V3h-5" />
+      <path d="M3 16v5h5" />
+      <path d="M16 21h5v-5" />
+    </svg>
+  )
+}
+
+export function MinimizeIcon({ size = 18, color = 'currentColor' }) {
+  return (
+    <svg style={s} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 14h6v6" />
+      <path d="M20 10h-6V4" />
+      <path d="M14 10l7-7" />
+      <path d="M3 21l7-7" />
+    </svg>
+  )
+}
+
 export function ArrowLeftIcon({ size = 18, color = 'currentColor' }) {
   return (
     <svg style={s} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
