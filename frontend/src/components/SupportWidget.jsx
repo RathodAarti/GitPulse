@@ -126,14 +126,14 @@ export default function SupportWidget() {
       setTimeout(() => {
         addMsg(
           MSG.BOT,
-          'Great! I am glad I could help. If you have any more questions, feel free to reach out anytime.'
+          'Great! I am glad I could help. If you have any more questions, feel free to reach out anytime. If you have further queries, please contact us at: agrathod0701@gmail.com'
         )
       }, 300)
     } else {
       setTimeout(() => {
         addMsg(
           MSG.BOT,
-          'I apologize. Could you please provide more details about your issue so I can better assist you?'
+          'I apologize. Please contact us directly for further assistance: agrathod0701@gmail.com'
         )
       }, 300)
     }

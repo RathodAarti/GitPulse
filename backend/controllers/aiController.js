@@ -155,17 +155,22 @@ Common topics and how to handle them:
 - AI Insights → click "Generate Insights" on any repository analytics page
 
 Do NOT make up features. If unsure, say the support team will follow up within 24 hours.
-Reply directly without greetings or sign-offs.`
+Reply directly without greetings or sign-offs.
+At the end of your response, add: "If you have further queries, please contact us at: agrathod0701@gmail.com"`
 
     const completion = await getGroq().chat.completions.create({
       model: 'llama-3.1-8b-instant',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.4,
-      max_tokens: 180,
+      max_tokens: 200,
     })
 
-    const reply = completion.choices[0]?.message?.content ||
-      'Thank you for reaching out. Our support team will review your query and respond within 24 hours.'
+    let reply = completion.choices[0]?.message?.content ||
+      'Thank you for reaching out. Our support team will review your query and respond within 24 hours. If you have further queries, please contact us at: agrathod0701@gmail.com'
+    
+    if (!reply.includes('agrathod0701@gmail.com')) {
+      reply += '\n\nIf you have further queries, please contact us at: agrathod0701@gmail.com'
+    }
 
     res.status(200).json({ success: true, reply })
   } catch (error) {
