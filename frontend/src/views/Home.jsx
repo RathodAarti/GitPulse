@@ -133,11 +133,11 @@ export default function Home() {
       {/* Prominent Dashboard Header */}
       <div className="dashboard-header reveal-on-scroll">
         <div className="dashboard-header-content">
-          <Logo size={64} showText={true} className="dashboard-header-logo" />
           <div className="dashboard-header-text">
             <h1 className="dashboard-header-title">Cross-Repository Pulse Analytics</h1>
             <p className="dashboard-header-subtitle">Real-time insights into your GitHub repositories and development activity</p>
           </div>
+          <Logo size={64} showText={true} className="dashboard-header-logo" />
         </div>
       </div>
 
