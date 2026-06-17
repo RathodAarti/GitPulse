@@ -2,7 +2,7 @@ import { useState, useEffect, Suspense, lazy, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, NavLink, useLocation, Link } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
-import { DashboardIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, MenuIcon, XIcon, LogoutIcon, ShieldIcon } from './components/Icons'
+import { DashboardIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, MenuIcon, XIcon, LogoutIcon, ShieldIcon, EditIcon } from './components/Icons'
 import Logo from './components/Logo'
 import SplashScreen from './GitPulse/SplashScreen'
 import SupportWidget from './components/SupportWidget'
@@ -160,6 +160,14 @@ function AppShell() {
                 <div className="role">{user?.email || 'Administrator'}</div>
               </div>
             )}
+            <NavLink
+              to="/dashboard/settings"
+              className="edit-profile-btn"
+              aria-label="Edit profile"
+              title="Edit profile"
+            >
+              <EditIcon size={16} />
+            </NavLink>
           </div>
         </div>
 

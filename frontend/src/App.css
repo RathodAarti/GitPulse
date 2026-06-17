@@ -2928,6 +2928,35 @@ a, button, .card, .repo-card, .feature-card {
   text-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
+.edit-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.edit-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.edit-profile-btn:active {
+  transform: scale(0.98);
+}
+
+.sidebar.collapsed .edit-profile-btn {
+  margin-top: 8px;
+}
+
 .sidebar-brand {
   padding: 24px;
   display: flex;
