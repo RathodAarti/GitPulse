@@ -2762,6 +2762,10 @@ a, button, .card, .repo-card, .feature-card {
   background: var(--primary);
 }
 
+.sidebar-toggle-indicator span {
+  transform: none !important;
+}
+
 .sidebar.collapsed ~ .sidebar-toggle-indicator {
   left: 80px;
 }
@@ -3267,7 +3271,6 @@ a, button, .card, .repo-card, .feature-card {
   color: var(--alert);
   background: rgba(231, 76, 60, 0.1);
   opacity: 1;
-  transform: scale(1.05);
 }
 
 /* ===== Responsive Navigation & Overlays ===== */
@@ -4909,7 +4912,7 @@ button:active,
 .theme-toggle-pill:active,
 .logout-mini-btn:active,
 .sidebar-close-btn:active {
-  transform: scale(0.95) !important;
+  /* Disable scale/transform on these buttons to prevent icon movement */
 }
 
 /* ===== Settings Email Warning callout ===== */
@@ -5436,12 +5439,11 @@ button:active,
   font-size: 0.9rem;
   cursor: pointer;
   box-shadow: 0 6px 24px rgba(139, 92, 246, 0.45);
-  transition: all 0.25s var(--ease-premium);
+  transition: background 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease, border-radius 0.25s ease;
 }
 
 .support-widget-fab:hover {
   background: var(--primary-dark, #7c3aed);
-  transform: translateY(-3px);
   box-shadow: 0 10px 32px rgba(139, 92, 246, 0.55);
 }
 
@@ -5459,19 +5461,29 @@ button:active,
   letter-spacing: 0.2px;
 }
 
-.support-widget-panel {
-  position: fixed;
-  bottom: 90px;
-  right: 28px;
-  z-index: 7999;
-  width: 380px;
-  max-width: calc(100vw - 40px);
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  overflow: hidden;
-  animation: widgetSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Mobile Support Widget Styles */
+@media (max-width: 768px) {
+  .support-widget-fab {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    z-index: 998; /* Below sidebar (1001) and overlay (999) */
+  }
+
+  .support-widget-fab.is-open {
+    padding: 10px;
+    border-radius: 50%;
+  }
+  
+  .support-widget-panel {
+    bottom: 70px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
+    z-index: 997;
+  }
 }
 
 @keyframes widgetSlideUp {
