@@ -3029,23 +3029,23 @@ a, button, .card, .repo-card, .feature-card {
 
 .sidebar-theme-toggle {
   width: 100%;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   padding: 10px 14px;
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  color: var(--text-primary);
-  font-weight: 500;
+  color: white;
+  font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.2s ease;
 }
 
 .sidebar-theme-toggle:hover {
-  background: var(--primary-light);
-  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .sidebar.collapsed .sidebar-theme-toggle {
@@ -3088,10 +3088,10 @@ a, button, .card, .repo-card, .feature-card {
   gap: 12px;
   padding: 10px 12px;
   border-radius: 8px;
-  color: var(--sidebar-text);
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 0.95rem;
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
@@ -3114,8 +3114,8 @@ a, button, .card, .repo-card, .feature-card {
 .sidebar-nav div:nth-child(3) a { animation-delay: 0.2s; }
 
 .sidebar-nav a:hover {
-  background: var(--primary-light);
-  color: var(--sidebar-text-hover);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .sidebar.collapsed .sidebar-nav a:hover {
@@ -3123,9 +3123,9 @@ a, button, .card, .repo-card, .feature-card {
 }
 
 .sidebar-nav a.active {
-  background: var(--primary);
+  background: rgba(255, 255, 255, 0.2);
   color: white;
-  box-shadow: 0 2px 8px var(--primary-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .sidebar-nav a.active::before {
@@ -3143,7 +3143,7 @@ a, button, .card, .repo-card, .feature-card {
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  color: var(--accent);
+  color: white;
 }
 
 .sidebar-nav a:hover .nav-icon {
@@ -3204,7 +3204,7 @@ a, button, .card, .repo-card, .feature-card {
 .sidebar-user .user-info .name {
   font-size: 0.88rem;
   font-weight: 700;
-  color: var(--sidebar-text-hover);
+  color: white;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3212,14 +3212,14 @@ a, button, .card, .repo-card, .feature-card {
 
 .sidebar-user .user-info .role {
   font-size: 0.7rem;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
 }
 
 .logout-mini-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   width: 48px;
   height: 48px;
@@ -3232,8 +3232,8 @@ a, button, .card, .repo-card, .feature-card {
 }
 
 .logout-mini-btn:hover {
-  color: var(--alert);
-  background: rgba(231, 76, 60, 0.1);
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
   opacity: 1;
 }
 
