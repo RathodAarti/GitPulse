@@ -235,8 +235,7 @@ function AppShell() {
             >
               {sidebarMobileOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
             </button>
-            <Logo size={32} className="top-bar-logo" />
-            <div className="page-title">{pageTitle}</div>
+            <Logo size={40} showText={true} className="top-bar-logo" />
           </div>
           <div className="top-bar-actions">
             {/* Theme toggle moved to sidebar */}
