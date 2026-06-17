@@ -577,34 +577,53 @@ a, button, .card, .repo-card, .feature-card {
 
 /* ===== Responsive Layout Adjustments ===== */
 @media (max-width: 1024px) {
-  .app-shell {
-    flex-direction: column;
+  .mobile-hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .sidebar {
-    width: 280px;
-    position: fixed;
-    height: 100vh;
-    left: -280px;
-    z-index: 1001;
-    transition: left var(--duration-normal) var(--ease-premium);
+    transform: translateX(-100%);
+    width: 280px !important;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
   }
   
-  .sidebar.open {
-    left: 0;
+  .sidebar.collapsed {
+    transform: translateX(-80px);
+  }
+  
+  .sidebar.collapsed.mobile-open {
+    transform: translateX(0);
+  }
+  
+  .sidebar-toggle-indicator {
+    display: none;
   }
   
   .main-content {
-    margin-left: 0;
-    width: 100%;
+    margin-left: 0 !important;
   }
-
-  .hamburger-btn {
-    display: flex;
+  
+  .sidebar-profile {
+    padding: 24px 20px 20px;
   }
-
-  .page-body {
-    padding-top: 80px;
+  
+  .sidebar-user .user-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+  }
+  
+  .sidebar-user .name {
+    font-size: 1rem;
+  }
+  
+  .sidebar-user .role {
+    font-size: 0.85rem;
   }
 }
 
@@ -2907,61 +2926,6 @@ a, button, .card, .repo-card, .feature-card {
   color: rgba(255,255,255,0.9);
   font-weight: 500;
   text-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-/* Mobile Responsive Styles */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 80px;
-  }
-
-  .sidebar:not(.collapsed) {
-    width: 280px;
-  }
-
-  .main-content {
-    margin-left: 80px;
-  }
-
-  .main-content:not(.collapsed) {
-    margin-left: 280px;
-  }
-
-  .sidebar-toggle-indicator {
-    left: 80px;
-  }
-
-  .sidebar:not(.collapsed) ~ .sidebar-toggle-indicator {
-    left: 280px;
-  }
-
-  .sidebar-profile {
-    padding: 24px 16px 20px;
-  }
-
-  .sidebar:not(.collapsed) .sidebar-profile {
-    padding: 24px 20px 20px;
-  }
-
-  .sidebar-user .user-avatar {
-    width: 48px;
-    height: 48px;
-    font-size: 1.1rem;
-  }
-
-  .sidebar:not(.collapsed) .sidebar-user .user-avatar {
-    width: 56px;
-    height: 56px;
-    font-size: 1.25rem;
-  }
-
-  .sidebar:not(.collapsed) .sidebar-user .name {
-    font-size: 1rem;
-  }
-
-  .sidebar:not(.collapsed) .sidebar-user .role {
-    font-size: 0.85rem;
-  }
 }
 
 .sidebar-brand {
