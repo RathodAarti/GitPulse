@@ -125,7 +125,7 @@ export default function Settings() {
   return (
     <div className="settings-page animate-slide-up" id="settings-page">
       <div className="section-header">
-        <h2>Account Settings</h2>
+        <h2>Dashboard Settings</h2>
       </div>
 
       <div className="settings-grid">

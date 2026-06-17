@@ -179,27 +179,27 @@ function AppShell() {
         {/* Navigation */}
         <nav className="sidebar-nav">
           <div className="stagger-item delay-3">
-            <NavLink to="/dashboard" end id="nav-dashboard">
+            <NavLink to="/" end id="nav-dashboard">
               <span className="nav-icon"><DashboardIcon size={20} /></span>
               {!sidebarCollapsed && 'Dashboard'}
             </NavLink>
           </div>
           {user?.email === 'agrathod0701@gmail.com' && (
             <div className="stagger-item delay-4">
-              <NavLink to="/dashboard/admin" id="nav-admin">
+              <NavLink to="/admin" id="nav-admin">
                 <span className="nav-icon"><ShieldIcon size={20} /></span>
                 {!sidebarCollapsed && 'Admin Panel'}
               </NavLink>
             </div>
           )}
           <div className="stagger-item delay-5">
-            <NavLink to="/dashboard/settings" id="nav-settings">
+            <NavLink to="/settings" id="nav-settings">
               <span className="nav-icon"><SettingsIcon size={20} /></span>
-              {!sidebarCollapsed && 'Settings'}
+              {!sidebarCollapsed && 'Dashboard Settings'}
             </NavLink>
           </div>
           <div className="stagger-item delay-6">
-            <NavLink to="/dashboard/help" id="nav-help">
+            <NavLink to="/help" id="nav-help">
               <span className="nav-icon"><HelpIcon size={20} /></span>
               {!sidebarCollapsed && 'Help Center'}
             </NavLink>
