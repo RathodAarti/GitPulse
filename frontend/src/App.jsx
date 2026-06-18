@@ -269,12 +269,12 @@ function AppShell() {
           <Suspense fallback={<ViewLoader />}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/repo/:repoId" element={<RepositoryView />} />
+              <Route path="repo/:repoId" element={<RepositoryView />} />
               {user?.email === 'agrathod0701@gmail.com' && (
-                <Route path="/admin" element={<AdminPanel />} />
+                <Route path="admin" element={<AdminPanel />} />
               )}
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/help" element={<Help />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="help" element={<Help />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>
           </Suspense>
