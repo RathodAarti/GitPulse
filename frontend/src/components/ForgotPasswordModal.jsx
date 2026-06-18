@@ -57,8 +57,14 @@ export default function ForgotPasswordModal({ onClose }) {
   }
 
   return (
-    <div className="social-modal-overlay" onClick={onClose}>
-      <div className="social-modal forgot-pw-modal" onClick={e => e.stopPropagation()}>
+    <div className="social-modal-overlay" onClick={onClose} role="presentation">
+      <div 
+        className="social-modal forgot-pw-modal" 
+        onClick={e => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Reset Password"
+      >
 
         {/* Header */}
         <div className="social-modal-header" style={{ background: 'linear-gradient(135deg, #7c3aed 0%, var(--primary) 100%)' }}>
