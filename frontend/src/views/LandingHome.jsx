@@ -11,6 +11,11 @@ export default function LandingHome() {
 
   return (
     <div className="landing-page">
+      <div className="landing-bg-gradient">
+        <div className="landing-bg-circle landing-bg-circle-1"></div>
+        <div className="landing-bg-circle landing-bg-circle-2"></div>
+        <div className="landing-bg-circle landing-bg-circle-3"></div>
+      </div>
       <PublicNavbar />
       
       {/* Hero Section */}
@@ -28,50 +33,60 @@ export default function LandingHome() {
               <span className="tagline-word">in</span>
               <span className="tagline-word highlight-realtime">Real-Time.</span>
             </h1>
-            <p>
+            <p className="hero-description">
               Elevate your engineering oversight with high-fidelity telemetry. 
               Unify cross-repository signals, visualize velocity trends, 
               and empower your lead contributors through data-driven recognition.
             </p>
             <div className="hero-cta-row stagger-item delay-2">
-          <Link to="/login?tab=signup" className="btn btn-primary btn-large" aria-label="Get Started">
-            Get Started <span className="arrow" aria-hidden="true">→</span>
-          </Link>
-        </div>
+              <Link to="/login?tab=signup" className="btn btn-primary btn-large btn-hero" aria-label="Get Started">
+                Get Started <span className="arrow" aria-hidden="true">→</span>
+              </Link>
+              <Link to="/login" className="btn btn-secondary btn-large btn-hero-outline" aria-label="Login">
+                Login
+              </Link>
+            </div>
             <div className="hero-meta-text stagger-item delay-3">
               Standardized by elite engineering teams. No configuration required.
             </div>
           </div>
           
           <div className="hero-visual stagger-item delay-4">
-            <div className="hero-stats-preview">
-              <div className="hero-stat-item">
-                <div className="hero-stat-icon"><RepoIcon size={20} /></div>
-                <div className="hero-stat-info">
-                  <span className="hero-stat-num">50+</span>
-                  <span className="hero-stat-label">Repositories Tracked</span>
+            <div className="hero-visual-card">
+              <div className="hero-stats-preview">
+                <div className="hero-stat-item">
+                  <div className="hero-stat-icon"><RepoIcon size={20} /></div>
+                  <div className="hero-stat-info">
+                    <span className="hero-stat-num">50+</span>
+                    <span className="hero-stat-label">Repositories Tracked</span>
+                  </div>
+                </div>
+                <div className="hero-stat-item">
+                  <div className="hero-stat-icon"><ZapIcon size={20} /></div>
+                  <div className="hero-stat-info">
+                    <span className="hero-stat-num">Real-time</span>
+                    <span className="hero-stat-label">Commit Analytics</span>
+                  </div>
+                </div>
+                <div className="hero-stat-item">
+                  <div className="hero-stat-icon"><TrophyIcon size={20} /></div>
+                  <div className="hero-stat-info">
+                    <span className="hero-stat-num">Top</span>
+                    <span className="hero-stat-label">Contributor Leaderboard</span>
+                  </div>
+                </div>
+                <div className="hero-stat-item">
+                  <div className="hero-stat-icon"><ShieldIcon size={20} /></div>
+                  <div className="hero-stat-info">
+                    <span className="hero-stat-num">Secure</span>
+                    <span className="hero-stat-label">JWT Authentication</span>
+                  </div>
                 </div>
               </div>
-              <div className="hero-stat-item">
-                <div className="hero-stat-icon"><ZapIcon size={20} /></div>
-                <div className="hero-stat-info">
-                  <span className="hero-stat-num">Real-time</span>
-                  <span className="hero-stat-label">Commit Analytics</span>
-                </div>
-              </div>
-              <div className="hero-stat-item">
-                <div className="hero-stat-icon"><TrophyIcon size={20} /></div>
-                <div className="hero-stat-info">
-                  <span className="hero-stat-num">Top</span>
-                  <span className="hero-stat-label">Contributor Leaderboard</span>
-                </div>
-              </div>
-              <div className="hero-stat-item">
-                <div className="hero-stat-icon"><ShieldIcon size={20} /></div>
-                <div className="hero-stat-info">
-                  <span className="hero-stat-num">Secure</span>
-                  <span className="hero-stat-label">JWT Authentication</span>
-                </div>
+              <div className="hero-visual-decoration">
+                <div className="hero-decoration-dot hero-decoration-dot-1"></div>
+                <div className="hero-decoration-dot hero-decoration-dot-2"></div>
+                <div className="hero-decoration-dot hero-decoration-dot-3"></div>
               </div>
             </div>
           </div>
@@ -127,9 +142,9 @@ export default function LandingHome() {
           <div className="footer-main">
             <Logo size={40} showText={true} />
             <h2>Experience the Heartbeat.</h2>
-            <Link to="/login?tab=signup" className="btn btn-primary btn-large">
-            Get Started →
-          </Link>
+            <Link to="/login?tab=signup" className="btn btn-primary btn-large btn-hero">
+              Get Started →
+            </Link>
           </div>
           
           <div className="footer-links">
