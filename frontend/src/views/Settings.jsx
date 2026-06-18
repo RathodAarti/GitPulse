@@ -253,8 +253,6 @@ export default function Settings() {
     { id: 'security', label: 'Security & privacy' },
     { id: 'pat-management', label: 'PAT Management' },
     { id: 'security-reset', label: 'Security Reset' },
-    { id: 'mobile', label: 'Mobile' },
-    { id: 'friends', label: 'Find friends' },
     { id: 'history', label: 'History' },
   ]
 
