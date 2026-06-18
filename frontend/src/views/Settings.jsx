@@ -77,7 +77,7 @@ export default function Settings() {
     // Preview the image
     const reader = new FileReader()
     reader.onload = (event) => {
-      const result = event.target?.result as string
+      const result = event.target?.result
       setProfilePhoto(result)
       setProfileMessage({ type: 'success', text: 'Profile photo updated successfully! Click save to apply changes' })
     }
