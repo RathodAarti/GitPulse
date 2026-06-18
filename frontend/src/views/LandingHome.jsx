@@ -129,7 +129,7 @@ export default function LandingHome() {
           </div>
           
           <div className="feature-grid">
-            <div className="feature-card stagger-item delay-6" tabIndex="0">
+            <div className="feature-card stagger-item delay-6">
               <div className="feature-icon-wrapper" aria-hidden="true">
                 <ZapIcon size={24} />
               </div>
@@ -140,7 +140,7 @@ export default function LandingHome() {
               </p>
             </div>
             
-            <div className="feature-card stagger-item delay-7" tabIndex="0">
+            <div className="feature-card stagger-item delay-7">
               <div className="feature-icon-wrapper" aria-hidden="true">
                 <ShieldIcon size={24} />
               </div>
@@ -151,7 +151,7 @@ export default function LandingHome() {
               </p>
             </div>
             
-            <div className="feature-card stagger-item delay-8" tabIndex="0">
+            <div className="feature-card stagger-item delay-8">
               <div className="feature-icon-wrapper" aria-hidden="true">
                 <TrophyIcon size={24} />
               </div>
@@ -177,10 +177,10 @@ export default function LandingHome() {
           
           <div className="footer-links">
             <div className="link-group">
-              <a href="#">Engineering Docs</a>
-              <a href="#">Source Intelligence</a>
-              <a href="#">System Integrity</a>
-              <a href="#">Compliance</a>
+              <span className="footer-link-placeholder">Engineering Docs</span>
+              <span className="footer-link-placeholder">Source Intelligence</span>
+              <span className="footer-link-placeholder">System Integrity</span>
+              <span className="footer-link-placeholder">Compliance</span>
             </div>
           </div>
 
