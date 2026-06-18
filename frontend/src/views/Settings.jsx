@@ -20,6 +20,7 @@ export default function Settings() {
   const [language, setLanguage] = useState('English')
   const [country, setCountry] = useState('')
   const [city, setCity] = useState('')
+  const [profilePhoto, setProfilePhoto] = useState(user?.profilePhoto || 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f09?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80')
 
   // Password & Security
   const [currentPassword, setCurrentPassword] = useState('')
@@ -49,6 +50,39 @@ export default function Settings() {
   const [profileMessage, setProfileMessage] = useState(null)
   const [tokenMessage, setTokenMessage] = useState(null)
   const [connectionStatus, setConnectionStatus] = useState(null)
+
+  // Profile Photo Upload Handlers
+  const handleProfilePhotoClick = () => {
+    document.getElementById('profile-photo-input')?.click()
+  }
+
+  const handleProfilePhotoChange = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file format
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+    if (!allowedTypes.includes(file.type)) {
+      setProfileMessage({ type: 'error', text: 'Only JPG, PNG, and WebP formats are supported' })
+      return
+    }
+
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024 // 5MB in bytes
+    if (file.size > maxSize) {
+      setProfileMessage({ type: 'error', text: 'File size must be less than 5MB' })
+      return
+    }
+
+    // Preview the image
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const result = event.target?.result as string
+      setProfilePhoto(result)
+      setProfileMessage({ type: 'success', text: 'Profile photo updated successfully! Click save to apply changes' })
+    }
+    reader.readAsDataURL(file)
+  }
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                   'July', 'August', 'September', 'October', 'November', 'December']
@@ -159,15 +193,30 @@ export default function Settings() {
         {/* Left Sidebar */}
         <div className="new-settings-sidebar">
           <div className="new-settings-profile-section">
-            <div className="new-settings-avatar-wrapper">
+            <input 
+              type="file" 
+              id="profile-photo-input" 
+              accept="image/jpeg,image/png,image/webp" 
+              style={{ display: 'none' }} 
+              onChange={handleProfilePhotoChange} 
+            />
+            <div className="new-settings-avatar-wrapper" onClick={handleProfilePhotoClick}>
               <img 
-                src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f09?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                src={profilePhoto}
                 alt="User Avatar" 
                 className="new-settings-avatar"
               />
+              <div className="new-settings-avatar-overlay">
+                <div className="new-settings-avatar-overlay-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#cc2b5e' }}>
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                </div>
+              </div>
             </div>
             <h3 className="new-settings-username">{name || "Your Name"}</h3>
-            <p className="new-settings-avatar-hint">(Click to change your photo)</p>
+            <p className="new-settings-avatar-hint" onClick={handleProfilePhotoClick}>(Click to change your photo)</p>
             <div className="new-settings-divider"></div>
           </div>
           
