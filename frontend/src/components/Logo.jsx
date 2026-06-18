@@ -55,8 +55,8 @@ export const Logo = ({
           </defs>
 
           {/* Animated pulse rings */}
-          <circle cx="32" cy="32" r="26" stroke="url(#pulseGradId)" strokeWidth="2" fill="none" opacity="0.35" className="logo-pulse-ring-1" />
-          <circle cx="32" cy="32" r="29" stroke="url(#pulseGradId)" strokeWidth="2" fill="none" opacity="0.2" className="logo-pulse-ring-2" />
+          <circle cx="32" cy="32" r="26" stroke={`url(#${pulseGradId})`} strokeWidth="2" fill="none" opacity="0.35" className="logo-pulse-ring-1" />
+          <circle cx="32" cy="32" r="29" stroke={`url(#${pulseGradId})`} strokeWidth="2" fill="none" opacity="0.2" className="logo-pulse-ring-2" />
 
           {/* Badge background */}
           <rect x="3" y="3" width="58" height="58" rx="16" fill={`url(#${gradId})`} className="logo-badge" />
