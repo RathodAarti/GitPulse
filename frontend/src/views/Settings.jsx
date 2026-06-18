@@ -65,7 +65,6 @@ export default function Settings() {
 
   // Security Reset State
   const [resetStep, setResetStep] = useState(1)
-  const [confirmPassword, setConfirmPassword] = useState('')
   const [resetError, setResetError] = useState(null)
   const [showResetConfirmation, setShowResetConfirmation] = useState(false)
 
