@@ -93,48 +93,76 @@ export default function LandingHome() {
         </div>
       </section>
 
-      {/* Core Features Matrix */}
-      <section className="features-matrix">
-        <div className="section-header text-center stagger-item delay-5">
-          <h2 className="section-title">Engineered for Precision</h2>
-          <p className="section-subtitle">A high-performance observability layer designed for elite engineering workspaces.</p>
-        </div>
-        
-        <div className="feature-grid">
-          <div className="feature-card stagger-item delay-6" tabIndex="0">
-            <div className="feature-icon-wrapper" aria-hidden="true">
-              <ZapIcon size={24} />
+      {/* Logo Variations Showcase */}
+        <section className="logo-showcase">
+          <div className="section-header text-center stagger-item">
+            <h2 className="section-title">Brand Identity</h2>
+            <p className="section-subtitle">Multiple logo variations for every use case</p>
+          </div>
+          <div className="logo-showcase-grid">
+            <div className="logo-showcase-card">
+              <h3 className="logo-showcase-title">Horizontal (Default)</h3>
+              <div className="logo-showcase-content">
+                <Logo size={56} showText={true} variation="horizontal" />
+              </div>
             </div>
-            <h3>Unified Signal Aggregator</h3>
-            <p>
-              Leverage simultaneous asynchronous telemetry extraction to maintain 
-              zero-latency oversight across your entire repository portfolio.
-            </p>
+            <div className="logo-showcase-card">
+              <h3 className="logo-showcase-title">Vertical</h3>
+              <div className="logo-showcase-content">
+                <Logo size={72} showText={true} variation="vertical" />
+              </div>
+            </div>
+            <div className="logo-showcase-card">
+              <h3 className="logo-showcase-title">Icon Only</h3>
+              <div className="logo-showcase-content">
+                <Logo size={80} showText={false} variation="icon-only" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Core Features Matrix */}
+        <section className="features-matrix">
+          <div className="section-header text-center stagger-item delay-5">
+            <h2 className="section-title">Engineered for Precision</h2>
+            <p className="section-subtitle">A high-performance observability layer designed for elite engineering workspaces.</p>
           </div>
           
-          <div className="feature-card stagger-item delay-7" tabIndex="0">
-            <div className="feature-icon-wrapper" aria-hidden="true">
-              <ShieldIcon size={24} />
+          <div className="feature-grid">
+            <div className="feature-card stagger-item delay-6" tabIndex="0">
+              <div className="feature-icon-wrapper" aria-hidden="true">
+                <ZapIcon size={24} />
+              </div>
+              <h3>Unified Signal Aggregator</h3>
+              <p>
+                Leverage simultaneous asynchronous telemetry extraction to maintain
+                zero-latency oversight across your entire repository portfolio.
+              </p>
             </div>
-            <h3>Secure Telemetry Cache</h3>
-            <p>
-              Our proprietary 20-minute validation engine ensures rapid-fire transitions 
-              while eliminating redundant network overhead and API throttling.
-            </p>
-          </div>
-          
-          <div className="feature-card stagger-item delay-8" tabIndex="0">
-            <div className="feature-icon-wrapper" aria-hidden="true">
-              <TrophyIcon size={24} />
+            
+            <div className="feature-card stagger-item delay-7" tabIndex="0">
+              <div className="feature-icon-wrapper" aria-hidden="true">
+                <ShieldIcon size={24} />
+              </div>
+              <h3>Secure Telemetry Cache</h3>
+              <p>
+                Our proprietary 20-minute validation engine ensures rapid-fire transitions
+                while eliminating redundant network overhead and API throttling.
+              </p>
             </div>
-            <h3>Velocity Recognition</h3>
-            <p>
-              Identify and reward peak engineering performance with ranked contribution 
-              matrices and automated high-impact contributor badges.
-            </p>
+            
+            <div className="feature-card stagger-item delay-8" tabIndex="0">
+              <div className="feature-icon-wrapper" aria-hidden="true">
+                <TrophyIcon size={24} />
+              </div>
+              <h3>Velocity Recognition</h3>
+              <p>
+                Identify and reward peak engineering performance with ranked contribution
+                matrices and automated high-impact contributor badges.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Footer */}
       <footer className="landing-footer">
