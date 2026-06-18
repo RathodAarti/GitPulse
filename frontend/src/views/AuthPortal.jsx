@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { Navigate, Link, useLocation } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon, GithubIcon, GoogleIcon, LinkedinIcon, ArrowLeftIcon } from '../components/Icons'
+import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon } from '../components/Icons'
 import Logo from '../components/Logo'
 import PublicNavbar from '../components/PublicNavbar'
 import SocialLoginModal from '../components/SocialLoginModal'
@@ -139,21 +139,20 @@ export default function AuthPortal() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
-  const [animateError, setAnimateError] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [particleTrigger, setParticleTrigger] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [socialModal, setSocialModal] = useState(null)
-  const [showForgotPw, setShowForgotPw] = useState(false) // 'google' | 'github' | 'linkedin' | null
+  const [showForgotPw, setShowForgotPw] = useState(false)
 
   const cardRef = useRef(null)
   const overlayRef = useRef(null)
 
+  // Redirect AFTER all hooks — Rules of Hooks compliant
   if (isAuthenticated) return <Navigate to="/dashboard" replace />
 
   const triggerShake = () => {
-    // Removed shake animation — just show error message, no vibration
-    setAnimateError(false)
+    // no-op kept for call-site compatibility
   }
 
   const validateField = (name, value) => {
