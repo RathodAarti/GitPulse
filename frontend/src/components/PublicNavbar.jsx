@@ -122,19 +122,20 @@ export default function PublicNavbar({ showBackToHome = false }) {
               <XIcon size={24} />
             </button>
 
-            {/* Single button */}
+            {/* Single button — shows correct label based on current tab */}
             <Link 
               to={isSignup ? "/login" : "/login?tab=signup"} 
               onClick={() => setIsMenuOpen(false)}
               className="btn btn-primary btn-large nav-login-btn"
             >
-              {isSignup ? 'Log In' : 'Log In'}
+              {isSignup ? 'Log In' : 'Sign Up'}
             </Link>
 
             <button 
               className="theme-toggle-pill" 
               onClick={toggleTheme} 
               title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
                 {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}
@@ -154,6 +155,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
               className="theme-toggle-pill" 
               onClick={toggleTheme} 
               title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               <div className={`pill-thumb ${theme === 'dark' ? 'is-dark' : ''}`}>
                 {theme === 'dark' ? <MoonIcon size={14} /> : <SunIcon size={14} />}
