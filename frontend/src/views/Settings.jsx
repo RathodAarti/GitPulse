@@ -281,7 +281,7 @@ export default function Settings() {
               />
               <div className="new-settings-avatar-overlay">
                 <div className="new-settings-avatar-overlay-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#512da8' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}>
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                     <circle cx="12" cy="13" r="4"></circle>
                   </svg>
@@ -512,8 +512,8 @@ export default function Settings() {
                   <div 
                     key={pat.id} 
                     style={{ 
-                      border: '1px solid rgba(81,45,168,0.2)', 
-                      borderRadius: '12px', 
+                      border: '1px solid var(--border)', 
+                      borderRadius: 'var(--radius-md)', 
                       padding: '16px', 
                       marginBottom: '12px',
                       opacity: pat.active ? '1' : '0.6'
@@ -527,18 +527,18 @@ export default function Settings() {
                       <span style={{ 
                         padding: '4px 8px', 
                         borderRadius: '4px', 
-                        background: 'rgba(81,45,168,0.15)', 
+                        background: 'var(--primary-light)', 
                       fontSize: '0.8rem', 
-                      color: '#512da8' 
+                      color: 'var(--primary)' 
                       }}>
                         {pat.permissions}
                       </span>
                       <span style={{ 
                         padding: '4px 8px', 
                         borderRadius: '4px', 
-                        background: pat.active ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)', 
+                        background: pat.active ? 'var(--success-bg)' : 'var(--alert-bg)', 
                         fontSize: '0.8rem', 
-                        color: pat.active ? '#10b981' : '#ef4444' 
+                        color: pat.active ? 'var(--success)' : 'var(--alert)' 
                       }}>
                         {pat.active ? 'Active' : 'Revoked'}
                       </span>
@@ -549,11 +549,12 @@ export default function Settings() {
                         style={{ 
                           marginTop: '10px', 
                           background: 'transparent', 
-                          border: '1px solid #ef4444', 
-                          color: '#ef4444',
-                          borderRadius: '8px',
+                          border: '1px solid var(--alert)', 
+                          color: 'var(--alert)',
+                          borderRadius: 'var(--radius-md)',
                           padding: '6px 12px',
-                          cursor: 'pointer'
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease'
                         }}
                       >
                         Revoke
@@ -576,10 +577,11 @@ export default function Settings() {
                   <div style={{ 
                     background: 'var(--bg-card)', 
                     padding: '24px', 
-                    borderRadius: '16px', 
+                    borderRadius: 'var(--radius-lg)', 
                     width: '100%', 
                     maxWidth: '400px',
-                    border: '1px solid rgba(81,45,168,0.2)'
+                    border: '1px solid var(--border)',
+                    boxShadow: 'var(--shadow-xl)'
                   }} onClick={(e) => e.stopPropagation()}>
                     <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Create Personal Access Token</h3>
                     <div className="new-settings-form">
@@ -620,11 +622,13 @@ export default function Settings() {
                           onClick={() => setShowPatModal(false)} 
                           style={{ 
                             flex: 1, 
-                            padding: '10px', 
+                            padding: '12px', 
                             border: '1px solid var(--border)', 
-                            borderRadius: '8px', 
+                            borderRadius: 'var(--radius-md)', 
                             cursor: 'pointer', 
-                            background: 'transparent'
+                            background: 'transparent',
+                            color: 'var(--text-secondary)',
+                            transition: 'all 0.2s ease'
                           }}
                         >
                           Cancel
@@ -691,9 +695,11 @@ export default function Settings() {
                           flex: 1, 
                           padding: '12px', 
                           border: '1px solid var(--border)', 
-                          borderRadius: '8px', 
+                          borderRadius: 'var(--radius-md)', 
                           cursor: 'pointer', 
-                          background: 'transparent'
+                          background: 'transparent',
+                          color: 'var(--text-secondary)',
+                          transition: 'all 0.2s ease'
                         }}
                       >
                         Cancel
@@ -704,10 +710,12 @@ export default function Settings() {
                           flex: 1, 
                           padding: '12px 24px', 
                           border: 'none', 
-                          borderRadius: '8px', 
-                          background: '#dc2626', 
+                          borderRadius: '50px', 
+                          background: 'var(--alert)', 
                           color: 'white', 
-                          cursor: 'pointer' 
+                          cursor: 'pointer',
+                          boxShadow: 'var(--shadow-md)',
+                          transition: 'all 0.2s ease'
                         }}
                       >
                         Confirm Reset
@@ -846,11 +854,12 @@ export default function Settings() {
                   style={{ 
                     flex: 1, 
                     padding: '12px', 
-                    border: '1px solid rgba(81,45,168,0.3)', 
-                    borderRadius: '8px', 
+                    border: '1px solid var(--primary)', 
+                    borderRadius: 'var(--radius-md)', 
                     background: 'transparent', 
-                    color: '#512da8',
-                    cursor: 'pointer'
+                    color: 'var(--primary)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
                   }}
                 >
                   {testingConnection ? 'Checking...' : 'Test Connection'}

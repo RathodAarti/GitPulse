@@ -4097,22 +4097,27 @@ a, button, .card, .repo-card, .feature-card {
 }
 
 .status-header img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+}
 
 /* New Settings Page Styles */
 .new-settings-page {
   width: 100%;
   min-height: 100vh;
   padding: 24px;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-page);
 }
 
 .new-settings-header {
   font-size: 2.2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #512da8 0%, #673ab7 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background: text;
+  background-clip: text;
   text-align: center;
   margin-bottom: 24px;
 }
@@ -4121,19 +4126,19 @@ a, button, .card, .repo-card, .feature-card {
   max-width: 1200px;
   margin: 0 auto;
   background: var(--bg-card);
-  border-radius: 24px;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   display: grid;
   grid-template-columns: 280px 1fr 280px;
   gap: 0;
   overflow: hidden;
-  border: 1px solid rgba(81, 45, 168, 0.1);
+  border: 1px solid var(--border);
 }
 
 .new-settings-sidebar {
-  background: linear-gradient(180deg, rgba(81,45,168,0.12) 0%, rgba(255,255,255,0.95) 100%);
+  background: var(--bg-input);
   padding: 32px 20px;
-  border-right: 1px solid rgba(81,45,168,0.15);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
 }
@@ -4158,15 +4163,15 @@ a, button, .card, .repo-card, .feature-card {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  border: 4px solid white;
-  box-shadow: 0 6px 24px rgba(81,45,168,0.25);
+  border: 4px solid var(--bg-card);
+  box-shadow: var(--shadow-md);
   object-fit: cover;
 }
 
 .new-settings-avatar-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(81,45,168,0.75);
+  background: rgba(81, 45, 168, 0.75);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -4183,7 +4188,7 @@ a, button, .card, .repo-card, .feature-card {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .new-settings-username {
@@ -4201,12 +4206,12 @@ a, button, .card, .repo-card, .feature-card {
 }
 
 .new-settings-avatar-hint:hover {
-  color: #512da8;
+  color: var(--primary);
 }
 
 .new-settings-divider {
   height: 1px;
-  background: rgba(81,45,168,0.15);
+  background: var(--border);
   margin: 20px 0;
 }
 
@@ -4225,20 +4230,20 @@ a, button, .card, .repo-card, .feature-card {
   color: var(--text-secondary);
   background: transparent;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
 }
 
 .new-settings-nav-item:hover {
-  background: rgba(81,45,168,0.08);
-  color: #512da8;
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
 .new-settings-nav-item.active {
-  color: #512da8;
-  background: rgba(81,45,168,0.12);
+  color: var(--primary);
+  background: var(--primary-light);
 }
 
 .new-settings-nav-item.active::after {
@@ -4248,7 +4253,7 @@ a, button, .card, .repo-card, .feature-card {
   top: 15%;
   height: 70%;
   width: 4px;
-  background: linear-gradient(180deg, #512da8 0%, #673ab7 100%);
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-hover) 100%);
   border-radius: 0 4px 4px 0;
 }
 
@@ -4258,16 +4263,16 @@ a, button, .card, .repo-card, .feature-card {
 }
 
 .new-settings-right-column {
-  border-left: 1px solid rgba(81,45,168,0.15);
+  border-left: 1px solid var(--border);
 }
 
 .new-settings-section-title {
   font-size: 1.35rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #512da8 0%, #673ab7 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background: text;
+  background-clip: text;
   margin-bottom: 28px;
 }
 
@@ -4292,24 +4297,26 @@ a, button, .card, .repo-card, .feature-card {
 .new-settings-form-group input,
 .new-settings-form-group select {
   width: 100%;
-  padding: 12px 4px;
-  border: none;
-  border-bottom: 1px solid rgba(0,0,0,0.15);
-  background: transparent;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
   color: var(--text-primary);
   font-size: 1rem;
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.2s var(--ease-premium);
 }
 
 .new-settings-form-group input:focus,
 .new-settings-form-group select:focus {
-  border-bottom-color: #512da8;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .new-settings-form-group input.read-only-input {
-  color: var(--text-tertiary);
+  color: var(--text-muted);
   cursor: default;
+  opacity: 0.7;
 }
 
 .new-settings-birthday-selects {
@@ -4330,7 +4337,7 @@ a, button, .card, .repo-card, .feature-card {
 .new-settings-toggle {
   width: 48px;
   height: 26px;
-  background: #ddd;
+  background: var(--border);
   border-radius: 50px;
   position: relative;
   cursor: pointer;
@@ -4338,7 +4345,7 @@ a, button, .card, .repo-card, .feature-card {
 }
 
 .new-settings-toggle.active {
-  background: linear-gradient(135deg, #512da8 0%, #673ab7 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
 }
 
 .new-settings-toggle-handle {
@@ -4350,7 +4357,7 @@ a, button, .card, .repo-card, .feature-card {
   top: 2px;
   left: 2px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .new-settings-toggle.active .new-settings-toggle-handle {
@@ -4367,23 +4374,30 @@ a, button, .card, .repo-card, .feature-card {
   padding: 12px 36px;
   border: none;
   border-radius: 50px;
-  background: linear-gradient(135deg, #512da8 0%, #673ab7 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: var(--btn-text);
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(81,45,168,0.35);
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s var(--ease-premium);
 }
 
 .new-settings-save-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(81,45,168,0.45);
+  box-shadow: var(--shadow-lg);
+  filter: brightness(1.05);
+}
+
+.new-settings-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .new-settings-alert {
   padding: 14px 18px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -4392,15 +4406,25 @@ a, button, .card, .repo-card, .feature-card {
 }
 
 .new-settings-alert.alert-success {
-  background: rgba(72,187,120,0.1);
-  color: #48bb78;
-  border: 1px solid rgba(72,187,120,0.3);
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
 }
 
 .new-settings-alert.alert-error {
-  background: rgba(229,62,62,0.1);
-  color: #e53e3e;
-  border: 1px solid rgba(229,62,62,0.3);
+  background: var(--alert-bg);
+  color: var(--alert);
+  border: 1px solid var(--alert);
+}
+
+/* Dark Mode Adjustments */
+[data-theme='dark'] .new-settings-sidebar {
+  background: rgba(255,255,255,0.03);
+}
+
+[data-theme='dark'] .new-settings-form-group input,
+[data-theme='dark'] .new-settings-form-group select {
+  background: rgba(255,255,255,0.05);
 }
 
 /* Responsive Design */
@@ -4411,7 +4435,7 @@ a, button, .card, .repo-card, .feature-card {
   .new-settings-right-column {
     grid-column: span 2;
     border-left: none;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--border);
   }
 }
 
@@ -4426,7 +4450,7 @@ a, button, .card, .repo-card, .feature-card {
 
   .new-settings-sidebar {
     border-right: none;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border);
   }
 
   .new-settings-middle-column,
@@ -4437,12 +4461,6 @@ a, button, .card, .repo-card, .feature-card {
   .new-settings-header {
     font-size: 1.75rem;
   }
-}
-
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border);
 }
 
 .status-header h4 {
