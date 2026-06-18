@@ -28,8 +28,8 @@ export default function Settings() {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   // Social Links
-  const [facebookLink, setFacebookLink] = useState('')
-  const [twitterLink, setTwitterLink] = useState('')
+  const [githubLink, setGithubLink] = useState('')
+  const [linkedinLink, setLinkedinLink] = useState('')
 
   // Toggles
   const [emailNotification, setEmailNotification] = useState(false)
@@ -55,10 +55,7 @@ export default function Settings() {
   const [patName, setPatName] = useState('')
   const [patExpiry, setPatExpiry] = useState('30')
   const [patPermissions, setPatPermissions] = useState('read')
-  const [userPats, setUserPats] = useState([
-    { id: '1', name: 'GitPulse App Token', expires: '2026-07-18', permissions: 'read', active: true },
-    { id: '2', name: 'Automation Script', expires: '2026-09-18', permissions: 'write', active: true }
-  ])
+  const [userPats, setUserPats] = useState([])
   const [showPatModal, setShowPatModal] = useState(false)
   const [patSuccess, setPatSuccess] = useState(null)
   const [patError, setPatError] = useState(null)
@@ -506,60 +503,66 @@ export default function Settings() {
               </button>
 
               <div className="new-settings-form">
-                {userPats.map(pat => (
-                  <div 
-                    key={pat.id} 
-                    style={{ 
-                      border: '1px solid var(--border)', 
-                      borderRadius: 'var(--radius-md)', 
-                      padding: '16px', 
-                      marginBottom: '12px',
-                      opacity: pat.active ? '1' : '0.6'
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{pat.name}</div>
-                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expires: {pat.expires}</div>
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                      <span style={{ 
-                        padding: '4px 8px', 
-                        borderRadius: '4px', 
-                        background: 'var(--primary-light)', 
-                      fontSize: '0.8rem', 
-                      color: 'var(--primary)' 
-                      }}>
-                        {pat.permissions}
-                      </span>
-                      <span style={{ 
-                        padding: '4px 8px', 
-                        borderRadius: '4px', 
-                        background: pat.active ? 'var(--success-bg)' : 'var(--alert-bg)', 
-                        fontSize: '0.8rem', 
-                        color: pat.active ? 'var(--success)' : 'var(--alert)' 
-                      }}>
-                        {pat.active ? 'Active' : 'Revoked'}
-                      </span>
-                    </div>
-                    {pat.active && (
-                      <button 
-                        onClick={() => handleRevokePat(pat.id)} 
-                        style={{ 
-                          marginTop: '10px', 
-                          background: 'transparent', 
-                          border: '1px solid var(--alert)', 
-                          color: 'var(--alert)',
-                          borderRadius: 'var(--radius-md)',
-                          padding: '6px 12px',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        Revoke
-                      </button>
-                    )}
+                {userPats.length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
+                    You haven't created any Personal Access Tokens yet.
                   </div>
-                ))}
+                ) : (
+                  userPats.map(pat => (
+                    <div 
+                      key={pat.id} 
+                      style={{ 
+                        border: '1px solid var(--border)', 
+                        borderRadius: 'var(--radius-md)', 
+                        padding: '16px', 
+                        marginBottom: '12px',
+                        opacity: pat.active ? '1' : '0.6'
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{pat.name}</div>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expires: {pat.expires}</div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ 
+                          padding: '4px 8px', 
+                          borderRadius: '4px', 
+                          background: 'var(--primary-light)', 
+                        fontSize: '0.8rem', 
+                        color: 'var(--primary)' 
+                        }}>
+                          {pat.permissions}
+                        </span>
+                        <span style={{ 
+                          padding: '4px 8px', 
+                          borderRadius: '4px', 
+                          background: pat.active ? 'var(--success-bg)' : 'var(--alert-bg)', 
+                          fontSize: '0.8rem', 
+                          color: pat.active ? 'var(--success)' : 'var(--alert)' 
+                        }}>
+                          {pat.active ? 'Active' : 'Revoked'}
+                        </span>
+                      </div>
+                      {pat.active && (
+                        <button 
+                          onClick={() => handleRevokePat(pat.id)} 
+                          style={{ 
+                            marginTop: '10px', 
+                            background: 'transparent', 
+                            border: '1px solid var(--alert)', 
+                            color: 'var(--alert)',
+                            borderRadius: 'var(--radius-md)',
+                            padding: '6px 12px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          Revoke
+                        </button>
+                      )}
+                    </div>
+                  ))
+                )}
               </div>
 
               {showPatModal && (
@@ -763,22 +766,22 @@ export default function Settings() {
               <div className="new-settings-divider"></div>
 
               <div className="new-settings-form-group">
-                <label>Facebook link</label>
+                <label>GitHub link</label>
                 <input 
                   type="text" 
-                  value={facebookLink} 
-                  onChange={(e) => setFacebookLink(e.target.value)} 
-                  placeholder="https://facebook.com/yourprofile"
+                  value={githubLink} 
+                  onChange={(e) => setGithubLink(e.target.value)} 
+                  placeholder="https://github.com/yourprofile"
                 />
               </div>
 
               <div className="new-settings-form-group">
-                <label>Twitter link</label>
+                <label>LinkedIn link</label>
                 <input 
                   type="text" 
-                  value={twitterLink} 
-                  onChange={(e) => setTwitterLink(e.target.value)} 
-                  placeholder="https://twitter.com/yourhandle"
+                  value={linkedinLink} 
+                  onChange={(e) => setLinkedinLink(e.target.value)} 
+                  placeholder="https://linkedin.com/in/yourprofile"
                 />
               </div>
 
