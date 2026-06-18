@@ -282,7 +282,7 @@ export default function Settings() {
               />
               <div className="new-settings-avatar-overlay">
                 <div className="new-settings-avatar-overlay-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#cc2b5e' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#512da8' }}>
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                     <circle cx="12" cy="13" r="4"></circle>
                   </svg>
@@ -513,7 +513,7 @@ export default function Settings() {
                   <div 
                     key={pat.id} 
                     style={{ 
-                      border: '1px solid rgba(204,43,94,0.2)', 
+                      border: '1px solid rgba(81,45,168,0.2)', 
                       borderRadius: '12px', 
                       padding: '16px', 
                       marginBottom: '12px',
@@ -528,9 +528,9 @@ export default function Settings() {
                       <span style={{ 
                         padding: '4px 8px', 
                         borderRadius: '4px', 
-                        background: 'rgba(204,43,94,0.15)', 
-                        fontSize: '0.8rem', 
-                        color: '#cc2b5e' 
+                        background: 'rgba(81,45,168,0.15)', 
+                      fontSize: '0.8rem', 
+                      color: '#512da8' 
                       }}>
                         {pat.permissions}
                       </span>
@@ -580,7 +580,7 @@ export default function Settings() {
                     borderRadius: '16px', 
                     width: '100%', 
                     maxWidth: '400px',
-                    border: '1px solid rgba(204,43,94,0.2)'
+                    border: '1px solid rgba(81,45,168,0.2)'
                   }} onClick={(e) => e.stopPropagation()}>
                     <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Create Personal Access Token</h3>
                     <div className="new-settings-form">
@@ -847,10 +847,10 @@ export default function Settings() {
                   style={{ 
                     flex: 1, 
                     padding: '12px', 
-                    border: '1px solid rgba(204,43,94,0.3)', 
+                    border: '1px solid rgba(81,45,168,0.3)', 
                     borderRadius: '8px', 
                     background: 'transparent', 
-                    color: '#cc2b5e',
+                    color: '#512da8',
                     cursor: 'pointer'
                   }}
                 >

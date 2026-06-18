@@ -38,8 +38,8 @@ export const Logo = ({
         >
           <defs>
             <linearGradient id={gradId} x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#cc2b5e" />
-              <stop offset="100%" stopColor="#753a88" />
+              <stop offset="0%" stopColor="#512da8" />
+              <stop offset="100%" stopColor="#673ab7" />
             </linearGradient>
             <linearGradient id={pulseGradId} x1="16" y1="32" x2="48" y2="32" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stopColor="#fde047" />

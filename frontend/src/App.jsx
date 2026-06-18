@@ -179,9 +179,7 @@ function AppShell() {
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
-            <span className="theme-indicator-icon">
-              {theme === 'dark' ? <SunIcon size={20} /> : <MoonIcon size={20} />}
-            </span>
+            <span className="theme-indicator-dot"></span>
             {!sidebarCollapsed && <span className="theme-label">{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>}
           </button>
         </div>
