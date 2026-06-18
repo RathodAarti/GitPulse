@@ -1,7 +1,7 @@
 import React from 'react'
 
 /**
- * GitPulse Logo — animated, impressive, with project theme colors!
+ * GitPulse Logo — professional, polished with project theme colors!
  * Variations: 'horizontal' (default), 'vertical', 'icon-only'
  */
 export const Logo = ({
@@ -30,20 +30,20 @@ export const Logo = ({
         <svg
           width={size}
           height={size}
-          viewBox="0 0 56 56"
+          viewBox="0 0 64 64"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className="logo-mark-svg"
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id={gradId} x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+            <linearGradient id={gradId} x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stopColor="#cc2b5e" />
               <stop offset="100%" stopColor="#753a88" />
             </linearGradient>
-            <linearGradient id={pulseGradId} x1="12" y1="28" x2="44" y2="28" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#f0abfc" />
-              <stop offset="100%" stopColor="#a78bfa" />
+            <linearGradient id={pulseGradId} x1="16" y1="32" x2="48" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#fde047" />
+              <stop offset="100%" stopColor="#f0abfc" />
             </linearGradient>
             <filter id={glowGradId}>
               <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
@@ -55,32 +55,32 @@ export const Logo = ({
           </defs>
 
           {/* Animated pulse rings */}
-          <circle cx="28" cy="28" r="22" stroke="url(#pulseGradId)" strokeWidth="2" fill="none" opacity="0.4" className="logo-pulse-ring-1" />
-          <circle cx="28" cy="28" r="24" stroke="url(#pulseGradId)" strokeWidth="2" fill="none" opacity="0.25" className="logo-pulse-ring-2" />
+          <circle cx="32" cy="32" r="26" stroke="url(#pulseGradId)" strokeWidth="2" fill="none" opacity="0.35" className="logo-pulse-ring-1" />
+          <circle cx="32" cy="32" r="29" stroke="url(#pulseGradId)" strokeWidth="2" fill="none" opacity="0.2" className="logo-pulse-ring-2" />
 
           {/* Badge background */}
-          <rect x="2" y="2" width="52" height="52" rx="14" fill={`url(#${gradId})`} className="logo-badge" />
+          <rect x="3" y="3" width="58" height="58" rx="16" fill={`url(#${gradId})`} className="logo-badge" />
           
           {/* Gloss highlight */}
-          <rect x="2" y="2" width="52" height="26" rx="14" fill="white" opacity="0.08" />
+          <rect x="3" y="3" width="58" height="29" rx="16" fill="white" opacity="0.08" />
 
-          {/* Stylised G */}
+          {/* Stylised G + P monogram */}
           <path
-            d="M36 18.5C33.8 15.3 30.1 13.5 26 13.5C19.4 13.5 14 18.9 14 25.5C14 32.1 19.4 37.5 26 37.5C31 37.5 35.2 34.5 37 30.2"
-            stroke="white" strokeWidth="3.8" strokeLinecap="round" fill="none" className="logo-g-path"
+            d="M41 21.5C38.3 17.6 33.8 15.5 29 15.5C20.8 15.5 14.2 22.1 14.2 30.3C14.2 38.5 20.8 45.1 29 45.1C34.8 45.1 39.7 41.5 41.9 36.2"
+            stroke="white" strokeWidth="4.2" strokeLinecap="round" fill="none" className="logo-g-path"
           />
           
           {/* Pulse waveform crossbar (animated) */}
           <path
-            d="M24 28 L29 28 L31 21 L33 35 L35 25 L37 30 L40 28"
-            stroke={`url(#pulseGradId)`} strokeWidth="2.8"
+            d="M26 32 L32 32 L34.5 24 L37 40 L39.5 28 L42 34 L46 32"
+            stroke={`url(#pulseGradId)`} strokeWidth="3.2"
             strokeLinecap="round" strokeLinejoin="round" fill="none"
             filter={`url(#glowGradId)`}
             className="logo-pulse-path"
           />
           
           {/* Git node dot */}
-          <circle cx="37" cy="30.2" r="2.6" fill="white" className="logo-git-dot" />
+          <circle cx="42" cy="36" r="3" fill="white" className="logo-git-dot" />
         </svg>
       </div>
 
