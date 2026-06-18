@@ -2768,8 +2768,9 @@ a, button, .card, .repo-card, .feature-card {
   justify-content: center;
   font-size: 18px;
   font-weight: bold;
-  transition: background 0.2s ease, box-shadow 0.2s ease, left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.2s ease, box-shadow 0.2s ease, left 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
   box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+  opacity: 1;
 }
 
 .sidebar-toggle-indicator:hover {
@@ -2785,8 +2786,23 @@ a, button, .card, .repo-card, .feature-card {
   transform: none !important;
 }
 
+/* When collapsed: hide the button, move it to the collapsed sidebar edge */
 .sidebar.collapsed ~ .sidebar-toggle-indicator {
   left: 80px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Reveal on hover: hovering the sidebar itself while collapsed shows the toggle */
+.sidebar.collapsed:hover ~ .sidebar-toggle-indicator {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Also reveal if the button itself is hovered (pointer may still reach it briefly) */
+.sidebar.collapsed ~ .sidebar-toggle-indicator:hover {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Mobile Sidebar Overlay */
