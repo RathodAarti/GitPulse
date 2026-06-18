@@ -121,6 +121,7 @@ export default function RepositoryView() {
 
   return (
     <div className="repo-view-workspace animate-slide-up">
+      {/* Rate limit marquee — only for rate-limit errors */}
       {error && error.includes('Rate Limit') && (
         <div className="rate-limit-marquee animate-fade">
           <div className="marquee-content">
@@ -128,6 +129,15 @@ export default function RepositoryView() {
             <span>⚡ API Rate Limit Triggered: GitPulse is operating in high-performance cached mode. Synchronous updates paused.</span>
           </div>
           <button className="marquee-close" onClick={() => setError(null)} aria-label="Dismiss">×</button>
+        </div>
+      )}
+
+      {/* Generic error banner — only for non-rate-limit errors */}
+      {error && !error.includes('Rate Limit') && (
+        <div className="alert-banner marquee-style animate-slide-down">
+          <AlertIcon size={18} />
+          <span>{error}</span>
+          <button className="alert-dismiss" onClick={() => setError(null)}>✕</button>
         </div>
       )}
 
@@ -229,14 +239,6 @@ export default function RepositoryView() {
         </div>
       </div>
 
-      {/* Error Overlays */}
-      {error && (
-        <div className="alert-banner marquee-style animate-slide-down">
-          <AlertIcon size={18} />
-          <span>{error}</span>
-          <button className="alert-dismiss" onClick={() => setError(null)}>✕</button>
-        </div>
-      )}
     </div>
   )
 }
