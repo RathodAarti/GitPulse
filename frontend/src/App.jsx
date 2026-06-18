@@ -179,8 +179,23 @@ function AppShell() {
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
-            <span className="theme-indicator-dot"></span>
-            {!sidebarCollapsed && <span className="theme-label">{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>}
+            {/* Sun icon — always visible */}
+            <SunIcon size={16} className="theme-toggle-sun" />
+            {!sidebarCollapsed && (
+              <>
+                {/* Slider track */}
+                <span className={`theme-slider-track ${theme === 'dark' ? 'is-dark' : ''}`}>
+                  <span className="theme-slider-thumb" />
+                </span>
+                {/* Moon icon — always visible */}
+                <MoonIcon size={16} className="theme-toggle-moon" />
+              </>
+            )}
+            {sidebarCollapsed && (
+              theme === 'dark'
+                ? <MoonIcon size={16} className="theme-toggle-moon" />
+                : null
+            )}
           </button>
         </div>
 

@@ -589,7 +589,7 @@ export default function Settings() {
                     maxWidth: '400px',
                     border: '1px solid var(--border)',
                     boxShadow: 'var(--shadow-xl)'
-                  }} onClick={(e) => e.stopPropagation()}>
+                  }} onClick={(e) => e.stopPropagation()} className="pat-modal-inner">
                     <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Create Personal Access Token</h3>
                     <div className="new-settings-form">
                       <div className="new-settings-form-group">
