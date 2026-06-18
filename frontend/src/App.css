@@ -532,6 +532,45 @@ a, button, .card, .repo-card, .feature-card {
   to { opacity: 1; }
 }
 
+/* Nav close button */
+.nav-close-btn {
+  align-self: flex-end;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.nav-close-btn:hover {
+  background: var(--bg-input);
+}
+
+/* Nav login buttons */
+.nav-login-btn, .nav-desktop-login {
+  text-decoration: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.nav-login-btn {
+  padding: 14px 32px;
+  margin-top: 16px;
+}
+
+.nav-desktop-login {
+  padding: 10px 28px;
+}
+
 /* Public Navbar Actions (Mobile Side Menu) */
 @media (max-width: 768px) {
   .nav-hamburger {

@@ -117,19 +117,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
             <button
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
-              style={{
-                alignSelf: 'flex-end',
-                width: '40px',
-                height: '40px',
-                border: 'none',
-                background: 'transparent',
-                cursor: 'pointer',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--text-primary)'
-              }}
+              className="nav-close-btn"
             >
               <XIcon size={24} />
             </button>
@@ -138,17 +126,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
             <Link 
               to={isSignup ? "/login" : "/login?tab=signup"} 
               onClick={() => setIsMenuOpen(false)}
-              className="btn btn-primary btn-large"
-              style={{
-                padding: '14px 32px',
-                borderRadius: '999px',
-                fontWeight: '700',
-                textDecoration: 'none',
-                background: 'var(--primary)',
-                color: 'white',
-                transition: 'all 0.2s ease',
-                marginTop: '16px'
-              }}
+              className="btn btn-primary btn-large nav-login-btn"
             >
               {isSignup ? 'Log In' : 'Log In'}
             </Link>
@@ -168,16 +146,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
           <div className="nav-actions desktop-nav-actions">
             <Link 
               to="/login" 
-              className="btn btn-primary btn-large"
-              style={{
-                padding: '10px 28px',
-                borderRadius: '999px',
-                fontWeight: '700',
-                textDecoration: 'none',
-                background: 'var(--primary)',
-                color: 'white',
-                transition: 'all 0.2s ease'
-              }}
+              className="btn btn-primary btn-large nav-desktop-login"
             >
               Log In
             </Link>
