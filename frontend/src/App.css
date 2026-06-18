@@ -7977,6 +7977,25 @@ button:active,
   }
 }
 
+/* Logo Variations Styles */
+.logo-variation-horizontal {
+  /* Default - already styled */
+}
+
+.logo-variation-vertical {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logo-variation-vertical .logo-wordmark {
+  font-size: 1.1em;
+}
+
+.logo-variation-icon-only {
+  /* Just the icon, no extra styles needed */
+}
+
+
 /* New Settings Page Styles */
 .new-settings-page {
   width: 100%;

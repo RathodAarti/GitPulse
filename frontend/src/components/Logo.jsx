@@ -2,21 +2,26 @@ import React from 'react'
 
 /**
  * GitPulse Logo — animated, impressive, with project theme colors!
+ * Variations: 'horizontal' (default), 'vertical', 'icon-only'
  */
 export const Logo = ({
   size = 48,
   className = '',
-  showText = false,
+  showText = true,
   isIntro = false,
+  variation = 'horizontal', // 'horizontal' | 'vertical' | 'icon-only'
 }) => {
   const uid = React.useId?.() || 'gp'
   const gradId = `gpGrad${uid}`
   const pulseGradId = `gpPulse${uid}`
   const glowGradId = `gpGlow${uid}`
 
+  const isIconOnly = variation === 'icon-only'
+  const isVertical = variation === 'vertical'
+
   return (
     <div
-      className={`logo-container ${isIntro ? 'logo-cinematic' : ''} ${className}`}
+      className={`logo-container ${isIntro ? 'logo-cinematic' : ''} logo-variation-${variation} ${className}`}
       role="img"
       aria-label="GitPulse Logo"
     >
@@ -68,9 +73,9 @@ export const Logo = ({
           {/* Pulse waveform crossbar (animated) */}
           <path
             d="M24 28 L29 28 L31 21 L33 35 L35 25 L37 30 L40 28"
-            stroke={`url(#${pulseGradId})`} strokeWidth="2.8"
+            stroke={`url(#pulseGradId)`} strokeWidth="2.8"
             strokeLinecap="round" strokeLinejoin="round" fill="none"
-            filter={`url(#${glowGradId})`}
+            filter={`url(#glowGradId)`}
             className="logo-pulse-path"
           />
           
@@ -79,7 +84,7 @@ export const Logo = ({
         </svg>
       </div>
 
-      {showText && (
+      {!isIconOnly && (
         <span className="logo-wordmark">
           <span className="logo-ltr logo-ltr-accent logo-ltr-1">G</span>
           <span className="logo-ltr logo-ltr-2">i</span>
