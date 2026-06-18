@@ -4313,6 +4313,36 @@ a, button, .card, .repo-card, .feature-card {
   box-shadow: 0 0 0 3px var(--primary-light);
 }
 
+.new-settings-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.new-settings-password-wrapper input {
+  padding-right: 45px;
+}
+
+.new-settings-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.new-settings-password-toggle:hover {
+  color: var(--primary);
+}
+
 .new-settings-form-group input.read-only-input {
   color: var(--text-muted);
   cursor: default;

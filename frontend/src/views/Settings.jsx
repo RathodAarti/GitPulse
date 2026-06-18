@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import api from '../services/api'
 import { useAuth } from '../context/AuthContext'
-import { UserIcon, PlugIcon, CheckIcon, AlertIcon, LinkIcon, BoltIcon, LockIcon } from '../components/Icons'
+import { UserIcon, PlugIcon, CheckIcon, AlertIcon, LinkIcon, BoltIcon, LockIcon, EyeIcon, EyeOffIcon } from '../components/Icons'
 import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
 
 export default function Settings() {
@@ -26,6 +26,12 @@ export default function Settings() {
   const [currentPassword, setCurrentPassword] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  // Password Visibility Toggles
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showResetPassword, setShowResetPassword] = useState(false)
+  const [showGithubToken, setShowGithubToken] = useState(false)
 
   // Social Links
   const [githubLink, setGithubLink] = useState('')
@@ -666,14 +672,23 @@ export default function Settings() {
                       This will reset all security settings and log you out of all active sessions.
                     </p>
                     <div className="new-settings-form-group">
-                      <label>Confirm Current Password</label>
-                      <input 
-                        type="password" 
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="••••••••"
-                      />
-                    </div>
+                <label>Confirm Current Password</label>
+                <div className="new-settings-password-wrapper">
+                  <input 
+                    type={showResetPassword ? 'text' : 'password'} 
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••"
+                  />
+                  <button 
+                    type="button" 
+                    className="new-settings-password-toggle"
+                    onClick={() => setShowResetPassword(!showResetPassword)}
+                  >
+                    {showResetPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                  </button>
+                </div>
+              </div>
                     <button 
                       className="new-settings-save-btn" 
                       onClick={handleSecurityReset}
@@ -735,32 +750,59 @@ export default function Settings() {
             <div className="new-settings-form">
               <div className="new-settings-form-group">
                 <label>Current Password</label>
-                <input 
-                  type="password" 
-                  value={currentPassword} 
-                  onChange={(e) => setCurrentPassword(e.target.value)} 
-                  placeholder="••••••••"
-                />
+                <div className="new-settings-password-wrapper">
+                  <input 
+                    type={showCurrentPassword ? 'text' : 'password'} 
+                    value={currentPassword} 
+                    onChange={(e) => setCurrentPassword(e.target.value)} 
+                    placeholder="••••••••"
+                  />
+                  <button 
+                    type="button" 
+                    className="new-settings-password-toggle"
+                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  >
+                    {showCurrentPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                  </button>
+                </div>
               </div>
 
               <div className="new-settings-form-group">
                 <label>New password</label>
-                <input 
-                  type="password" 
-                  value={password} 
-                  onChange={(e) => setPassword(e.target.value)} 
-                  placeholder="(4-32 alphabets or numerics)"
-                />
+                <div className="new-settings-password-wrapper">
+                  <input 
+                    type={showPassword ? 'text' : 'password'} 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    placeholder="(4-32 alphabets or numerics)"
+                  />
+                  <button 
+                    type="button" 
+                    className="new-settings-password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                  </button>
+                </div>
               </div>
 
               <div className="new-settings-form-group">
                 <label>Confirm password</label>
-                <input 
-                  type="password" 
-                  value={confirmPassword} 
-                  onChange={(e) => setConfirmPassword(e.target.value)} 
-                  placeholder="••••••••"
-                />
+                <div className="new-settings-password-wrapper">
+                  <input 
+                    type={showConfirmPassword ? 'text' : 'password'} 
+                    value={confirmPassword} 
+                    onChange={(e) => setConfirmPassword(e.target.value)} 
+                    placeholder="••••••••"
+                  />
+                  <button 
+                    type="button" 
+                    className="new-settings-password-toggle"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                  </button>
+                </div>
               </div>
 
               <div className="new-settings-divider"></div>
@@ -833,12 +875,21 @@ export default function Settings() {
             <div className="new-settings-form">
               <div className="new-settings-form-group">
                 <label>GitHub Personal Access Token</label>
-                <input 
-                  type="password" 
-                  value={githubToken} 
-                  onChange={(e) => setGithubToken(e.target.value)} 
-                  placeholder="ghp_xxxxxx"
-                />
+                <div className="new-settings-password-wrapper">
+                  <input 
+                    type={showGithubToken ? 'text' : 'password'} 
+                    value={githubToken} 
+                    onChange={(e) => setGithubToken(e.target.value)} 
+                    placeholder="ghp_xxxxxx"
+                  />
+                  <button 
+                    type="button" 
+                    className="new-settings-password-toggle"
+                    onClick={() => setShowGithubToken(!showGithubToken)}
+                  >
+                    {showGithubToken ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                  </button>
+                </div>
               </div>
               <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
                 <button 
