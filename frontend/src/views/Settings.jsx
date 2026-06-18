@@ -70,6 +70,7 @@ export default function Settings() {
   const [resetStep, setResetStep] = useState(1)
   const [resetError, setResetError] = useState(null)
   const [showResetConfirmation, setShowResetConfirmation] = useState(false)
+  const [resetPassword, setResetPassword] = useState('') // dedicated field for security reset
 
   // Profile Photo Upload Handlers
   const handleProfilePhotoClick = () => {
@@ -228,18 +229,20 @@ export default function Settings() {
 
   // Security Reset Handlers
   const handleSecurityReset = () => {
-    if (resetStep === 1 && confirmPassword !== currentPassword) {
-      setResetError('Password does not match. Please re-enter your current password to confirm.')
-      return
-    }
     if (resetStep === 1) {
+      if (!resetPassword.trim()) {
+        setResetError('Please enter your current password to continue.')
+        return
+      }
       setResetStep(2)
       setShowResetConfirmation(true)
+      setResetError(null)
     } else {
-      // Reset logic
+      // Final confirmed reset
       setResetStep(1)
       setShowResetConfirmation(false)
       setResetError(null)
+      setResetPassword('')
       alert('Security reset completed. Please log in again.')
     }
   }
@@ -248,7 +251,7 @@ export default function Settings() {
     setResetStep(1)
     setShowResetConfirmation(false)
     setResetError(null)
-    setConfirmPassword('')
+    setResetPassword('')
   }
 
   const navItems = [
@@ -676,8 +679,8 @@ export default function Settings() {
                 <div className="new-settings-password-wrapper">
                   <input 
                     type={showResetPassword ? 'text' : 'password'} 
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={resetPassword}
+                    onChange={(e) => setResetPassword(e.target.value)}
                     placeholder="••••••••"
                   />
                   <button 
