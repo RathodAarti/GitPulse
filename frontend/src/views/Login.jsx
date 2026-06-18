@@ -28,7 +28,7 @@ export default function Login() {
       if (!value) error = 'Password is required'
       else if (isSignUp) {
         if (value.length < 8) error = 'Min 8 characters'
-        else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value)) error = 'Must include A–Z, a–z, and 0–9'
+        else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value)) error = 'Must include A-Z, a-z, and 0-9'
       }
     } else if (name === 'name' && isSignUp) {
       if (!value) error = 'Name is required'
@@ -99,134 +99,182 @@ export default function Login() {
   }
 
   return (
-    <div className="ref-auth-page">
-      <Link to="/" className="ref-auth-back-to-home">
+    <div className="animated-login-page">
+      <Link to="/" className="animated-login-back">
         <ArrowLeftIcon size={18} />
         <span>Back to Home</span>
       </Link>
 
-      <div className={`ref-auth-container ${isSignUp ? 'ref-auth-is-signup' : ''}`}>
-        {/* Left decorative panel */}
-        <div className="ref-auth-left-panel">
-          <div className="ref-auth-left-logo">
-            <div className="ref-auth-logo-circle"></div>
-            <span>WEBSITE</span>
-          </div>
-
-          <div className="ref-auth-left-title">
-            {isSignUp ? 'Sign Up' : 'Sign In'}
-            <span className="ref-auth-title-underline"></span>
-          </div>
-        </div>
-
-        {/* Arrow between panels */}
-        <div className="ref-auth-floating-arrow" onClick={() => switchMode(!isSignUp)}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-
-        {/* Right form panel */}
-        <div className="ref-auth-right-panel">
-          {/* Tabs */}
-          <div className="ref-auth-tabs">
-            <button
-              className={`ref-auth-tab ${!isSignUp ? 'ref-auth-tab-active' : ''}`}
-              onClick={() => switchMode(false)}
-            >
-              LOGIN
-            </button>
-            <button
-              className={`ref-auth-tab ${isSignUp ? 'ref-auth-tab-active' : ''}`}
-              onClick={() => switchMode(true)}
-            >
-              SIGN UP
-            </button>
-          </div>
-
-          {/* Form */}
-          <form className="ref-auth-form" onSubmit={handleSubmit} noValidate>
-            {isSignUp && (
-              <div className="ref-auth-input-group">
-                <label>FULL NAME</label>
-                <input
-                  name="name"
-                  type="text"
-                  placeholder="Enter your full name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={errors.name ? 'ref-auth-input-error' : ''}
-                />
-                {errors.name && <span className="ref-auth-error-text">{errors.name}</span>}
+      <div className="animated-login-wrapper">
+        {/* Animated Slider Container */}
+        <div className="animated-login-container">
+          {/* Forms Container */}
+          <div className={`animated-login-forms-container ${isSignUp ? 'animated-login-is-signup' : ''}`}>
+            {/* Login Form Side */}
+            <div className="animated-login-form animated-login-form-login">
+              <div className="animated-login-header">
+                <Logo size={70} showText={true} />
+                <p>Welcome back! Please login to your account.</p>
               </div>
-            )}
+              <form className="animated-login-form-inner" onSubmit={handleSubmit} noValidate>
+                <div className="animated-login-input-group">
+                  <label>Email</label>
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={errors.email ? 'animated-login-input-error' : ''}
+                  />
+                  {errors.email && <span className="animated-login-error-text">{errors.email}</span>}
+                </div>
 
-            <div className="ref-auth-input-group">
-              <label>EMAIL</label>
-              <input
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                className={errors.email ? 'ref-auth-input-error' : ''}
-              />
-              {errors.email && <span className="ref-auth-error-text">{errors.email}</span>}
-            </div>
+                <div className="animated-login-input-group">
+                  <label>Password</label>
+                  <div className="animated-login-password-wrapper">
+                    <input
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Enter your password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className={errors.password ? 'animated-login-input-error' : ''}
+                    />
+                    <button
+                      type="button"
+                      className="animated-login-password-toggle"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
+                    </button>
+                  </div>
+                  {errors.password && <span className="animated-login-error-text">{errors.password}</span>}
+                </div>
 
-            <div className="ref-auth-input-group">
-              <label>PASSWORD</label>
-              <div className="ref-auth-password-wrapper">
-                <input
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={errors.password ? 'ref-auth-input-error' : ''}
-                />
-                <button
-                  type="button"
-                  className="ref-auth-password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
+                {errors.form && (
+                  <div className="animated-login-form-error">
+                    <AlertIcon size={16} />
+                    {errors.form}
+                  </div>
+                )}
+
+                <button type="submit" className="animated-login-submit-btn" disabled={submitting}>
+                  {submitting ? 'LOGGING IN...' : 'LOG IN'}
+                </button>
+              </form>
+
+              <div className="animated-login-footer">
+                Don't have an account?
+                <button type="button" onClick={() => switchMode(true)}>
+                  Sign Up
                 </button>
               </div>
-              {errors.password && <span className="ref-auth-error-text">{errors.password}</span>}
             </div>
 
-            {isSignUp && (
-              <div className="ref-auth-terms-group">
-                <input type="checkbox" id="terms" className="ref-auth-terms-checkbox" />
-                <label htmlFor="terms">
-                  I agree all statement in <span className="ref-auth-terms-link">terms of service</span>
-                </label>
+            {/* Signup Form Side */}
+            <div className="animated-login-form animated-login-form-signup">
+              <div className="animated-login-header">
+                <Logo size={70} showText={true} />
+                <p>Create your account to start tracking!</p>
               </div>
-            )}
+              <form className="animated-login-form-inner" onSubmit={handleSubmit} noValidate>
+                <div className="animated-login-input-group">
+                  <label>Full Name</label>
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className={errors.name ? 'animated-login-input-error' : ''}
+                  />
+                  {errors.name && <span className="animated-login-error-text">{errors.name}</span>}
+                </div>
 
-            {errors.form && (
-              <div className="ref-auth-form-error">
-                <AlertIcon size={16} />
-                {errors.form}
+                <div className="animated-login-input-group">
+                  <label>Email</label>
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={errors.email ? 'animated-login-input-error' : ''}
+                  />
+                  {errors.email && <span className="animated-login-error-text">{errors.email}</span>}
+                </div>
+
+                <div className="animated-login-input-group">
+                  <label>Password</label>
+                  <div className="animated-login-password-wrapper">
+                    <input
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Enter your password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className={errors.password ? 'animated-login-input-error' : ''}
+                    />
+                    <button
+                      type="button"
+                      className="animated-login-password-toggle"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
+                    </button>
+                  </div>
+                  {errors.password && <span className="animated-login-error-text">{errors.password}</span>}
+                </div>
+
+                {errors.form && (
+                  <div className="animated-login-form-error">
+                    <AlertIcon size={16} />
+                    {errors.form}
+                  </div>
+                )}
+
+                <button type="submit" className="animated-login-submit-btn" disabled={submitting}>
+                  {submitting ? 'CREATING ACCOUNT...' : 'SIGN UP'}
+                </button>
+              </form>
+
+              <div className="animated-login-footer">
+                Already have an account?
+                <button type="button" onClick={() => switchMode(false)}>
+                  Log In
+                </button>
               </div>
-            )}
+            </div>
+          </div>
 
-            <button
-              type="submit"
-              className="ref-auth-submit-btn"
-              disabled={submitting}
-            >
-              {submitting ? (isSignUp ? 'CREATING ACCOUNT...' : 'LOGGING IN...') : (isSignUp ? 'SIGN UP' : 'LOGIN')}
-            </button>
-          </form>
+          {/* Overlay Panels for animation */}
+          <div className={`animated-login-overlay-container ${isSignUp ? 'animated-login-is-signup' : ''}`}>
+            <div className="animated-login-overlay">
+              <div className="animated-login-overlay-panel animated-login-overlay-left">
+                <h1 className="animated-login-overlay-title">Hello, Friend!</h1>
+                <p className="animated-login-overlay-text">Enter your personal details and start your journey with us</p>
+                <button type="button" className="animated-login-overlay-btn" onClick={() => switchMode(true)}>
+                  SIGN UP
+                </button>
+              </div>
+              <div className="animated-login-overlay-panel animated-login-overlay-right">
+                <h1 className="animated-login-overlay-title">Welcome Back!</h1>
+                <p className="animated-login-overlay-text">To keep connected with us please login with your personal info</p>
+                <button type="button" className="animated-login-overlay-btn" onClick={() => switchMode(false)}>
+                  LOG IN
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Background circles */}
-      <div className="ref-auth-bg-circle ref-auth-bg-circle-1"></div>
-      <div className="ref-auth-bg-circle ref-auth-bg-circle-2"></div>
+      {/* Background */}
+      <div className="animated-login-bg-circle animated-login-bg-circle-1"></div>
+      <div className="animated-login-bg-circle animated-login-bg-circle-2"></div>
 
       {socialModal && (
         <SocialLoginModal
