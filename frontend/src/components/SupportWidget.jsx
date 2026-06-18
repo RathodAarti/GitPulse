@@ -64,7 +64,8 @@ export default function SupportWidget() {
   const bottomRef = useRef(null)
 
   useEffect(() => {
-    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 80)
+    const timer = setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 80)
+    return () => clearTimeout(timer)
   }, [messages, aiLoading])
 
   const addMsg = (type, payload) =>
@@ -98,6 +99,8 @@ export default function SupportWidget() {
       })
       if (res.data?.success && res.data.reply) {
         addMsg(MSG.BOT, res.data.reply)
+      } else {
+        addMsg(MSG.BOT, 'I was unable to generate a response. Please try again or contact support directly.')
       }
     } catch (err) {
       addMsg(
@@ -219,7 +222,7 @@ export default function SupportWidget() {
           </div>
 
           {/* Chat */}
-          <div className="sw-chat-body">
+          <div className="sw-chat-body" aria-live="polite" aria-label="Chat messages">
             {messages.map((msg) => {
               if (msg.type === MSG.BOT) return <BotMsg key={msg.id} text={msg.payload} />
               if (msg.type === MSG.USER) return <UserMsg key={msg.id} text={msg.payload} />
