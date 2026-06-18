@@ -7831,3 +7831,148 @@ button:active,
     width: 100%;
   }
 }
+
+/* Animated, Impressive Logo Styles */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  animation: logoFloat 6s ease-in-out infinite;
+}
+
+.logo-mark-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.logo-glow-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(204, 43, 94, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  animation: logoGlowPulse 3s ease-in-out infinite;
+  z-index: -1;
+}
+
+.logo-mark-svg {
+  position: relative;
+  z-index: 1;
+}
+
+.logo-pulse-ring-1 {
+  transform-origin: center;
+  animation: logoPulseRing 2.5s ease-out infinite;
+}
+
+.logo-pulse-ring-2 {
+  transform-origin: center;
+  animation: logoPulseRing 2.5s ease-out infinite;
+  animation-delay: 0.6s;
+}
+
+.logo-pulse-path {
+  animation: logoPulsePath 2s ease-in-out infinite;
+}
+
+.logo-git-dot {
+  animation: logoDotBounce 1.5s ease-in-out infinite;
+}
+
+.logo-wordmark {
+  display: flex;
+  gap: 2px;
+}
+
+.logo-ltr {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: logoLetterSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.logo-ltr-1 {
+  animation-delay: 0s;
+}
+.logo-ltr-2 {
+  animation-delay: 0.08s;
+}
+.logo-ltr-3 {
+  animation-delay: 0.16s;
+}
+.logo-ltr-4 {
+  animation-delay: 0.24s;
+}
+.logo-ltr-5 {
+  animation-delay: 0.32s;
+}
+.logo-ltr-6 {
+  animation-delay: 0.4s;
+}
+.logo-ltr-7 {
+  animation-delay: 0.48s;
+}
+.logo-ltr-8 {
+  animation-delay: 0.56s;
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes logoGlowPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+@keyframes logoPulseRing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes logoPulsePath {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+    transform: scaleY(0.95);
+  }
+}
+
+@keyframes logoDotBounce {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes logoLetterSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
