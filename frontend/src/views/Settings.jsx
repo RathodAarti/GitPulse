@@ -6,13 +6,36 @@ import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
 
 export default function Settings() {
   const { user, updateProfile } = useAuth()
+  const [activeTab, setActiveTab] = useState('account')
 
+  // Profile State
   const [name, setName] = useState(user?.name || '')
-  const [githubToken, setGithubToken] = useState(user?.githubToken || '')
+  const [username, setUsername] = useState(user?.name?.split(' ').join('').toLowerCase() || '')
+  const [email, setEmail] = useState(user?.email || '')
+  const [gender, setGender] = useState('')
+  const [birthdayDay, setBirthdayDay] = useState('')
+  const [birthdayMonth, setBirthdayMonth] = useState('')
+  const [birthdayYear, setBirthdayYear] = useState('')
+  const [job, setJob] = useState('')
+  const [language, setLanguage] = useState('English')
+  const [country, setCountry] = useState('')
+  const [city, setCity] = useState('')
+
+  // Password & Security
+  const [currentPassword, setCurrentPassword] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  // Security question state
+  // Social Links
+  const [facebookLink, setFacebookLink] = useState('')
+  const [twitterLink, setTwitterLink] = useState('')
+
+  // Toggles
+  const [emailNotification, setEmailNotification] = useState(false)
+  const [videoAutoplay, setVideoAutoplay] = useState(true)
+  const [sensitiveContent, setSensitiveContent] = useState(true)
+
+  const [githubToken, setGithubToken] = useState(user?.githubToken || '')
   const [securityQuestion, setSecurityQuestion] = useState(user?.securityQuestion || '')
   const [securityAnswer, setSecurityAnswer] = useState('')
   const [submittingSecurity, setSubmittingSecurity] = useState(false)
@@ -26,6 +49,11 @@ export default function Settings() {
   const [profileMessage, setProfileMessage] = useState(null)
   const [tokenMessage, setTokenMessage] = useState(null)
   const [connectionStatus, setConnectionStatus] = useState(null)
+
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                  'July', 'August', 'September', 'October', 'November', 'December']
+  const days = Array.from({ length: 31 }, (_, i) => i + 1)
+  const years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i)
 
   const verifyConnection = async () => {
     setTestingConnection(true)
@@ -49,7 +77,6 @@ export default function Settings() {
     }
   }
 
-  // Load connection status on mount if token is saved
   useEffect(() => {
     if (user?.githubToken) {
       verifyConnection()
@@ -76,11 +103,9 @@ export default function Settings() {
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
     setProfileMessage(null)
-
     if (!name.trim()) {
       return setProfileMessage({ type: 'error', text: 'Name is required.' })
     }
-
     if (password) {
       if (password.length < 6) {
         return setProfileMessage({ type: 'error', text: 'Password must be at least 6 characters.' })
@@ -89,18 +114,16 @@ export default function Settings() {
         return setProfileMessage({ type: 'error', text: 'Passwords do not match.' })
       }
     }
-
     setSubmittingProfile(true)
     const data = { name }
     if (password) data.password = password
-
     const res = await updateProfile(data)
     setSubmittingProfile(false)
-
     if (res.success) {
       setProfileMessage({ type: 'success', text: 'Profile updated successfully.' })
       setPassword('')
       setConfirmPassword('')
+      setCurrentPassword('')
     } else {
       setProfileMessage({ type: 'error', text: res.message })
     }
@@ -109,11 +132,9 @@ export default function Settings() {
   const handleUpdateToken = async (e) => {
     e.preventDefault()
     setTokenMessage(null)
-
     setSubmittingToken(true)
     const res = await updateProfile({ githubToken: githubToken.trim() })
     setSubmittingToken(false)
-
     if (res.success) {
       setTokenMessage({ type: 'success', text: 'GitHub Token updated successfully.' })
       verifyConnection()
@@ -122,276 +143,269 @@ export default function Settings() {
     }
   }
 
+  const navItems = [
+    { id: 'account', label: 'Account' },
+    { id: 'security', label: 'Security & privacy' },
+    { id: 'mobile', label: 'Mobile' },
+    { id: 'friends', label: 'Find friends' },
+    { id: 'history', label: 'History' },
+  ]
+
   return (
-    <div className="settings-page animate-slide-up" id="settings-page">
-      <div className="section-header">
-        <h2>Dashboard Settings</h2>
-      </div>
-
-      <div className="settings-grid">
-        {/* Profile Card */}
-        <div className="card settings-card reveal-on-scroll" id="profile-settings-card">
-          <div className="card-header">
-            <UserIcon size={18} color="var(--accent)" />
-            <h3>User Profile</h3>
+    <div className="new-settings-page">
+      <h1 className="new-settings-header">Settings</h1>
+      
+      <div className="new-settings-container">
+        {/* Left Sidebar */}
+        <div className="new-settings-sidebar">
+          <div className="new-settings-profile-section">
+            <div className="new-settings-avatar-wrapper">
+              <img 
+                src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f09?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                alt="User Avatar" 
+                className="new-settings-avatar"
+              />
+            </div>
+            <h3 className="new-settings-username">{name || "Your Name"}</h3>
+            <p className="new-settings-avatar-hint">(Click to change your photo)</p>
+            <div className="new-settings-divider"></div>
           </div>
-          <div className="card-body">
-            {profileMessage && (
-              <div className={`alert-banner alert-${profileMessage.type}`} id="profile-alert">
-                <span className="alert-icon">
-                  {profileMessage.type === 'success' ? <CheckIcon size={18} /> : <AlertIcon size={18} />}
-                </span>
-                <span className="alert-text">{profileMessage.text}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleUpdateProfile} id="profile-form">
-              <div className="form-group">
-                <label htmlFor="settings-name">Full Name</label>
-                <input
-                  id="settings-name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your Name"
-                  disabled={submittingProfile}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="settings-email">Email Address</label>
-                <input
-                  id="settings-email"
-                  type="email"
-                  value={user?.email || ''}
-                  disabled
-                  className="disabled-input"
-                />
-                <div className="email-warning-box">
-                  <span className="warning-icon">⚠️</span>
-                  <p><strong>Warning:</strong> Careful with your email, it cannot be changed. If you absolutely need to modify it, please contact support or request changes through the administrator panel.</p>
-                </div>
-              </div>
-
-              <div className="divider-line" />
-
-              <div className="form-group">
-                <label htmlFor="settings-password">New Password</label>
-                <input
-                  id="settings-password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  disabled={submittingProfile}
-                />
-                <span className="form-help-text">Leave blank to keep your current password.</span>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="settings-confirm-password">Confirm New Password</label>
-                <input
-                  id="settings-confirm-password"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="••••••••"
-                  disabled={submittingProfile}
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={submittingProfile}
-                id="save-profile-btn"
+          
+          <nav className="new-settings-nav">
+            {navItems.map((item) => (
+              <button 
+                key={item.id}
+                className={`new-settings-nav-item ${activeTab === item.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(item.id)}
               >
-                {submittingProfile ? 'Saving...' : 'Save Profile Details'}
+                {item.label}
               </button>
-            </form>
-          </div>
+            ))}
+          </nav>
         </div>
 
-        {/* Integration Card */}
-        <div className="card settings-card reveal-on-scroll" id="integration-settings-card">
-          <div className="card-header">
-            <PlugIcon size={18} color="var(--accent)" />
-            <h3>GitHub Integration</h3>
-          </div>
-          <div className="card-body">
-            {tokenMessage && (
-              <div className={`alert-banner alert-${tokenMessage.type}`} id="token-alert">
-                <span className="alert-icon">
-                  {tokenMessage.type === 'success' ? <CheckIcon size={18} /> : <AlertIcon size={18} />}
-                </span>
-                <span className="alert-text">{tokenMessage.text}</span>
-              </div>
-            )}
+        {/* Middle Content Column */}
+        <div className="new-settings-middle-column">
+          <h2 className="new-settings-section-title">Account settings</h2>
+          
+          {profileMessage && (
+            <div className={`new-settings-alert alert-${profileMessage.type}`}>
+              <AlertIcon size={16} />
+              {profileMessage.text}
+            </div>
+          )}
 
-            <div className="token-instructions">
-              <p>
-                By default, GitPulse queries public data. However, unauthenticated requests are limited to <strong>60 requests/hour</strong> by the GitHub API.
-              </p>
-              <p>
-                To track larger projects, enable access to <strong>private repositories</strong>, and boost your rate limits to <strong>5000 requests/hour</strong>, configure your own GitHub Personal Access Token (PAT) below.
-              </p>
-              <a
-                href="https://github.com/settings/tokens"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="token-link"
+          <div className="new-settings-form">
+            <div className="new-settings-form-group">
+              <label>Username</label>
+              <input 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+                placeholder="Your username"
+              />
+            </div>
+
+            <div className="new-settings-form-group">
+              <label>Email</label>
+              <input 
+                type="email" 
+                value={email} 
+                readOnly
+                className="read-only-input"
+                placeholder="you@example.com"
+              />
+            </div>
+
+            <div className="new-settings-form-group">
+              <label>Gender</label>
+              <select 
+                value={gender} 
+                onChange={(e) => setGender(e.target.value)}
               >
-                <LinkIcon size={14} /> Generate a GitHub PAT (Classic)
-              </a>
-              <span className="token-help-scopes">
-                Required Scopes: `repo` (for private repositories) or no scopes (for public repositories only).
-              </span>
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
             </div>
 
-            <form onSubmit={handleUpdateToken} id="token-form">
-              <div className="form-group">
-                <label htmlFor="settings-token">GitHub Personal Access Token</label>
-                <input
-                  id="settings-token"
-                  type="password"
-                  value={githubToken}
-                  onChange={(e) => setGithubToken(e.target.value)}
-                  placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                  disabled={submittingToken || testingConnection}
-                />
-              </div>
-
-              <div style={{ display: 'flex', gap: 12 }}>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={submittingToken || testingConnection}
-                  id="save-token-btn"
+            <div className="new-settings-form-group new-settings-birthday-group">
+              <label>Birthday</label>
+              <div className="new-settings-birthday-selects">
+                <select 
+                  value={birthdayDay} 
+                  onChange={(e) => setBirthdayDay(e.target.value)}
                 >
-                  {submittingToken ? 'Saving...' : 'Update Integration Token'}
-                </button>
-                {user?.githubToken && (
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={verifyConnection}
-                    disabled={submittingToken || testingConnection}
-                    style={{ borderColor: 'var(--accent)', color: 'var(--accent)', background: 'transparent', display: 'inline-flex', alignItems: 'center', gap: 6 }}
-                    id="test-connection-btn"
-                  >
-                    {testingConnection ? 'Testing...' : (
-                      <>
-                        <BoltIcon size={14} />
-                        Test Connection
-                      </>
-                    )}
-                  </button>
-                )}
+                  <option value="">Day</option>
+                  {days.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+                <select 
+                  value={birthdayMonth} 
+                  onChange={(e) => setBirthdayMonth(e.target.value)}
+                >
+                  <option value="">Month</option>
+                  {months.map((m, i) => <option key={i} value={m}>{m}</option>)}
+                </select>
+                <select 
+                  value={birthdayYear} 
+                  onChange={(e) => setBirthdayYear(e.target.value)}
+                >
+                  <option value="">Year</option>
+                  {years.map(y => <option key={y} value={y}>{y}</option>)}
+                </select>
               </div>
-            </form>
+            </div>
 
-            {/* GitHub API Connection & Quota Dashboard */}
-            {connectionStatus && connectionStatus.connected && (
-              <div className="connection-status-panel">
-                <div className="status-header">
-                  {connectionStatus.avatarUrl ? (
-                    <img 
-                      src={connectionStatus.avatarUrl} 
-                      alt={connectionStatus.username} 
-                    />
-                  ) : (
-                    <div className="contributor-avatar-placeholder">
-                      <UserIcon size={18} />
-                    </div>
-                  )}
-                  <div>
-                    <h4>Linked Profile: @{connectionStatus.username}</h4>
-                    <span>Authorized Scopes: <code>{connectionStatus.scopes}</code></span>
-                  </div>
-                </div>
+            <div className="new-settings-form-group">
+              <label>Job</label>
+              <input 
+                type="text" 
+                value={job} 
+                onChange={(e) => setJob(e.target.value)} 
+                placeholder="Your job title"
+              />
+            </div>
 
-                {connectionStatus.quota && (
-                  <div className="quota-bar-container">
-                    <div className="quota-labels">
-                      <span style={{ color: 'var(--text-secondary)' }}>
-                        API Quota: <strong style={{ color: 'var(--text-primary)' }}>{connectionStatus.quota.remaining}</strong> / {connectionStatus.quota.limit}
-                      </span>
-                      <span style={{ color: connectionStatus.quota.remaining < 500 ? 'var(--alert)' : 'var(--success)' }}>
-                        {Math.round((connectionStatus.quota.remaining / connectionStatus.quota.limit) * 100)}% remaining
-                      </span>
-                    </div>
-                    <div className="progress-bar-bg">
-                      <div 
-                        className="progress-bar-fill" 
-                        style={{ 
-                          width: `${(connectionStatus.quota.remaining / connectionStatus.quota.limit) * 100}%`,
-                          background: connectionStatus.quota.remaining < 500 ? 'var(--alert)' : 'linear-gradient(90deg, var(--primary) 0%, var(--success) 100%)',
-                        }} 
-                      />
-                    </div>
-                    <span className="quota-reset-text">
-                      Reset Scheduled: {new Date(connectionStatus.quota.reset * 1000).toLocaleString()}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="new-settings-form-group">
+              <label>Language</label>
+              <select 
+                value={language} 
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                <option value="English">English</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+              </select>
+            </div>
+
+            <div className="new-settings-form-group">
+              <label>Country</label>
+              <select 
+                value={country} 
+                onChange={(e) => setCountry(e.target.value)}
+              >
+                <option value="">Select country</option>
+                <option value="us">United States</option>
+                <option value="ca">Canada</option>
+                <option value="uk">United Kingdom</option>
+                <option value="au">Australia</option>
+              </select>
+            </div>
+
+            <div className="new-settings-form-group">
+              <label>City</label>
+              <select 
+                value={city} 
+                onChange={(e) => setCity(e.target.value)}
+              >
+                <option value="">Select city</option>
+                <option value="boston">Boston</option>
+                <option value="newyork">New York</option>
+                <option value="chicago">Chicago</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Security Question Card — full width below the grid */}
-      <div className="card settings-card reveal-on-scroll" style={{ marginTop: 24 }}>
-        <div className="card-header">
-          <LockIcon size={18} color="var(--accent)" />
-          <h3>Password Recovery — Security Question</h3>
-        </div>
-        <div className="card-body">
-          {!hasSecurityQuestion && (
-            <div className="alert-banner alert-error" style={{ marginBottom: 16 }}>
-              <span className="alert-icon"><AlertIcon size={18} /></span>
-              <span className="alert-text">No security question set. You won't be able to recover your password without one.</span>
+        {/* Right Column - Security & Preferences */}
+        <div className="new-settings-right-column">
+          <div className="new-settings-form">
+            <div className="new-settings-form-group">
+              <label>Current Password</label>
+              <input 
+                type="password" 
+                value={currentPassword} 
+                onChange={(e) => setCurrentPassword(e.target.value)} 
+                placeholder="••••••••"
+              />
             </div>
-          )}
-          {securityMessage && (
-            <div className={`alert-banner alert-${securityMessage.type}`} style={{ marginBottom: 16 }}>
-              <span className="alert-icon">{securityMessage.type === 'success' ? <CheckIcon size={18} /> : <AlertIcon size={18} />}</span>
-              <span className="alert-text">{securityMessage.text}</span>
+
+            <div className="new-settings-form-group">
+              <label>New password</label>
+              <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                placeholder="(4-32 alphabets or numerics)"
+              />
             </div>
-          )}
-          <form onSubmit={handleSaveSecurity}>
-            <div className="settings-grid" style={{ marginBottom: 0 }}>
-              <div className="form-group">
-                <label>Security Question</label>
-                <select
-                  value={securityQuestion}
-                  onChange={e => setSecurityQuestion(e.target.value)}
-                  disabled={submittingSecurity}
-                  style={{ padding: '12px 16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: '0.95rem', width: '100%', outline: 'none' }}
-                >
-                  <option value="">— Select a question —</option>
-                  {SECURITY_QUESTIONS.map(q => <option key={q} value={q}>{q}</option>)}
-                </select>
-                {hasSecurityQuestion && (
-                  <span className="form-help-text">Current: <em>{securityQuestion}</em></span>
-                )}
+
+            <div className="new-settings-form-group">
+              <label>Confirm password</label>
+              <input 
+                type="password" 
+                value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)} 
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div className="new-settings-divider"></div>
+
+            <div className="new-settings-form-group">
+              <label>Facebook link</label>
+              <input 
+                type="text" 
+                value={facebookLink} 
+                onChange={(e) => setFacebookLink(e.target.value)} 
+                placeholder="https://facebook.com/yourprofile"
+              />
+            </div>
+
+            <div className="new-settings-form-group">
+              <label>Twitter link</label>
+              <input 
+                type="text" 
+                value={twitterLink} 
+                onChange={(e) => setTwitterLink(e.target.value)} 
+                placeholder="https://twitter.com/yourhandle"
+              />
+            </div>
+
+            <div className="new-settings-divider"></div>
+
+            <div className="new-settings-toggle-group">
+              <label>Email notification</label>
+              <div 
+                className={`new-settings-toggle ${emailNotification ? 'active' : ''}`}
+                onClick={() => setEmailNotification(!emailNotification)}
+              >
+                <div className="new-settings-toggle-handle"></div>
               </div>
-              <div className="form-group">
-                <label>Your Answer</label>
-                <input
-                  type="text"
-                  value={securityAnswer}
-                  onChange={e => setSecurityAnswer(e.target.value)}
-                  placeholder="Enter your answer (case-insensitive)"
-                  disabled={submittingSecurity}
-                />
-                <span className="form-help-text">Answers are stored encrypted and are case-insensitive.</span>
+            </div>
+
+            <div className="new-settings-toggle-group">
+              <label>Video autoplay</label>
+              <div 
+                className={`new-settings-toggle ${videoAutoplay ? 'active' : ''}`}
+                onClick={() => setVideoAutoplay(!videoAutoplay)}
+              >
+                <div className="new-settings-toggle-handle"></div>
               </div>
             </div>
-            <button type="submit" className="btn btn-primary" disabled={submittingSecurity} style={{ marginTop: 16 }}>
-              {submittingSecurity ? 'Saving...' : hasSecurityQuestion ? 'Update Security Question' : 'Set Security Question'}
-            </button>
-          </form>
+
+            <div className="new-settings-toggle-group">
+              <label>Inform me before showing media that may be sensitive</label>
+              <div 
+                className={`new-settings-toggle ${sensitiveContent ? 'active' : ''}`}
+                onClick={() => setSensitiveContent(!sensitiveContent)}
+              >
+                <div className="new-settings-toggle-handle"></div>
+              </div>
+            </div>
+
+            <div className="new-settings-save-section">
+              <button 
+                className="new-settings-save-btn" 
+                onClick={handleUpdateProfile}
+                disabled={submittingProfile}
+              >
+                Save
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
