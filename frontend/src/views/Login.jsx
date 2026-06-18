@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { AlertIcon, EyeIcon, EyeOffIcon, ArrowLeftIcon } from '../components/Icons'
-import { GoogleIcon, GithubIcon, LinkedinIcon } from '../components/Icons'
 import Logo from '../components/Logo'
 import SocialLoginModal from '../components/SocialLoginModal'
 
@@ -11,7 +10,7 @@ export default function Login() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [isRegister, setIsRegister] = useState(() => {
+  const [isSignUp, setIsSignUp] = useState(() => {
     return new URLSearchParams(location.search).get('tab') === 'signup'
   })
   const [showPassword, setShowPassword] = useState(false)
@@ -27,18 +26,18 @@ export default function Login() {
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = 'Invalid email format'
     } else if (name === 'password') {
       if (!value) error = 'Password is required'
-      else if (isRegister) {
+      else if (isSignUp) {
         if (value.length < 8) error = 'Min 8 characters'
         else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value)) error = 'Must include A–Z, a–z, and 0–9'
       }
-    } else if (name === 'name' && isRegister) {
+    } else if (name === 'name' && isSignUp) {
       if (!value) error = 'Name is required'
     }
     return error
   }
 
-  const switchMode = (toRegister) => {
-    setIsRegister(toRegister)
+  const switchMode = (toSignUp) => {
+    setIsSignUp(toSignUp)
     setFormData({ name: '', email: '', password: '' })
     setErrors({})
     setShowPassword(false)
@@ -83,7 +82,7 @@ export default function Login() {
 
     setSubmitting(true)
     try {
-      const result = isRegister
+      const result = isSignUp
         ? await authRegister(formData.name, formData.email, formData.password)
         : await login(formData.email, formData.password)
 
@@ -100,194 +99,139 @@ export default function Login() {
   }
 
   return (
-    <div className="login-page animate-fade">
-      <div className="login-slider-container stagger-container is-visible">
-        <div className={`login-slider-track ${isRegister ? 'is-register' : ''}`}>
-          
-          {/* Sign In Form */}
-          <div className="login-slide stagger-item">
-            <div className="login-card">
-              <div className="back-to-home">
-                <Link to="/" className="back-btn">
-                  <ArrowLeftIcon size={20} />
-                  Back to Home
-                </Link>
-              </div>
-              
-              <div className="login-header">
-                <Logo size={80} showText={true} className="login-logo" />
-                <p>Sign in to continue your pulse analytics</p>
-              </div>
-              
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="name@company.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={errors.email ? 'has-error' : ''}
-                  />
-                  {errors.email && <span className="error-text">{errors.email}</span>}
-                </div>
+    <div className="ref-auth-page">
+      <Link to="/" className="ref-auth-back-to-home">
+        <ArrowLeftIcon size={18} />
+        <span>Back to Home</span>
+      </Link>
 
-                <div className="form-group">
-                  <label>Password</label>
-                  <div className="password-input-wrapper">
-                    <input
-                      name="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className={errors.password ? 'has-error' : ''}
-                    />
-                    <button 
-                      type="button" 
-                      className="password-toggle"
-                      onClick={() => setShowPassword(!showPassword)}
-                      aria-label={showPassword ? "Hide password" : "Show password"}
-                    >
-                      {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
-                    </button>
-                  </div>
-                  {errors.password && <span className="error-text">{errors.password}</span>}
-                </div>
-
-                {errors.form && <div className="form-error"><AlertIcon size={16} /> {errors.form}</div>}
-
-                <button type="submit" className="btn btn-primary login-btn" disabled={submitting}>
-                  {submitting ? 'Logging in...' : 'Log In'}
-                </button>
-              </form>
-
-              <div className="social-logins">
-                <div className="divider">
-                  <span>Or continue with</span>
-                </div>
-                <div className="social-buttons">
-                  <button
-                    type="button"
-                    className="social-btn google"
-                    aria-label="Sign in with Google"
-                    onClick={() => setSocialModal('google')}
-                  >
-                    <GoogleIcon size={20} />
-                    <span>Google</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="social-btn github"
-                    aria-label="Sign in with GitHub"
-                    onClick={() => setSocialModal('github')}
-                  >
-                    <GithubIcon size={20} />
-                    <span>GitHub</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="social-btn linkedin"
-                    aria-label="Sign in with LinkedIn"
-                    onClick={() => setSocialModal('linkedin')}
-                  >
-                    <LinkedinIcon size={20} />
-                    <span>LinkedIn</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="login-footer">
-                Don't have an account? <button onClick={() => switchMode(true)}>Sign Up</button>
-              </div>
-            </div>
+      <div className={`ref-auth-container ${isSignUp ? 'ref-auth-is-signup' : ''}`}>
+        {/* Left decorative panel */}
+        <div className="ref-auth-left-panel">
+          <div className="ref-auth-left-logo">
+            <div className="ref-auth-logo-circle"></div>
+            <span>WEBSITE</span>
           </div>
 
-          {/* Register Form */}
-          <div className="login-slide">
-            <div className="login-card">
-              <div className="back-to-home">
-                <Link to="/" className="back-btn">
-                  <ArrowLeftIcon size={20} />
-                  Back to Home
-                </Link>
-              </div>
-              
-              <div className="login-header">
-                <Logo size={80} showText={true} className="login-logo" />
-                <p>Create an account to start tracking</p>
-              </div>
-              
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="form-group">
-                  <label>Full Name</label>
-                  <input
-                    name="name"
-                    type="text"
-                    placeholder="John Doe"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={errors.name ? 'has-error' : ''}
-                  />
-                  {errors.name && <span className="error-text">{errors.name}</span>}
-                </div>
+          <div className="ref-auth-left-title">
+            {isSignUp ? 'Sign Up' : 'Sign In'}
+            <span className="ref-auth-title-underline"></span>
+          </div>
+        </div>
 
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="name@company.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={errors.email ? 'has-error' : ''}
-                  />
-                  {errors.email && <span className="error-text">{errors.email}</span>}
-                </div>
+        {/* Arrow between panels */}
+        <div className="ref-auth-floating-arrow" onClick={() => switchMode(!isSignUp)}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
 
-                <div className="form-group">
-                  <label>Password</label>
-                  <div className="password-input-wrapper">
-                    <input
-                      name="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className={errors.password ? 'has-error' : ''}
-                    />
-                    <button 
-                      type="button" 
-                      className="password-toggle"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
-                    </button>
-                  </div>
-                  {errors.password && <span className="error-text">{errors.password}</span>}
-                </div>
-
-                {errors.form && <div className="form-error"><AlertIcon size={16} /> {errors.form}</div>}
-
-                <button type="submit" className="btn btn-primary login-btn" disabled={submitting}>
-                  {submitting ? 'Creating Account...' : 'Sign Up'}
-                </button>
-              </form>
-
-              <div className="login-footer">
-                Already have an account? <button onClick={() => switchMode(false)}>Log In</button>
-              </div>
-            </div>
+        {/* Right form panel */}
+        <div className="ref-auth-right-panel">
+          {/* Tabs */}
+          <div className="ref-auth-tabs">
+            <button
+              className={`ref-auth-tab ${!isSignUp ? 'ref-auth-tab-active' : ''}`}
+              onClick={() => switchMode(false)}
+            >
+              LOGIN
+            </button>
+            <button
+              className={`ref-auth-tab ${isSignUp ? 'ref-auth-tab-active' : ''}`}
+              onClick={() => switchMode(true)}
+            >
+              SIGN UP
+            </button>
           </div>
 
+          {/* Form */}
+          <form className="ref-auth-form" onSubmit={handleSubmit} noValidate>
+            {isSignUp && (
+              <div className="ref-auth-input-group">
+                <label>FULL NAME</label>
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={errors.name ? 'ref-auth-input-error' : ''}
+                />
+                {errors.name && <span className="ref-auth-error-text">{errors.name}</span>}
+              </div>
+            )}
+
+            <div className="ref-auth-input-group">
+              <label>EMAIL</label>
+              <input
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                className={errors.email ? 'ref-auth-input-error' : ''}
+              />
+              {errors.email && <span className="ref-auth-error-text">{errors.email}</span>}
+            </div>
+
+            <div className="ref-auth-input-group">
+              <label>PASSWORD</label>
+              <div className="ref-auth-password-wrapper">
+                <input
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={errors.password ? 'ref-auth-input-error' : ''}
+                />
+                <button
+                  type="button"
+                  className="ref-auth-password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
+                </button>
+              </div>
+              {errors.password && <span className="ref-auth-error-text">{errors.password}</span>}
+            </div>
+
+            {isSignUp && (
+              <div className="ref-auth-terms-group">
+                <input type="checkbox" id="terms" className="ref-auth-terms-checkbox" />
+                <label htmlFor="terms">
+                  I agree all statement in <span className="ref-auth-terms-link">terms of service</span>
+                </label>
+              </div>
+            )}
+
+            {errors.form && (
+              <div className="ref-auth-form-error">
+                <AlertIcon size={16} />
+                {errors.form}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="ref-auth-submit-btn"
+              disabled={submitting}
+            >
+              {submitting ? (isSignUp ? 'CREATING ACCOUNT...' : 'LOGGING IN...') : (isSignUp ? 'SIGN UP' : 'LOGIN')}
+            </button>
+          </form>
         </div>
       </div>
+
+      {/* Background circles */}
+      <div className="ref-auth-bg-circle ref-auth-bg-circle-1"></div>
+      <div className="ref-auth-bg-circle ref-auth-bg-circle-2"></div>
 
       {socialModal && (
         <SocialLoginModal
           provider={socialModal}
-          isRegister={isRegister}
+          isRegister={isSignUp}
           onClose={() => setSocialModal(null)}
           onLogin={handleSocialLogin}
         />
@@ -295,4 +239,3 @@ export default function Login() {
     </div>
   )
 }
-
