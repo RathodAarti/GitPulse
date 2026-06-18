@@ -130,6 +130,7 @@ export default function Home() {
   return (
     <div className="workspace-pulse-container animate-slide-up">
 
+      {/* Rate-limit specific marquee */}
       {alert && alert.type === 'error' && alert.message.includes('Rate Limit') && (
         <div className="rate-limit-marquee animate-fade">
           <div className="marquee-content">
@@ -137,6 +138,15 @@ export default function Home() {
             <span>⚡ Signal Saturation: GitPulse is operating in optimized high-performance mode. Synchronous updates temporarily suspended.</span>
           </div>
           <button className="marquee-close" onClick={() => setAlert(null)} aria-label="Dismiss">×</button>
+        </div>
+      )}
+
+      {/* Generic error banner for all other errors */}
+      {alert && alert.type === 'error' && !alert.message.includes('Rate Limit') && (
+        <div className="alert-banner alert-error animate-fade" style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <AlertIcon size={18} />
+          <span style={{ flex: 1 }}>{alert.message}</span>
+          <button className="alert-dismiss" onClick={dismissAlert} aria-label="Dismiss">✕</button>
         </div>
       )}
 
