@@ -39,7 +39,12 @@ export default function ContributorLeaderboardGrid({ contributors }) {
                 </td>
                 <td>
                   <div className="contributor-cell">
-                    <img src={c.avatarUrl} alt="" className="contributor-avatar" />
+                    <img 
+                      src={c.avatarUrl || `https://github.com/identicons/${c.username || 'user'}.png`}
+                      alt={c.username ? `${c.username}'s avatar` : 'Contributor avatar'}
+                      className="contributor-avatar"
+                      onError={(e) => { e.target.src = `https://github.com/identicons/${c.username || 'user'}.png` }}
+                    />
                     <div className="contributor-info">
                       <span className="contributor-name">{c.username || 'Anonymous'}</span>
                       {(c.commitsCount ?? 0) > 1000 && (
@@ -68,10 +73,4 @@ export default function ContributorLeaderboardGrid({ contributors }) {
       </div>
     </div>
   )
-}
-
-function formatLines(n) {
-  if (n == null) return '—'
-  if (n >= 1000) return `${(n / 1000).toFixed(1)}K`
-  return n.toString()
 }
