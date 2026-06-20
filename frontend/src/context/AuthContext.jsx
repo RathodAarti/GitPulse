@@ -5,7 +5,6 @@ const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [token, setToken] = useState(() => localStorage.getItem('gp_token'))
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -29,7 +28,6 @@ export function AuthProvider({ children }) {
         } catch (err) {
           if (isMounted) {
             console.error('Failed to restore authentication session:', err.message)
-            setToken(null)
             setUser(null)
             setIsAuthenticated(false)
             localStorage.removeItem('gp_token')
@@ -60,7 +58,6 @@ export function AuthProvider({ children }) {
         setAuthHeader(newToken)
         localStorage.setItem('gp_token', newToken)
         
-        setToken(newToken)
         setUser(userData)
         setIsAuthenticated(true)
         return { success: true }
@@ -84,7 +81,6 @@ export function AuthProvider({ children }) {
         setAuthHeader(newToken)
         localStorage.setItem('gp_token', newToken)
         
-        setToken(newToken)
         setUser(userData)
         setIsAuthenticated(true)
         return { success: true }
@@ -111,14 +107,13 @@ export function AuthProvider({ children }) {
   }, [])
 
   const logout = useCallback(() => {
-    setToken(null)
     setUser(null)
     setIsAuthenticated(false)
     localStorage.removeItem('gp_token')
     setAuthHeader(null)
   }, [])
 
-  const value = { user, token, isAuthenticated, loading, login, register, logout, updateProfile }
+  const value = { user, isAuthenticated, loading, login, register, logout, updateProfile }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
