@@ -129,7 +129,7 @@ export default function AdminPanel() {
         </button>
       </div>
 
-      {/* â”€â”€ Stats Overview Cards â”€â”€ */}
+      {/* ── Stats Overview Cards ── */}
       <div className="admin-stats-row">
         <div className="admin-stat-card">
           <div className="admin-stat-icon" style={{ background: 'rgba(139, 92, 246, 0.15)', color: 'var(--primary)' }}>
@@ -176,7 +176,7 @@ export default function AdminPanel() {
             {alert.type === 'success' ? <CheckIcon size={18} /> : <AlertIcon size={18} />}
           </span>
           <span className="alert-text">{alert.text}</span>
-          <button className="alert-dismiss" onClick={() => setAlert(null)}>âœ•</button>
+          <button className="alert-dismiss" onClick={() => setAlert(null)} aria-label="Dismiss">✕</button>
         </div>
       )}
 
@@ -199,7 +199,7 @@ export default function AdminPanel() {
         </button>
       </div>
 
-      {/* â”€â”€ User Directory Tab â”€â”€ */}
+      {/* ── User Directory Tab ── */}
       {activeTab === 'users' && (
         <div className="card reveal-on-scroll">
           <div className="card-header" style={{ justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
@@ -214,6 +214,7 @@ export default function AdminPanel() {
               placeholder="Search by name or email..."
               value={userSearch}
               onChange={e => setUserSearch(e.target.value)}
+              aria-label="Search users by name or email"
             />
           </div>
           <div className="card-body">
@@ -259,6 +260,7 @@ export default function AdminPanel() {
                                 className="btn btn-danger btn-sm"
                                 onClick={() => handleDeleteUser(u._id)}
                                 disabled={submittingId === u._id}
+                                aria-label={`Delete user ${u.name}`}
                                 style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
                               >
                                 <TrashIcon size={14} />
@@ -276,7 +278,7 @@ export default function AdminPanel() {
         </div>
       )}
 
-      {/* â”€â”€ Support Inbox Tab â”€â”€ */}
+      {/* ── Support Inbox Tab ── */}
       {activeTab === 'queries' && (
         <div className="card reveal-on-scroll">
           <div className="card-header" style={{ justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
@@ -343,6 +345,7 @@ export default function AdminPanel() {
                           className="btn btn-danger btn-sm"
                           onClick={() => handleDeleteQuery(q._id)}
                           disabled={submittingId === q._id}
+                          aria-label={`Delete ticket: ${q.subject}`}
                         >
                           <TrashIcon size={14} />
                         </button>
