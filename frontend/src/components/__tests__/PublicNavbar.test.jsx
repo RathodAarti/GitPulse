@@ -95,11 +95,11 @@ describe('PublicNavbar — hamburger menu behavior (task 7.2)', () => {
     expect(navActions).not.toHaveClass('nav-actions-open')
   })
 
-  it('7.2-4 — clicking the Sign In nav link while menu is open closes the menu', async () => {
+  it('7.2-4 — clicking the nav link while menu is open closes the menu', async () => {
     /**
-     * Task 7.1 added onClick={() => setIsMenuOpen(false)} to each nav link.
-     * After opening the menu and clicking "Sign In", isMenuOpen must reset to false
-     * and nav-actions-open must be removed.
+     * PublicNavbar has a single nav link that shows either "Sign Up" (default) or "Log In"
+     * (when on signup tab). onClick={() => setIsMenuOpen(false)} closes the menu.
+     * After opening the menu and clicking "Sign Up", isMenuOpen must reset to false.
      */
     const user = userEvent.setup()
     renderNavbar()
@@ -111,35 +111,40 @@ describe('PublicNavbar — hamburger menu behavior (task 7.2)', () => {
     await user.click(hamburger)
     expect(navActions).toHaveClass('nav-actions-open')
 
-    // Click the "Sign In" nav link
-    const signInLink = screen.getByText('Sign In')
-    await user.click(signInLink)
+    // Click the "Sign Up" nav link (default state, not on signup tab)
+    const navLink = screen.getByText('Sign Up')
+    await user.click(navLink)
 
     // Menu should now be closed
     expect(navActions).not.toHaveClass('nav-actions-open')
   })
 
-  it('7.2-5 — clicking the Get Started nav link while menu is open closes the menu', async () => {
+  it('7.2-5 — nav link label switches between Sign Up and Log In based on current tab', () => {
     /**
-     * Same as 7.2-4 but for the "Get Started" link — both nav links have the
-     * onClick close handler; verify the second one works too.
+     * When on the signup tab (?tab=signup), the nav link shows "Log In".
+     * When on any other page, it shows "Sign Up".
+     * This verifies the ternary is correct after the bug fix.
      */
-    const user = userEvent.setup()
-    renderNavbar()
+    const { unmount } = render(
+      <MemoryRouter initialEntries={['/login?tab=signup']}>
+        <PublicNavbar />
+      </MemoryRouter>
+    )
 
-    const hamburger = document.querySelector('.nav-hamburger')
-    const navActions = document.querySelector('.nav-actions')
+    // On signup tab: should show "Log In"
+    const logInLink = screen.queryByText('Log In')
+    expect(logInLink).not.toBeNull()
 
-    // Open the menu
-    await user.click(hamburger)
-    expect(navActions).toHaveClass('nav-actions-open')
+    unmount()
 
-    // Click "Get Started"
-    const getStartedLink = screen.getByText('Get Started')
-    await user.click(getStartedLink)
-
-    // Menu must be closed
-    expect(navActions).not.toHaveClass('nav-actions-open')
+    // On default (no signup tab): should show "Sign Up"
+    render(
+      <MemoryRouter initialEntries={['/login']}>
+        <PublicNavbar />
+      </MemoryRouter>
+    )
+    const signUpLink = screen.queryByText('Sign Up')
+    expect(signUpLink).not.toBeNull()
   })
 
   it('7.2-6 — hamburger button aria-label reflects open/closed state', async () => {
