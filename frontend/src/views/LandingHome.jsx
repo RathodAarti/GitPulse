@@ -93,34 +93,6 @@ export default function LandingHome() {
         </div>
       </section>
 
-      {/* Logo Variations Showcase */}
-        <section className="logo-showcase">
-          <div className="section-header text-center stagger-item">
-            <h2 className="section-title">Brand Identity</h2>
-            <p className="section-subtitle">Multiple logo variations for every use case</p>
-          </div>
-          <div className="logo-showcase-grid">
-            <div className="logo-showcase-card">
-              <h3 className="logo-showcase-title">Horizontal (Default)</h3>
-              <div className="logo-showcase-content">
-                <Logo size={56} showText={true} variation="horizontal" />
-              </div>
-            </div>
-            <div className="logo-showcase-card">
-              <h3 className="logo-showcase-title">Vertical</h3>
-              <div className="logo-showcase-content">
-                <Logo size={72} showText={true} variation="vertical" />
-              </div>
-            </div>
-            <div className="logo-showcase-card">
-              <h3 className="logo-showcase-title">Icon Only</h3>
-              <div className="logo-showcase-content">
-                <Logo size={80} showText={false} variation="icon-only" />
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Core Features Matrix */}
         <section className="features-matrix">
           <div className="section-header text-center stagger-item delay-5">
