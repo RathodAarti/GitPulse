@@ -2,7 +2,7 @@ import { useState, useEffect, Suspense, lazy, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, NavLink, useLocation, Link } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
-import { DashboardIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, MenuIcon, XIcon, LogoutIcon, ShieldIcon, EditIcon } from './components/Icons'
+import { DashboardIcon, SettingsIcon, HelpIcon, SunIcon, MoonIcon, LogoutIcon, ShieldIcon, EditIcon } from './components/Icons'
 import Logo from './components/Logo'
 import SplashScreen from './GitPulse/SplashScreen'
 import SupportWidget from './components/SupportWidget'
@@ -252,11 +252,14 @@ function AppShell() {
         <header className="top-bar stagger-item delay-1" id="top-bar">
           <div className="top-bar-left">
             <button 
-              className="mobile-hamburger-btn"
+              className={`mobile-hamburger-btn ${sidebarMobileOpen ? 'is-open' : ''}`}
               onClick={() => setSidebarMobileOpen(!sidebarMobileOpen)}
               aria-label="Toggle mobile menu"
+              aria-expanded={sidebarMobileOpen}
             >
-              {sidebarMobileOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
+              <span className="hamburger-bar bar-1" />
+              <span className="hamburger-bar bar-2" />
+              <span className="hamburger-bar bar-3" />
             </button>
             <Logo size={40} showText={true} className="top-bar-logo" />
           </div>
