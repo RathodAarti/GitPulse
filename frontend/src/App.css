@@ -6055,22 +6055,30 @@ button:active,
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.15);
-  border: none;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
   color: #fff;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background 0.12s, transform 0.12s;
 }
 
 .social-modal-close:hover {
-  background: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-50%) scale(1.04);
+}
+
+.social-modal-close svg {
+  stroke: currentColor;
+  width: 12px;
+  height: 12px;
+  display: block;
 }
 
 .social-modal-body {
