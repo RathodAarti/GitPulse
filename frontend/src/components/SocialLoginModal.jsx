@@ -1,4 +1,4 @@
-import { GithubIcon, GoogleIcon, LinkedinIcon } from './Icons'
+import { GithubIcon, GoogleIcon, LinkedinIcon, XIcon } from './Icons'
 
 const SOCIAL_ACCOUNTS = {
   google: {
@@ -44,7 +44,9 @@ export default function SocialLoginModal({ provider, isRegister = false, onClose
         <div className="social-modal-header" style={{ background: config.bg }}>
           <ProviderIcon size={26} />
           <span>Sign {isRegister ? 'up' : 'in'} with {config.label}</span>
-          <button className="social-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button type="button" className="social-modal-close" onClick={onClose} aria-label="Close">
+            <XIcon size={14} color="#fff" />
+          </button>
         </div>
 
         <div className="social-modal-body">
