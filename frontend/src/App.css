@@ -875,14 +875,6 @@ a, button, .card, .repo-card, .feature-card {
 .auth-orbs {
   display: none !important;
 }
-  display: flex;
-  flex-direction: column;
-  background-image: 
-    radial-gradient(at 0% 0%, var(--primary-light) 0, transparent 50%),
-    radial-gradient(at 100% 0%, var(--accent-glow) 0, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(44, 62, 80, 0.05) 0, transparent 50%);
-  overflow-x: hidden;
-}
 
 .auth-container {
   flex: 1;
