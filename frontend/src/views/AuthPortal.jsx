@@ -19,7 +19,7 @@ function ParticleBurst({ trigger, isRegister, cardRef, overlayRef }) {
     let spawning = true
     const timer = setTimeout(() => {
       spawning = false
-    }, 600) // matches the 600ms transition time
+    }, 550) // matches the 550ms transition time
 
     const canvas = canvasRef.current
     if (!canvas) return
@@ -223,7 +223,7 @@ export default function AuthPortal() {
     setShowPassword(false)
     setParticleTrigger(prev => prev + 1)
     setIsTransitioning(true)
-    setTimeout(() => setIsTransitioning(false), 600)
+    setTimeout(() => setIsTransitioning(false), 550)
   }
 
   const handleSocialLogin = async (account) => {
