@@ -223,7 +223,7 @@ export default function AuthPortal() {
     setShowPassword(false)
     setParticleTrigger(prev => prev + 1)
     setIsTransitioning(true)
-    setTimeout(() => setIsTransitioning(false), 550)
+    setTimeout(() => setIsTransitioning(false), 750)
   }
 
   const handleSocialLogin = async (account) => {
