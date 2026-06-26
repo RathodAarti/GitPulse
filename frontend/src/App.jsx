@@ -267,6 +267,9 @@ function AppShell() {
       <main className={`main-content ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <header className="top-bar stagger-item delay-1" id="top-bar">
           <div className="top-bar-left">
+            <Logo size={40} showText={true} className="top-bar-logo" />
+          </div>
+          <div className="top-bar-actions">
             <button 
               className={`mobile-hamburger-btn ${sidebarMobileOpen ? 'is-open' : ''}`}
               onClick={() => setSidebarMobileOpen(!sidebarMobileOpen)}
@@ -277,10 +280,6 @@ function AppShell() {
               <span className="hamburger-bar bar-2" />
               <span className="hamburger-bar bar-3" />
             </button>
-            <Logo size={40} showText={true} className="top-bar-logo" />
-          </div>
-          <div className="top-bar-actions">
-            {/* Theme toggle moved to sidebar */}
           </div>
         </header>
 

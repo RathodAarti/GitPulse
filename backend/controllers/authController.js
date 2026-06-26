@@ -38,7 +38,7 @@ const signToken = (userId) => {
  */
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password, securityQuestion, securityAnswer } = req.body
 
     // Basic validation
     if (!name || !email || !password) {
@@ -69,6 +69,8 @@ export const register = async (req, res) => {
       name,
       email: email.toLowerCase(),
       password,
+      securityQuestion,
+      securityAnswer,
     })
 
     // Log account creation

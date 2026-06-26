@@ -5,7 +5,7 @@ import { AlertIcon, EyeIcon, EyeOffIcon, ShieldIcon, UserIcon } from '../compone
 import Logo from '../components/Logo'
 import PublicNavbar from '../components/PublicNavbar'
 import SocialLoginModal from '../components/SocialLoginModal'
-import ForgotPasswordModal from '../components/ForgotPasswordModal'
+import ForgotPasswordModal, { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
 
 /* ─── Particle Burst Canvas ─────────────────────────────────────────── */
 function ParticleBurst({ trigger, isRegister, cardRef, overlayRef }) {
@@ -136,7 +136,7 @@ export default function AuthPortal() {
     return new URLSearchParams(location.search).get('tab') === 'signup'
   })
   const [showPassword, setShowPassword] = useState(false)
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', securityQuestion: '', securityAnswer: '' })
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
@@ -170,6 +170,10 @@ export default function AuthPortal() {
     } else if (name === 'name' && isRegister) {
       if (!value.trim()) error = 'Full name is required'
       else if (value.trim().length < 2) error = 'Name too short'
+    } else if (name === 'securityQuestion' && isRegister) {
+      if (!value.trim()) error = 'Security question is required'
+    } else if (name === 'securityAnswer' && isRegister) {
+      if (!value.trim()) error = 'Security answer is required'
     }
     return error
   }
@@ -198,7 +202,7 @@ export default function AuthPortal() {
     setSubmitting(true)
     try {
       const result = isRegister
-        ? await authRegister(formData.name, formData.email, formData.password)
+        ? await authRegister(formData.name, formData.email, formData.password, formData.securityQuestion, formData.securityAnswer)
         : await login(formData.email, formData.password)
 
       if (!result.success) {
@@ -218,7 +222,7 @@ export default function AuthPortal() {
   const switchPanel = (toRegister) => {
     if (toRegister === isRegister) return
     setIsRegister(toRegister)
-    setFormData({ name: '', email: '', password: '' })
+    setFormData({ name: '', email: '', password: '', securityQuestion: '', securityAnswer: '' })
     setErrors({})
     setShowPassword(false)
     setParticleTrigger(prev => prev + 1)
@@ -318,6 +322,41 @@ export default function AuthPortal() {
                   {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
                 </button>
                 {errors.password && <span className="error-text-refined">{errors.password}</span>}
+              </div>
+              
+              <div className="new-settings-alert alert-warning stagger-item" style={{marginBottom: '12px', padding: '10px 14px', fontSize: '0.8rem'}}>
+                <AlertIcon size={14} />
+                <span>⚠️ Important: This security question will help you reset your password if you forget it!</span>
+              </div>
+              
+              <div className="input-group-refined stagger-item">
+                <select
+                  name="securityQuestion"
+                  value={formData.securityQuestion}
+                  onChange={handleChange}
+                  className={errors.securityQuestion ? 'has-error' : ''}
+                  style={{width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '12px 14px', paddingRight: '40px', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500}}
+                >
+                  <option value="">Select a security question...</option>
+                  {SECURITY_QUESTIONS.map((q, idx) => (
+                    <option key={idx} value={q}>{q}</option>
+                  ))}
+                </select>
+                <ShieldIcon size={18} className="input-icon-right" />
+                {errors.securityQuestion && <span className="error-text-refined">{errors.securityQuestion}</span>}
+              </div>
+              
+              <div className="input-group-refined stagger-item">
+                <input
+                  name="securityAnswer"
+                  type="text"
+                  placeholder="Your answer"
+                  value={formData.securityAnswer}
+                  onChange={handleChange}
+                  className={errors.securityAnswer ? 'has-error' : ''}
+                />
+                <UserIcon size={18} className="input-icon-right" />
+                {errors.securityAnswer && <span className="error-text-refined">{errors.securityAnswer}</span>}
               </div>
 
               {errors.form && isRegister && (
