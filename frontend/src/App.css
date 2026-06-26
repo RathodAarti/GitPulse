@@ -1052,12 +1052,14 @@ a, button, .card, .repo-card, .feature-card {
   background-color: var(--bg-card);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   padding: 0 50px;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   text-align: center;
   transition: background-color var(--duration-normal) var(--ease-premium);
+  overflow-y: auto;
 }
 
 .auth-form-refined h2 {
@@ -1566,8 +1568,10 @@ a, button, .card, .repo-card, .feature-card {
   flex-direction: column;
   gap: 12px; /* equal spacing between elements */
   padding: 28px;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   justify-content: flex-start;
+  overflow-y: auto;
 }
 
 @media (max-width: 768px) {
