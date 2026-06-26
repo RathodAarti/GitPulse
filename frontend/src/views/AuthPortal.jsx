@@ -285,8 +285,8 @@ export default function AuthPortal() {
                   className={errors.name ? 'has-error' : ''}
                 />
                 <UserIcon size={18} className="input-icon-right" />
+                {errors.name && <span className="error-text-refined">{errors.name}</span>}
               </div>
-              {errors.name && <span className="error-text-refined">{errors.name}</span>}
 
               <div className="input-group-refined stagger-item">
                 <input
@@ -298,8 +298,8 @@ export default function AuthPortal() {
                   className={errors.email ? 'has-error' : ''}
                 />
                 <ShieldIcon size={18} className="input-icon-right" />
+                {errors.email && <span className="error-text-refined">{errors.email}</span>}
               </div>
-              {errors.email && <span className="error-text-refined">{errors.email}</span>}
 
               <div className="input-group-refined stagger-item">
                 <input
@@ -317,8 +317,8 @@ export default function AuthPortal() {
                 >
                   {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
                 </button>
+                {errors.password && <span className="error-text-refined">{errors.password}</span>}
               </div>
-              {errors.password && <span className="error-text-refined">{errors.password}</span>}
 
               {errors.form && isRegister && (
                 <div className="form-error-refined animate-shake">
@@ -372,8 +372,8 @@ export default function AuthPortal() {
                   className={errors.email ? 'has-error' : ''}
                 />
                 <ShieldIcon size={18} className="input-icon-right" />
+                {errors.email && <span className="error-text-refined">{errors.email}</span>}
               </div>
-              {errors.email && <span className="error-text-refined">{errors.email}</span>}
 
               <div className="input-group-refined stagger-item">
                 <input
@@ -391,8 +391,8 @@ export default function AuthPortal() {
                 >
                   {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
                 </button>
+                {errors.password && <span className="error-text-refined">{errors.password}</span>}
               </div>
-              {errors.password && <span className="error-text-refined">{errors.password}</span>}
 
               <button
                 type="button"
