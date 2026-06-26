@@ -4704,6 +4704,18 @@ a, button, .card, .repo-card, .feature-card {
   border: 1px solid var(--alert);
 }
 
+.new-settings-alert.alert-warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+}
+
+[data-theme='dark'] .new-settings-alert.alert-warning {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+  border-color: #ffc107;
+}
+
 /* Dark Mode Adjustments */
 [data-theme='dark'] .new-settings-sidebar {
   background: rgba(255,255,255,0.03);
