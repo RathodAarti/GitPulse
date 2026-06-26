@@ -668,7 +668,7 @@ export default function Settings() {
                   </button>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+              <div className="new-settings-token-btn-row">
                 <button 
                   className="new-settings-save-btn" 
                   onClick={handleUpdateToken}
@@ -680,16 +680,7 @@ export default function Settings() {
                 <button 
                   onClick={verifyConnection}
                   disabled={testingConnection}
-                  style={{ 
-                    flex: 1, 
-                    padding: '12px', 
-                    border: '1px solid var(--primary)', 
-                    borderRadius: 'var(--radius-md)', 
-                    background: 'transparent', 
-                    color: 'var(--primary)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease'
-                  }}
+                  className="new-settings-test-btn"
                 >
                   {testingConnection ? 'Checking...' : 'Test Connection'}
                 </button>
@@ -745,7 +736,7 @@ export default function Settings() {
                       opacity: pat.active ? '1' : '0.6'
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <div className="new-settings-pat-header">
                       <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{pat.name}</div>
                       <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expires: {pat.expires}</div>
                     </div>
@@ -928,7 +919,7 @@ export default function Settings() {
                       marginBottom: '12px',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <div className="new-settings-activity-row">
                       <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{activity.action}</div>
                       <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                         {new Date(activity.createdAt).toLocaleString()}
@@ -1059,7 +1050,7 @@ export default function Settings() {
                   <p style={{ color: 'var(--text-secondary)', marginBottom: '20px' }}>
                     Are you sure you want to delete your account? You have 30 days to log back in to reverse this.
                   </p>
-                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                  <div className="new-settings-modal-btn-row">
                     <button
                       onClick={() => setShowDeleteConfirmation(false)}
                       style={{
