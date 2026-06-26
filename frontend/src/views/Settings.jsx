@@ -1152,6 +1152,7 @@ export default function Settings() {
           {expandedCategory === 'pat-management' && renderCategoryContent('pat-management')}
           {expandedCategory === 'security-reset' && renderCategoryContent('security-reset')}
           {expandedCategory === 'history' && renderCategoryContent('history')}
+          {expandedCategory === 'delete-account' && renderCategoryContent('delete-account')}
         </div>
 
         {/* Right Column Placeholder - Desktop */}

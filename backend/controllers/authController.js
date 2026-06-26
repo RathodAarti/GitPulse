@@ -204,6 +204,8 @@ export const getProfile = async (req, res) => {
         email: user.email,
         githubToken: user.githubToken,
         securityQuestion: user.securityQuestion || null,
+        isDeleting: user.isDeleting || false,
+        deletionScheduledAt: user.deletionScheduledAt || null,
       },
     })
   } catch (error) {
