@@ -45,7 +45,7 @@ export default function PublicNavbar({ showBackToHome = false }) {
     setIsMenuOpen(false)
   }, [location.pathname, location.search])
 
-  // Swipe to close
+  // Swipe to close (for left drawer)
   const handleTouchStart = (e) => {
     setTouchEnd(null)
     setTouchStart(e.targetTouches[0].clientX)
@@ -53,8 +53,8 @@ export default function PublicNavbar({ showBackToHome = false }) {
   const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return
-    const distance = touchStart - touchEnd
-    if (distance > MIN_SWIPE_DISTANCE && isMenuOpen) setIsMenuOpen(false)
+    const distance = touchEnd - touchStart // swipe left to right
+    if (distance < -MIN_SWIPE_DISTANCE && isMenuOpen) setIsMenuOpen(false)
   }
 
   return (
@@ -66,17 +66,19 @@ export default function PublicNavbar({ showBackToHome = false }) {
         onTouchEnd={handleTouchEnd}
       >
         <div className="navbar-content">
-          {/* Left — back button or logo */}
-          {showBackToHome ? (
-            <Link to="/" className="nav-back-btn">
-              <ArrowLeftIcon size={18} />
-              <span className="nav-back-text">Back to Home</span>
-            </Link>
-          ) : (
-            <Link to="/" className="nav-logo">
-              <Logo size={42} showText={true} />
-            </Link>
-          )}
+          {/* Animated hamburger — mobile only, now LEFT side */}
+          <button
+            ref={buttonRef}
+            className={`nav-hamburger ${isMenuOpen ? 'is-open' : ''}`}
+            onClick={() => setIsMenuOpen(prev => !prev)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-side-menu"
+          >
+            <span className="nav-ham-bar bar-1" />
+            <span className="nav-ham-bar bar-2" />
+            <span className="nav-ham-bar bar-3" />
+          </button>
 
           {/* Desktop actions — hidden on login page */}
           <div className="nav-actions desktop-nav-actions">
@@ -97,19 +99,17 @@ export default function PublicNavbar({ showBackToHome = false }) {
             </button>
           </div>
 
-          {/* Animated hamburger — mobile only */}
-          <button
-            ref={buttonRef}
-            className={`nav-hamburger ${isMenuOpen ? 'is-open' : ''}`}
-            onClick={() => setIsMenuOpen(prev => !prev)}
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-side-menu"
-          >
-            <span className="nav-ham-bar bar-1" />
-            <span className="nav-ham-bar bar-2" />
-            <span className="nav-ham-bar bar-3" />
-          </button>
+          {/* Right — back button or logo */}
+          {showBackToHome ? (
+            <Link to="/" className="nav-back-btn">
+              <ArrowLeftIcon size={18} />
+              <span className="nav-back-text">Back to Home</span>
+            </Link>
+          ) : (
+            <Link to="/" className="nav-logo">
+              <Logo size={42} showText={true} />
+            </Link>
+          )}
         </div>
       </nav>
 
