@@ -150,6 +150,11 @@ function AppShell() {
         aria-label="Main navigation"
         ref={sidebarRef}
       >
+        {/* Brand Logo */}
+        <div className="sidebar-brand stagger-item delay-0">
+          <Logo size={sidebarCollapsed ? 42 : 46} variation={sidebarCollapsed ? 'icon-only' : 'horizontal'} />
+        </div>
+        
         {/* User Profile Section */}
         <div className="sidebar-profile stagger-item delay-1">
           <div className="sidebar-user">

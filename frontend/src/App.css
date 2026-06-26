@@ -5063,6 +5063,17 @@ a, button, .card, .repo-card, .feature-card {
   min-width: max-content;
 }
 
+/* Vertical variation: stack icon and wordmark */
+.logo-variation-vertical {
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Icon only: hide wordmark */
+.logo-variation-icon-only .logo-wordmark {
+  display: none;
+}
+
 .logo-container:hover {
   transform: translateY(-1px);
 }
