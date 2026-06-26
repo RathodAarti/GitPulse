@@ -6,7 +6,7 @@ import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
 
 export default function Settings() {
   const { user, updateProfile } = useAuth()
-  const [activeTab, setActiveTab] = useState('account')
+  const [expandedCategory, setExpandedCategory] = useState('account')
 
   // Profile State
   const [name, setName] = useState(user?.name || '')
@@ -262,494 +262,134 @@ export default function Settings() {
     { id: 'history', label: 'History' },
   ]
 
-  return (
-    <div className="new-settings-page">
-      <h1 className="new-settings-header">Settings</h1>
-      
-      <div className="new-settings-container">
-        {/* Left Sidebar */}
-        <div className="new-settings-sidebar">
-          <div className="new-settings-profile-section">
-            <input 
-              type="file" 
-              id="profile-photo-input" 
-              accept="image/jpeg,image/png,image/webp" 
-              style={{ display: 'none' }} 
-              onChange={handleProfilePhotoChange} 
-            />
-            <div className="new-settings-avatar-wrapper" onClick={handleProfilePhotoClick}>
-              <img 
-                src={profilePhoto}
-                alt="User Avatar" 
-                className="new-settings-avatar"
-              />
-              <div className="new-settings-avatar-overlay">
-                <div className="new-settings-avatar-overlay-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}>
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                    <circle cx="12" cy="13" r="4"></circle>
-                  </svg>
+  const renderCategoryContent = (categoryId) => {
+    switch (categoryId) {
+      case 'account':
+        return (
+          <>
+            <h2 className="new-settings-section-title">Account settings</h2>
+            
+            {profileMessage && (
+              <div className={`new-settings-alert alert-${profileMessage.type}`}>
+                <AlertIcon size={16} />
+                {profileMessage.text}
+              </div>
+            )}
+
+            <div className="new-settings-form">
+              <div className="new-settings-form-group">
+                <label>Username</label>
+                <input 
+                  type="text" 
+                  value={username} 
+                  onChange={(e) => setUsername(e.target.value)} 
+                  placeholder="Your username"
+                />
+              </div>
+
+              <div className="new-settings-form-group">
+                <label>Email</label>
+                <input 
+                  type="email" 
+                  value={email} 
+                  readOnly
+                  className="read-only-input"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div className="new-settings-form-group">
+                <label>Gender</label>
+                <select 
+                  value={gender} 
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div className="new-settings-form-group new-settings-birthday-group">
+                <label>Birthday</label>
+                <div className="new-settings-birthday-selects">
+                  <select 
+                    value={birthdayDay} 
+                    onChange={(e) => setBirthdayDay(e.target.value)}
+                  >
+                    <option value="">Day</option>
+                    {days.map(d => <option key={d} value={d}>{d}</option>)}
+                  </select>
+                  <select 
+                    value={birthdayMonth} 
+                    onChange={(e) => setBirthdayMonth(e.target.value)}
+                  >
+                    <option value="">Month</option>
+                    {months.map((m, i) => <option key={i} value={m}>{m}</option>)}
+                  </select>
+                  <select 
+                    value={birthdayYear} 
+                    onChange={(e) => setBirthdayYear(e.target.value)}
+                  >
+                    <option value="">Year</option>
+                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                  </select>
                 </div>
+              </div>
+
+              <div className="new-settings-form-group">
+                <label>Job</label>
+                <input 
+                  type="text" 
+                  value={job} 
+                  onChange={(e) => setJob(e.target.value)} 
+                  placeholder="Your job title"
+                />
+              </div>
+
+              <div className="new-settings-form-group">
+                <label>Language</label>
+                <select 
+                  value={language} 
+                  onChange={(e) => setLanguage(e.target.value)}
+                >
+                  <option value="English">English</option>
+                  <option value="Spanish">Spanish</option>
+                  <option value="French">French</option>
+                  <option value="German">German</option>
+                </select>
+              </div>
+
+              <div className="new-settings-form-group">
+                <label>Country</label>
+                <select 
+                  value={country} 
+                  onChange={(e) => setCountry(e.target.value)}
+                >
+                  <option value="">Select country</option>
+                  <option value="us">United States</option>
+                  <option value="ca">Canada</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="au">Australia</option>
+                </select>
+              </div>
+
+              <div className="new-settings-form-group">
+                <label>City</label>
+                <select 
+                  value={city} 
+                  onChange={(e) => setCity(e.target.value)}
+                >
+                  <option value="">Select city</option>
+                  <option value="boston">Boston</option>
+                  <option value="newyork">New York</option>
+                  <option value="chicago">Chicago</option>
+                </select>
               </div>
             </div>
-            <h3 className="new-settings-username">{name || "Your Name"}</h3>
-            <p className="new-settings-avatar-hint" onClick={handleProfilePhotoClick}>(Click to change your photo)</p>
-            <div className="new-settings-divider"></div>
-          </div>
-          
-          <nav className="new-settings-nav">
-            {navItems.map((item) => (
-              <button 
-                key={item.id}
-                className={`new-settings-nav-item ${activeTab === item.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(item.id)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
-        </div>
 
-        {/* Middle Content Column - Conditional */}
-        <div className="new-settings-middle-column">
-          {activeTab === 'account' && (
-            <>
-              <h2 className="new-settings-section-title">Account settings</h2>
-              
-              {profileMessage && (
-                <div className={`new-settings-alert alert-${profileMessage.type}`}>
-                  <AlertIcon size={16} />
-                  {profileMessage.text}
-                </div>
-              )}
-
-              <div className="new-settings-form">
-                <div className="new-settings-form-group">
-                  <label>Username</label>
-                  <input 
-                    type="text" 
-                    value={username} 
-                    onChange={(e) => setUsername(e.target.value)} 
-                    placeholder="Your username"
-                  />
-                </div>
-
-                <div className="new-settings-form-group">
-                  <label>Email</label>
-                  <input 
-                    type="email" 
-                    value={email} 
-                    readOnly
-                    className="read-only-input"
-                    placeholder="you@example.com"
-                  />
-                </div>
-
-                <div className="new-settings-form-group">
-                  <label>Gender</label>
-                  <select 
-                    value={gender} 
-                    onChange={(e) => setGender(e.target.value)}
-                  >
-                    <option value="">Select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div className="new-settings-form-group new-settings-birthday-group">
-                  <label>Birthday</label>
-                  <div className="new-settings-birthday-selects">
-                    <select 
-                      value={birthdayDay} 
-                      onChange={(e) => setBirthdayDay(e.target.value)}
-                    >
-                      <option value="">Day</option>
-                      {days.map(d => <option key={d} value={d}>{d}</option>)}
-                    </select>
-                    <select 
-                      value={birthdayMonth} 
-                      onChange={(e) => setBirthdayMonth(e.target.value)}
-                    >
-                      <option value="">Month</option>
-                      {months.map((m, i) => <option key={i} value={m}>{m}</option>)}
-                    </select>
-                    <select 
-                      value={birthdayYear} 
-                      onChange={(e) => setBirthdayYear(e.target.value)}
-                    >
-                      <option value="">Year</option>
-                      {years.map(y => <option key={y} value={y}>{y}</option>)}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="new-settings-form-group">
-                  <label>Job</label>
-                  <input 
-                    type="text" 
-                    value={job} 
-                    onChange={(e) => setJob(e.target.value)} 
-                    placeholder="Your job title"
-                  />
-                </div>
-
-                <div className="new-settings-form-group">
-                  <label>Language</label>
-                  <select 
-                    value={language} 
-                    onChange={(e) => setLanguage(e.target.value)}
-                  >
-                    <option value="English">English</option>
-                    <option value="Spanish">Spanish</option>
-                    <option value="French">French</option>
-                    <option value="German">German</option>
-                  </select>
-                </div>
-
-                <div className="new-settings-form-group">
-                  <label>Country</label>
-                  <select 
-                    value={country} 
-                    onChange={(e) => setCountry(e.target.value)}
-                  >
-                    <option value="">Select country</option>
-                    <option value="us">United States</option>
-                    <option value="ca">Canada</option>
-                    <option value="uk">United Kingdom</option>
-                    <option value="au">Australia</option>
-                  </select>
-                </div>
-
-                <div className="new-settings-form-group">
-                  <label>City</label>
-                  <select 
-                    value={city} 
-                    onChange={(e) => setCity(e.target.value)}
-                  >
-                    <option value="">Select city</option>
-                    <option value="boston">Boston</option>
-                    <option value="newyork">New York</option>
-                    <option value="chicago">Chicago</option>
-                  </select>
-                </div>
-              </div>
-            </>
-          )}
-
-          {activeTab === 'security' && (
-            <>
-              <h2 className="new-settings-section-title">Security & privacy</h2>
-              {securityMessage && (
-                <div className={`new-settings-alert alert-${securityMessage.type}`}>
-                  <AlertIcon size={16} />
-                  {securityMessage.text}
-                </div>
-              )}
-              {!hasSecurityQuestion && (
-                <div className="new-settings-alert alert-error" style={{ marginBottom: '20px' }}>
-                  <AlertIcon size={16} />
-                  No security question set. You won't be able to recover your password without one.
-                </div>
-              )}
-              <div className="new-settings-form">
-                <div className="new-settings-form-group">
-                  <label>Security Question</label>
-                  <select 
-                    value={securityQuestion} 
-                    onChange={(e) => setSecurityQuestion(e.target.value)}
-                  >
-                    <option value="">Select a security question</option>
-                    {SECURITY_QUESTIONS.map((q, idx) => (
-                      <option key={idx} value={q}>{q}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="new-settings-form-group">
-                  <label>Your Answer</label>
-                  <input 
-                    type="text" 
-                    value={securityAnswer}
-                    onChange={(e) => setSecurityAnswer(e.target.value)}
-                    placeholder="Enter your answer"
-                  />
-                </div>
-                <button 
-                  className="new-settings-save-btn" 
-                  onClick={handleSaveSecurity}
-                  disabled={submittingSecurity}
-                  style={{ marginTop: '10px', width: '100%' }}
-                >
-                  Save Security Question
-                </button>
-              </div>
-            </>
-          )}
-
-          {activeTab === 'pat-management' && (
-            <>
-              <h2 className="new-settings-section-title">PAT Management</h2>
-              {patSuccess && (
-                <div className="new-settings-alert alert-success">
-                  <CheckIcon size={16} />
-                  {patSuccess}
-                </div>
-              )}
-              {patError && (
-                <div className="new-settings-alert alert-error">
-                  <AlertIcon size={16} />
-                  {patError}
-                </div>
-              )}
-
-              <button 
-                className="new-settings-save-btn" 
-                onClick={() => setShowPatModal(true)}
-                style={{ width: '100%', marginBottom: '20px' }}
-              >
-                Create New Token
-              </button>
-
-              <div className="new-settings-form">
-                {userPats.length === 0 ? (
-                  <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
-                    You haven't created any Personal Access Tokens yet.
-                  </div>
-                ) : (
-                  userPats.map(pat => (
-                    <div 
-                      key={pat.id} 
-                      style={{ 
-                        border: '1px solid var(--border)', 
-                        borderRadius: 'var(--radius-md)', 
-                        padding: '16px', 
-                        marginBottom: '12px',
-                        opacity: pat.active ? '1' : '0.6'
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                        <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{pat.name}</div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expires: {pat.expires}</div>
-                      </div>
-                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                        <span style={{ 
-                          padding: '4px 8px', 
-                          borderRadius: '4px', 
-                          background: 'var(--primary-light)', 
-                        fontSize: '0.8rem', 
-                        color: 'var(--primary)' 
-                        }}>
-                          {pat.permissions}
-                        </span>
-                        <span style={{ 
-                          padding: '4px 8px', 
-                          borderRadius: '4px', 
-                          background: pat.active ? 'var(--success-bg)' : 'var(--alert-bg)', 
-                          fontSize: '0.8rem', 
-                          color: pat.active ? 'var(--success)' : 'var(--alert)' 
-                        }}>
-                          {pat.active ? 'Active' : 'Revoked'}
-                        </span>
-                      </div>
-                      {pat.active && (
-                        <button 
-                          onClick={() => handleRevokePat(pat.id)} 
-                          style={{ 
-                            marginTop: '10px', 
-                            background: 'transparent', 
-                            border: '1px solid var(--alert)', 
-                            color: 'var(--alert)',
-                            borderRadius: 'var(--radius-md)',
-                            padding: '6px 12px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease'
-                          }}
-                        >
-                          Revoke
-                        </button>
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {showPatModal && (
-                <div style={{ 
-                  position: 'fixed', 
-                  top: 0, left: 0, right: 0, bottom: 0, 
-                  background: 'rgba(0,0,0,0.5)', 
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center', 
-                  zIndex: 1000 
-                }} onClick={() => setShowPatModal(false)}>
-                  <div style={{ 
-                    background: 'var(--bg-card)', 
-                    padding: '24px', 
-                    borderRadius: 'var(--radius-lg)', 
-                    width: '100%', 
-                    maxWidth: '400px',
-                    border: '1px solid var(--border)',
-                    boxShadow: 'var(--shadow-xl)'
-                  }} onClick={(e) => e.stopPropagation()} className="pat-modal-inner">
-                    <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Create Personal Access Token</h3>
-                    <div className="new-settings-form">
-                      <div className="new-settings-form-group">
-                        <label>Token Name</label>
-                        <input 
-                          type="text" 
-                          value={patName}
-                          onChange={(e) => setPatName(e.target.value)}
-                          placeholder="e.g., CI/CD Pipeline"
-                        />
-                      </div>
-                      <div className="new-settings-form-group">
-                        <label>Expiration (Days)</label>
-                        <select 
-                          value={patExpiry}
-                          onChange={(e) => setPatExpiry(e.target.value)}
-                        >
-                          <option value="7">7 Days</option>
-                          <option value="30">30 Days</option>
-                          <option value="90">90 Days</option>
-                          <option value="365">1 Year</option>
-                        </select>
-                      </div>
-                      <div className="new-settings-form-group">
-                        <label>Permissions</label>
-                        <select 
-                          value={patPermissions}
-                          onChange={(e) => setPatPermissions(e.target.value)}
-                        >
-                          <option value="read">Read Only</option>
-                          <option value="write">Read & Write</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      </div>
-                      <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                        <button 
-                          onClick={() => setShowPatModal(false)} 
-                          style={{ 
-                            flex: 1, 
-                            padding: '12px', 
-                            border: '1px solid var(--border)', 
-                            borderRadius: 'var(--radius-md)', 
-                            cursor: 'pointer', 
-                            background: 'transparent',
-                            color: 'var(--text-secondary)',
-                            transition: 'all 0.2s ease'
-                          }}
-                        >
-                          Cancel
-                        </button>
-                        <button 
-                          onClick={handleCreatePat} 
-                          className="new-settings-save-btn"
-                          style={{ flex: 1 }}
-                        >
-                          Create
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-
-          {activeTab === 'security-reset' && (
-            <>
-              <h2 className="new-settings-section-title">Security Reset</h2>
-              {resetError && (
-                <div className="new-settings-alert alert-error">
-                  <AlertIcon size={16} />
-                  {resetError}
-                </div>
-              )}
-
-              <div className="new-settings-form">
-                {resetStep === 1 && !showResetConfirmation && (
-                  <>
-                    <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                      This will reset all security settings and log you out of all active sessions.
-                    </p>
-                    <div className="new-settings-form-group">
-                <label>Confirm Current Password</label>
-                <div className="new-settings-password-wrapper">
-                  <input 
-                    type={showResetPassword ? 'text' : 'password'} 
-                    value={resetPassword}
-                    onChange={(e) => setResetPassword(e.target.value)}
-                    placeholder="••••••••"
-                  />
-                  <button 
-                    type="button" 
-                    className="new-settings-password-toggle"
-                    onClick={() => setShowResetPassword(!showResetPassword)}
-                  >
-                    {showResetPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
-                  </button>
-                </div>
-              </div>
-                    <button 
-                      className="new-settings-save-btn" 
-                      onClick={handleSecurityReset}
-                      style={{ width: '100%' }}
-                    >
-                      Continue
-                    </button>
-                  </>
-                )}
-
-                {showResetConfirmation && (
-                  <>
-                    <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                      Are you sure? This action cannot be undone!
-                    </p>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <button 
-                        onClick={cancelReset} 
-                        style={{ 
-                          flex: 1, 
-                          padding: '12px', 
-                          border: '1px solid var(--border)', 
-                          borderRadius: 'var(--radius-md)', 
-                          cursor: 'pointer', 
-                          background: 'transparent',
-                          color: 'var(--text-secondary)',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        Cancel
-                      </button>
-                      <button 
-                        onClick={handleSecurityReset} 
-                        style={{ 
-                          flex: 1, 
-                          padding: '12px 24px', 
-                          border: 'none', 
-                          borderRadius: '50px', 
-                          background: 'var(--alert)', 
-                          color: 'white', 
-                          cursor: 'pointer',
-                          boxShadow: 'var(--shadow-md)',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        Confirm Reset
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Right Column - Conditional */}
-        <div className="new-settings-right-column">
-          {activeTab === 'account' && (
+            {/* Right column content for Account */}
             <div className="new-settings-form">
               <div className="new-settings-form-group">
                 <label>Current Password</label>
@@ -872,9 +512,56 @@ export default function Settings() {
                 </button>
               </div>
             </div>
-          )}
+          </>
+        )
+      case 'security':
+        return (
+          <>
+            <h2 className="new-settings-section-title">Security & privacy</h2>
+            {securityMessage && (
+              <div className={`new-settings-alert alert-${securityMessage.type}`}>
+                <AlertIcon size={16} />
+                {securityMessage.text}
+              </div>
+            )}
+            {!hasSecurityQuestion && (
+              <div className="new-settings-alert alert-error" style={{ marginBottom: '20px' }}>
+                <AlertIcon size={16} />
+                No security question set. You won't be able to recover your password without one.
+              </div>
+            )}
+            <div className="new-settings-form">
+              <div className="new-settings-form-group">
+                <label>Security Question</label>
+                <select 
+                  value={securityQuestion} 
+                  onChange={(e) => setSecurityQuestion(e.target.value)}
+                >
+                  <option value="">Select a security question</option>
+                  {SECURITY_QUESTIONS.map((q, idx) => (
+                    <option key={idx} value={q}>{q}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="new-settings-form-group">
+                <label>Your Answer</label>
+                <input 
+                  type="text" 
+                  value={securityAnswer}
+                  onChange={(e) => setSecurityAnswer(e.target.value)}
+                  placeholder="Enter your answer"
+                />
+              </div>
+              <button 
+                className="new-settings-save-btn" 
+                onClick={handleSaveSecurity}
+                disabled={submittingSecurity}
+                style={{ marginTop: '10px', width: '100%' }}
+              >
+                Save Security Question
+              </button>
+            </div>
 
-          {activeTab === 'security' && (
             <div className="new-settings-form">
               <div className="new-settings-form-group">
                 <label>GitHub Personal Access Token</label>
@@ -927,22 +614,407 @@ export default function Settings() {
                 </div>
               )}
             </div>
-          )}
+          </>
+        )
+      case 'pat-management':
+        return (
+          <>
+            <h2 className="new-settings-section-title">PAT Management</h2>
+            {patSuccess && (
+              <div className="new-settings-alert alert-success">
+                <CheckIcon size={16} />
+                {patSuccess}
+              </div>
+            )}
+            {patError && (
+              <div className="new-settings-alert alert-error">
+                <AlertIcon size={16} />
+                {patError}
+              </div>
+            )}
 
-          {(activeTab === 'pat-management' || activeTab === 'security-reset') && (
+            <button 
+              className="new-settings-save-btn" 
+              onClick={() => setShowPatModal(true)}
+              style={{ width: '100%', marginBottom: '20px' }}
+            >
+              Create New Token
+            </button>
+
+            <div className="new-settings-form">
+              {userPats.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
+                  You haven't created any Personal Access Tokens yet.
+                </div>
+              ) : (
+                userPats.map(pat => (
+                  <div 
+                    key={pat.id} 
+                    style={{ 
+                      border: '1px solid var(--border)', 
+                      borderRadius: 'var(--radius-md)', 
+                      padding: '16px', 
+                      marginBottom: '12px',
+                      opacity: pat.active ? '1' : '0.6'
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{pat.name}</div>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expires: {pat.expires}</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ 
+                        padding: '4px 8px', 
+                        borderRadius: '4px', 
+                        background: 'var(--primary-light)', 
+                      fontSize: '0.8rem', 
+                      color: 'var(--primary)' 
+                      }}>
+                        {pat.permissions}
+                      </span>
+                      <span style={{ 
+                        padding: '4px 8px', 
+                        borderRadius: '4px', 
+                        background: pat.active ? 'var(--success-bg)' : 'var(--alert-bg)', 
+                        fontSize: '0.8rem', 
+                        color: pat.active ? 'var(--success)' : 'var(--alert)' 
+                      }}>
+                        {pat.active ? 'Active' : 'Revoked'}
+                      </span>
+                    </div>
+                    {pat.active && (
+                      <button 
+                        onClick={() => handleRevokePat(pat.id)} 
+                        style={{ 
+                          marginTop: '10px', 
+                          background: 'transparent', 
+                          border: '1px solid var(--alert)', 
+                          color: 'var(--alert)',
+                          borderRadius: 'var(--radius-md)',
+                          padding: '6px 12px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        Revoke
+                      </button>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+
             <div style={{ padding: '20px' }}>
               <h3 style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '10px' }}>
                 Information
               </h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                {activeTab === 'pat-management' 
-                  ? 'Personal Access Tokens allow applications to access your GitPulse data securely.' 
-                  : 'Only perform a security reset if you believe your account has been compromised.'}
+                Personal Access Tokens allow applications to access your GitPulse data securely.
               </p>
             </div>
-          )}
+          </>
+        )
+      case 'security-reset':
+        return (
+          <>
+            <h2 className="new-settings-section-title">Security Reset</h2>
+            {resetError && (
+              <div className="new-settings-alert alert-error">
+                <AlertIcon size={16} />
+                {resetError}
+              </div>
+            )}
+
+            <div className="new-settings-form">
+              {resetStep === 1 && !showResetConfirmation && (
+                <>
+                  <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
+                    This will reset all security settings and log you out of all active sessions.
+                  </p>
+                  <div className="new-settings-form-group">
+                <label>Confirm Current Password</label>
+                <div className="new-settings-password-wrapper">
+                  <input 
+                    type={showResetPassword ? 'text' : 'password'} 
+                    value={resetPassword}
+                    onChange={(e) => setResetPassword(e.target.value)}
+                    placeholder="••••••••"
+                  />
+                  <button 
+                    type="button" 
+                    className="new-settings-password-toggle"
+                    onClick={() => setShowResetPassword(!showResetPassword)}
+                  >
+                    {showResetPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+                  </button>
+                </div>
+              </div>
+                  <button 
+                    className="new-settings-save-btn" 
+                    onClick={handleSecurityReset}
+                    style={{ width: '100%' }}
+                  >
+                    Continue
+                  </button>
+                </>
+              )}
+
+              {showResetConfirmation && (
+                <>
+                  <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
+                    Are you sure? This action cannot be undone!
+                  </p>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <button 
+                      onClick={cancelReset} 
+                      style={{ 
+                        flex: 1, 
+                        padding: '12px', 
+                        border: '1px solid var(--border)', 
+                        borderRadius: 'var(--radius-md)', 
+                        cursor: 'pointer', 
+                        background: 'transparent',
+                        color: 'var(--text-secondary)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      onClick={handleSecurityReset} 
+                      style={{ 
+                        flex: 1, 
+                        padding: '12px 24px', 
+                        border: 'none', 
+                        borderRadius: '50px', 
+                        background: 'var(--alert)', 
+                        color: 'white', 
+                        cursor: 'pointer',
+                        boxShadow: 'var(--shadow-md)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      Confirm Reset
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+            <div style={{ padding: '20px' }}>
+              <h3 style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '10px' }}>
+                Information
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  Only perform a security reset if you believe your account has been compromised.
+                </p>
+            </div>
+          </>
+        )
+      case 'history':
+        return (
+          <h2 className="new-settings-section-title">History</h2>
+        )
+      default:
+        return null
+    }
+  }
+
+  return (
+    <div className="new-settings-page">
+      <h1 className="new-settings-header">Settings</h1>
+      
+      <div className="new-settings-container">
+        {/* Left Sidebar - Desktop */}
+        <div className="new-settings-sidebar">
+          <div className="new-settings-profile-section">
+            <input 
+              type="file" 
+              id="profile-photo-input" 
+              accept="image/jpeg,image/png,image/webp" 
+              style={{ display: 'none' }} 
+              onChange={handleProfilePhotoChange} 
+            />
+            <div className="new-settings-avatar-wrapper" onClick={handleProfilePhotoClick}>
+              <img 
+                src={profilePhoto}
+                alt="User Avatar" 
+                className="new-settings-avatar"
+              />
+              <div className="new-settings-avatar-overlay">
+                <div className="new-settings-avatar-overlay-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}>
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <h3 className="new-settings-username">{name || "Your Name"}</h3>
+            <p className="new-settings-avatar-hint" onClick={handleProfilePhotoClick}>(Click to change your photo)</p>
+            <div className="new-settings-divider"></div>
+          </div>
+          
+          <nav className="new-settings-nav">
+            {navItems.map((item) => (
+              <button 
+                key={item.id}
+                className={`new-settings-nav-item ${expandedCategory === item.id ? 'active' : ''}`}
+                onClick={() => setExpandedCategory(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
         </div>
+
+        {/* Desktop Content - Desktop */}
+        <div className="new-settings-middle-column">
+          {expandedCategory === 'account' && renderCategoryContent('account')}
+          {expandedCategory === 'security' && renderCategoryContent('security')}
+          {expandedCategory === 'pat-management' && renderCategoryContent('pat-management')}
+          {expandedCategory === 'security-reset' && renderCategoryContent('security-reset')}
+          {expandedCategory === 'history' && renderCategoryContent('history')}
+        </div>
+
+        {/* Right Column Placeholder - Desktop */}
+        <div className="new-settings-right-column"></div>
       </div>
+
+      {/* Mobile Dropdown Layout */}
+      <div className="new-settings-mobile-container">
+        {/* Mobile Profile Section */}
+        <div className="new-settings-profile-section">
+          <input 
+            type="file" 
+            id="profile-photo-input-mobile" 
+            accept="image/jpeg,image/png,image/webp" 
+            style={{ display: 'none' }} 
+            onChange={handleProfilePhotoChange} 
+          />
+          <div className="new-settings-avatar-wrapper" onClick={() => document.getElementById('profile-photo-input-mobile')?.click()}>
+            <img 
+              src={profilePhoto}
+              alt="User Avatar" 
+              className="new-settings-avatar"
+            />
+            <div className="new-settings-avatar-overlay">
+              <div className="new-settings-avatar-overlay-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}>
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                  <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <h3 className="new-settings-username">{name || "Your Name"}</h3>
+          <p className="new-settings-avatar-hint" onClick={() => document.getElementById('profile-photo-input-mobile')?.click()}>(Click to change your photo)</p>
+          <div className="new-settings-divider"></div>
+        </div>
+
+        {/* Mobile Dropdown Nav */}
+        {navItems.map((item) => (
+          <div key={item.id} className="new-settings-dropdown-item">
+            <button
+              className={`new-settings-dropdown-link ${expandedCategory === item.id ? 'active' : ''}`}
+              onClick={() => setExpandedCategory(expandedCategory === item.id ? null : item.id)}
+            >
+              <span>{item.label}</span>
+              <svg 
+                width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`new-settings-dropdown-arrow ${expandedCategory === item.id ? 'rotated' : ''}`}>
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            {expandedCategory === item.id && (
+              <div className="new-settings-dropdown-content">
+                {renderCategoryContent(item.id)}
+              </div>
+            )}
+          </div>
+          ))}
+      </div>
+
+      {/* PAT Modal (kept outside for z-index) */}
+      {showPatModal && (
+        <div style={{ 
+          position: 'fixed', 
+          top: 0, left: 0, right: 0, bottom: 0, 
+          background: 'rgba(0,0,0,0.5)', 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          zIndex: 1000 
+        }} onClick={() => setShowPatModal(false)}>
+          <div style={{ 
+            background: 'var(--bg-card)', 
+            padding: '24px', 
+            borderRadius: 'var(--radius-lg)', 
+            width: '100%', 
+            maxWidth: '400px',
+            border: '1px solid var(--border)',
+            boxShadow: 'var(--shadow-xl)'
+          }} onClick={(e) => e.stopPropagation()} className="pat-modal-inner">
+            <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Create Personal Access Token</h3>
+            <div className="new-settings-form">
+              <div className="new-settings-form-group">
+                <label>Token Name</label>
+                <input 
+                  type="text" 
+                  value={patName}
+                  onChange={(e) => setPatName(e.target.value)}
+                  placeholder="e.g., CI/CD Pipeline"
+                />
+              </div>
+              <div className="new-settings-form-group">
+                <label>Expiration (Days)</label>
+                <select 
+                  value={patExpiry}
+                  onChange={(e) => setPatExpiry(e.target.value)}
+                >
+                  <option value="7">7 Days</option>
+                  <option value="30">30 Days</option>
+                  <option value="90">90 Days</option>
+                  <option value="365">1 Year</option>
+                </select>
+              </div>
+              <div className="new-settings-form-group">
+                <label>Permissions</label>
+                <select 
+                  value={patPermissions}
+                  onChange={(e) => setPatPermissions(e.target.value)}
+                >
+                  <option value="read">Read Only</option>
+                  <option value="write">Read & Write</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                <button 
+                  onClick={() => setShowPatModal(false)} 
+                  style={{ 
+                    flex: 1, 
+                    padding: '12px', 
+                    border: '1px solid var(--border)', 
+                    borderRadius: 'var(--radius-md)', 
+                    cursor: 'pointer', 
+                    background: 'transparent',
+                    color: 'var(--text-secondary)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleCreatePat} 
+                  className="new-settings-save-btn"
+                  style={{ flex: 1 }}
+                >
+                  Create
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -4895,6 +4895,91 @@ a, button, .card, .repo-card, .feature-card {
   .new-settings-toggle-group {
     padding: 4px 0;
   }
+
+  /* Hide desktop sidebar/columns on mobile */
+  .new-settings-container {
+    display: none !important;
+  }
+
+  /* Mobile dropdown container */
+  .new-settings-mobile-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 16px 16px;
+    box-sizing: border-box;
+  }
+
+  .new-settings-mobile-container .new-settings-profile-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    margin-bottom: 12px;
+    padding: 16px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+  }
+
+  .new-settings-dropdown-item {
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .new-settings-dropdown-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .new-settings-dropdown-link:hover {
+    background: var(--primary-light);
+  }
+
+  .new-settings-dropdown-link.active {
+    background: var(--primary-light);
+  }
+
+  .new-settings-dropdown-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .new-settings-dropdown-arrow.rotated {
+    transform: rotate(180deg);
+  }
+
+  .new-settings-dropdown-content {
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* Show desktop container on larger screens */
+@media (min-width: 769px) {
+  .new-settings-mobile-container {
+    display: none !important;
+  }
+  .new-settings-container {
+    display: grid !important;
+  }
 }
 
 .status-header h4 {
