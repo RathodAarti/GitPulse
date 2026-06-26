@@ -101,7 +101,18 @@ export default function LandingHome() {
           </div>
           
           <div className="feature-grid">
-            <div className="feature-card stagger-item delay-6">
+            <Link 
+              to="/login?tab=signup"
+              className="feature-card stagger-item delay-6" 
+              role="button" 
+              tabIndex={0} 
+              aria-label="Learn more about Unified Signal Aggregator and sign up"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                }
+              }}
+            >
               <div className="feature-icon-wrapper" aria-hidden="true">
                 <ZapIcon size={24} />
               </div>
@@ -110,9 +121,20 @@ export default function LandingHome() {
                 Leverage simultaneous asynchronous telemetry extraction to maintain
                 zero-latency oversight across your entire repository portfolio.
               </p>
-            </div>
+            </Link>
             
-            <div className="feature-card stagger-item delay-7">
+            <Link 
+              to="/login?tab=signup" 
+              className="feature-card stagger-item delay-7" 
+              role="button" 
+              tabIndex={0} 
+              aria-label="Learn more about Secure Telemetry Cache and sign up"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                }
+              }}
+            >
               <div className="feature-icon-wrapper" aria-hidden="true">
                 <ShieldIcon size={24} />
               </div>
@@ -121,9 +143,20 @@ export default function LandingHome() {
                 Our proprietary 20-minute validation engine ensures rapid-fire transitions
                 while eliminating redundant network overhead and API throttling.
               </p>
-            </div>
+            </Link>
             
-            <div className="feature-card stagger-item delay-8">
+            <Link 
+              to="/login?tab=signup" 
+              className="feature-card stagger-item delay-8" 
+              role="button" 
+              tabIndex={0} 
+              aria-label="Learn more about Velocity Recognition and sign up"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                }
+              }}
+            >
               <div className="feature-icon-wrapper" aria-hidden="true">
                 <TrophyIcon size={24} />
               </div>
@@ -132,7 +165,7 @@ export default function LandingHome() {
                 Identify and reward peak engineering performance with ranked contribution
                 matrices and automated high-impact contributor badges.
               </p>
-            </div>
+            </Link>
           </div>
         </section>
 

@@ -157,14 +157,26 @@ function AppShell() {
         
         {/* User Profile Section */}
         <div className="sidebar-profile stagger-item delay-1">
-          <div className="sidebar-user">
-            <div className="user-avatar">{initials}</div>
-            {!sidebarCollapsed && (
-              <div className="user-info">
-                <div className="name">{user?.name || user?.email || 'Admin'}</div>
-                <div className="role">{user?.email || 'Administrator'}</div>
-              </div>
-            )}
+            <NavLink
+              to="/dashboard/settings"
+              className="sidebar-user"
+              role="button"
+              tabIndex={0}
+              aria-label="Go to account settings"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                }
+              }}
+            >
+              <div className="user-avatar">{initials}</div>
+              {!sidebarCollapsed && (
+                <div className="user-info">
+                  <div className="name">{user?.name || user?.email || 'Admin'}</div>
+                  <div className="role">{user?.email || 'Administrator'}</div>
+                </div>
+              )}
+            </NavLink>
             <NavLink
               to="/dashboard/settings"
               className="edit-profile-btn"
@@ -174,7 +186,6 @@ function AppShell() {
               <EditIcon size={16} />
             </NavLink>
           </div>
-        </div>
 
         {/* Theme Toggle */}
         <div className="sidebar-actions">

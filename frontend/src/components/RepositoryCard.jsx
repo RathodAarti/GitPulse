@@ -17,8 +17,25 @@ export default function RepositoryCard({ repo, onDelete }) {
     navigate(`/dashboard/repo/${repo._id || repo.id}`)
   }
 
+  const handleKeyDown = (e) => {
+    if (e.target.closest('a') || e.target.closest('button')) {
+      return
+    }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleCardClick(e)
+    }
+  }
+
   return (
-    <div className="repo-card animate-fade" onClick={handleCardClick}>
+    <div 
+      className="repo-card animate-fade" 
+      onClick={handleCardClick} 
+      role="button" 
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      aria-label={`View analytics for repository ${repoName || extractRepoName(repoUrl)}`}
+    >
       <div className="repo-card-body">
         <div className="repo-card-header">
           <div className="repo-card-title">
@@ -60,7 +77,8 @@ export default function RepositoryCard({ repo, onDelete }) {
             <button 
               className="btn btn-danger btn-sm" 
               aria-label={`Delete ${repoName || extractRepoName(repoUrl)}`}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation()
                 if (window.confirm(`Remove "${repoName || extractRepoName(repoUrl)}" from your dashboard?`)) {
                   onDelete(repo._id || repo.id)
                 }

@@ -189,8 +189,10 @@ a, button, .card, .repo-card, .feature-card {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   text-align: left;
-  cursor: default;
+  cursor: pointer;
   outline: none;
+  text-decoration: none;
+  color: inherit;
 }
 
 .feature-card:focus-visible {
@@ -202,6 +204,35 @@ a, button, .card, .repo-card, .feature-card {
   transform: translateY(-8px);
   border-color: var(--primary-hover);
   box-shadow: var(--shadow-xl);
+}
+
+.feature-card:active {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.repo-card {
+  cursor: pointer;
+}
+
+.repo-card:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.repo-card:active {
+  transform: scale(0.98);
+}
+
+.sidebar-user {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sidebar-user:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
 }
 
 /* ===== Global Animation Framework ===== */
