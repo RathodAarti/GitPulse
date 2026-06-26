@@ -5,8 +5,20 @@ import { UserIcon, PlugIcon, CheckIcon, AlertIcon, LinkIcon, BoltIcon, LockIcon,
 import { SECURITY_QUESTIONS } from '../components/ForgotPasswordModal'
 
 export default function Settings() {
-  const { user, updateProfile } = useAuth()
+  const { user, updateProfile, logout } = useAuth()
   const [expandedCategory, setExpandedCategory] = useState('account')
+  
+  // New state for account deletion
+  const [deletionPassword, setDeletionPassword] = useState('')
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
+  const [deletionMessage, setDeletionMessage] = useState(null)
+  const [submittingDeletion, setSubmittingDeletion] = useState(false)
+  
+  // New state for account activity
+  const [activities, setActivities] = useState([])
+  const [loadingActivities, setLoadingActivities] = useState(false)
+  const [activityPage, setActivityPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   // Profile State
   const [name, setName] = useState(user?.name || '')
@@ -253,6 +265,80 @@ export default function Settings() {
     setResetError(null)
     setResetPassword('')
   }
+  
+  // Handle account deletion
+  const handleInitiateDeletion = async (e) => {
+    e.preventDefault()
+    setDeletionMessage(null)
+    if (!deletionPassword.trim()) {
+      return setDeletionMessage({ type: 'error', text: 'Password is required.' })
+    }
+    setSubmittingDeletion(true)
+    try {
+      const res = await api.post('/auth/delete-account', { password: deletionPassword })
+      if (res.data.success) {
+        setDeletionMessage({ type: 'success', text: res.data.message })
+        setShowDeleteConfirmation(false)
+        // Log out after a delay
+        setTimeout(() => logout(), 3000)
+      } else {
+        setDeletionMessage({ type: 'error', text: res.data.message })
+      }
+    } catch (err) {
+      setDeletionMessage({ type: 'error', text: err.response?.data?.message || 'Failed to initiate deletion.' })
+    } finally {
+      setSubmittingDeletion(false)
+    }
+  }
+  
+  const handleCancelDeletion = async () => {
+    try {
+      const res = await api.post('/auth/cancel-deletion')
+      if (res.data.success) {
+        setDeletionMessage({ type: 'success', text: res.data.message })
+      } else {
+        setDeletionMessage({ type: 'error', text: res.data.message })
+      }
+    } catch (err) {
+      setDeletionMessage({ type: 'error', text: err.response?.data?.message || 'Failed to cancel deletion.' })
+    }
+  }
+  
+  const handleLoadActivities = async () => {
+    setLoadingActivities(true)
+    try {
+      const res = await api.get(`/auth/activity?page=${activityPage}&limit=20`)
+      if (res.data.success) {
+        setActivities(res.data.activities)
+        setTotalPages(res.data.totalPages)
+      }
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoadingActivities(false)
+    }
+  }
+  
+  const handleExportActivity = async () => {
+    try {
+      const res = await api.get('/auth/activity/export', { responseType: 'blob' })
+      const url = window.URL.createObjectURL(new Blob([res.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'account-activity.json')
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  
+  useEffect(() => {
+    if (expandedCategory === 'history') {
+      handleLoadActivities()
+    }
+  }, [expandedCategory, activityPage])
 
   const navItems = [
     { id: 'account', label: 'Account' },
@@ -260,6 +346,7 @@ export default function Settings() {
     { id: 'pat-management', label: 'PAT Management' },
     { id: 'security-reset', label: 'Security Reset' },
     { id: 'history', label: 'History' },
+    { id: 'delete-account', label: 'Delete Account' },
   ]
 
   const renderCategoryContent = (categoryId) => {
@@ -812,7 +899,198 @@ export default function Settings() {
         )
       case 'history':
         return (
-          <h2 className="new-settings-section-title">History</h2>
+          <>
+            <h2 className="new-settings-section-title">Account Activity</h2>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+              <button
+                className="new-settings-save-btn"
+                onClick={handleExportActivity}
+                style={{ width: 'auto' }}
+              >
+                Export Activity
+              </button>
+            </div>
+            {loadingActivities ? (
+              <div style={{ textAlign: 'center', padding: '40px' }}>Loading...</div>
+            ) : activities.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-secondary)' }}>
+                No activity recorded yet.
+              </div>
+            ) : (
+              <div className="new-settings-form">
+                {activities.map(activity => (
+                  <div
+                    key={activity._id}
+                    style={{
+                      border: '1px solid var(--border)',
+                      borderRadius: 'var(--radius-md)',
+                      padding: '16px',
+                      marginBottom: '12px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{activity.action}</div>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                        {new Date(activity.createdAt).toLocaleString()}
+                      </div>
+                    </div>
+                    {activity.ipAddress && (
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                        IP: {activity.ipAddress}
+                      </div>
+                    )}
+                    {activity.deviceInfo && (
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                        Device: {activity.deviceInfo}
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {totalPages > 1 && (
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '20px', justifyContent: 'center' }}>
+                    <button
+                      onClick={() => setActivityPage(p => Math.max(1, p - 1))}
+                      disabled={activityPage === 1}
+                      style={{
+                        padding: '8px 16px',
+                        borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--border)',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Previous
+                    </button>
+                    <span style={{ padding: '8px 16px', color: 'var(--text-secondary)' }}>
+                      Page {activityPage} of {totalPages}
+                    </span>
+                    <button
+                      onClick={() => setActivityPage(p => Math.min(totalPages, p + 1))}
+                      disabled={activityPage === totalPages}
+                      style={{
+                        padding: '8px 16px',
+                        borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--border)',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )
+      case 'delete-account':
+        return (
+          <>
+            <h2 className="new-settings-section-title">Delete Account</h2>
+            {deletionMessage && (
+              <div className={`new-settings-alert alert-${deletionMessage.type}`}>
+                <AlertIcon size={16} />
+                {deletionMessage.text}
+              </div>
+            )}
+            {user?.isDeleting ? (
+              <div className="new-settings-form">
+                <div className="new-settings-alert alert-success">
+                  <CheckIcon size={16} />
+                  Your account is scheduled for deletion on {new Date(user.deletionScheduledAt).toLocaleDateString()}.
+                </div>
+                <button
+                  className="new-settings-save-btn"
+                  onClick={handleCancelDeletion}
+                  style={{ marginTop: '20px' }}
+                >
+                  Cancel Deletion
+                </button>
+              </div>
+            ) : (
+              <div className="new-settings-form">
+                <div className="new-settings-alert alert-error" style={{ marginBottom: '20px' }}>
+                  <AlertIcon size={16} />
+                  Warning: Deleting your account is permanent (after 30 days). All your data will be removed.
+                </div>
+                <div className="new-settings-form-group">
+                  <label>Confirm your password</label>
+                  <input
+                    type="password"
+                    value={deletionPassword}
+                    onChange={(e) => setDeletionPassword(e.target.value)}
+                    placeholder="Enter your password"
+                  />
+                </div>
+                <button
+                  className="new-settings-save-btn"
+                  onClick={() => setShowDeleteConfirmation(true)}
+                  style={{
+                    marginTop: '20px',
+                    background: 'var(--alert)',
+                    color: 'white',
+                  }}
+                >
+                  Delete Account
+                </button>
+              </div>
+            )}
+            {showDeleteConfirmation && (
+              <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(0,0,0,0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1000,
+              }}>
+                <div style={{
+                  background: 'var(--bg-card)',
+                  padding: '30px',
+                  borderRadius: 'var(--radius-lg)',
+                  maxWidth: '400px',
+                  width: '90%',
+                }}>
+                  <h3 style={{ marginBottom: '15px' }}>Confirm Account Deletion</h3>
+                  <p style={{ color: 'var(--text-secondary)', marginBottom: '20px' }}>
+                    Are you sure you want to delete your account? You have 30 days to log back in to reverse this.
+                  </p>
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                    <button
+                      onClick={() => setShowDeleteConfirmation(false)}
+                      style={{
+                        padding: '10px 20px',
+                        borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--border)',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleInitiateDeletion}
+                      disabled={submittingDeletion}
+                      style={{
+                        padding: '10px 20px',
+                        borderRadius: 'var(--radius-md)',
+                        background: 'var(--alert)',
+                        color: 'white',
+                        border: 'none',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {submittingDeletion ? 'Deleting...' : 'Confirm Delete'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )
       default:
         return null

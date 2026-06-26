@@ -1,7 +1,19 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
-import { register, login, getProfile, updateProfile, checkGithubStatus } from '../controllers/authController.js'
+import { 
+  register, 
+  login, 
+  getProfile, 
+  updateProfile, 
+  checkGithubStatus, 
+  initiateDeletion, 
+  cancelDeletion, 
+  getAccountActivity, 
+  exportAccountActivity,
+  permanentlyDeleteExpiredAccounts 
+} from '../controllers/authController.js'
 import protect from '../middleware/authMiddleware.js'
+import admin from '../middleware/adminMiddleware.js'
 import validate from '../middleware/validatorMiddleware.js'
 import User from '../models/User.js'
 
@@ -133,5 +145,20 @@ router.post(
   ],
   login
 )
+
+// Account deletion endpoints
+router.post(
+  '/delete-account',
+  [protect, body('password').notEmpty().withMessage('Password is required.'), validate],
+  initiateDeletion
+)
+router.post('/cancel-deletion', protect, cancelDeletion)
+
+// Account activity endpoints
+router.get('/activity', protect, getAccountActivity)
+router.get('/activity/export', protect, exportAccountActivity)
+
+// Admin endpoint to permanently delete expired accounts
+router.post('/admin/delete-expired', protect, admin, permanentlyDeleteExpiredAccounts)
 
 export default router

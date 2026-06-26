@@ -39,6 +39,16 @@ const userSchema = new mongoose.Schema(
       default: null,
       select: false, // never returned by default
     },
+    isDeleting: {
+      type: Boolean,
+      default: false,
+      index: true
+    },
+    deletionScheduledAt: {
+      type: Date,
+      default: null,
+      index: true
+    },
   },
   { timestamps: true }
 )
